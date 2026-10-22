@@ -1,0 +1,7 @@
+[
+  { "id": "t1", "city": "Mumbai", "provider": "Mobicab", "vehicleType": "ramp", "doorWidthCm": 90, "interiorHeightCm": 150, "verified": false, "note": "Provider named in scope doc (mobicab.in). Dimensions are placeholders until measured." },
+  { "id": "t2", "city": "Goa", "provider": "Freedom Cab", "vehicleType": "ramp", "doorWidthCm": 85, "interiorHeightCm": 145, "verified": false, "note": "Provider named in scope doc. Dimensions are placeholders until measured." },
+  { "id": "t3", "city": "Coimbatore", "provider": "Sarathi", "vehicleType": "lift", "doorWidthCm": 80, "interiorHeightCm": 140, "verified": false, "note": "Provider named in scope doc. Dimensions are placeholders until measured." },
+  { "id": "t4", "city": "Chandigarh", "provider": "Buddy Cabs", "vehicleType": "fold-chair-only", "doorWidthCm": null, "interiorHeightCm": null, "verified": false, "note": "Provider named in scope doc. Vehicle details unknown; assumed the parent must transfer to a seat." },
+  { "id": "t5", "city": "Ahmedabad", "provider": "Ability on Wheels", "vehicleType": "ramp", "doorWidthCm": 70, "interiorHeightCm": 135, "verified": false, "note": "Provider named in scope doc. Dimensions are placeholders until measured." }
+]

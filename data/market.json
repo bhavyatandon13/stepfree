@@ -1,0 +1,15 @@
+{
+  "facts": [
+    { "figure": "26.8 million", "what": "people with disabilities in India", "source": "Travel Daily Media" },
+    { "figure": "55%", "what": "of multigenerational trip groups have an accessibility need", "source": "Fora Accessible Travel Report 2026" },
+    { "figure": "78%", "what": "of those families would pay more to have it met", "source": "Fora Accessible Travel Report 2026" },
+    { "figure": "1 in 250", "what": "hotel rooms in India set aside for people with disabilities (1 in 50 internationally)", "source": "YourStory, 2016 (needs updating)" },
+    { "figure": "1,671", "what": "government buildings audited under Sugamya Bharat. Hotels and attractions families book are not covered", "source": "PIB, Dec 2024" }
+  ],
+  "gaps": [
+    "How often families take these trips",
+    "Time spent checking places per trip",
+    "How many parents aged 65+ in urban India use a wheelchair"
+  ],
+  "caveat": "All figures come from search snippets in the scope doc, not from opened pages. Treat them as unverified."
+}
