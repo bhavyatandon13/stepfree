@@ -220,7 +220,7 @@ describe("profileSummary (says the numbers back)", () => {
 });
 
 describe("passesChecklist (for a known chair: step-free way in + washroom door it fits)", () => {
-  const passing = () => H.filter((h) => passesChecklist(h, 66)).map((h) => h.id);
+  const passing = () => H.filter((h) => h.area.endsWith("Delhi") && passesChecklist(h, 66)).map((h) => h.id);
   it("passes hotels with no stairs or a ramp, and a washroom door at least 66 cm wide", () => expect(passing()).toEqual(["h1", "h3", "h4"]));
   it("a washroom door narrower than a typical chair fails; stairs without a ramp fail (h2)", () => {
     expect(passesChecklist({ ...hotel("h3"), bathroomDoorCm: 65 }, 66)).toBe(false);

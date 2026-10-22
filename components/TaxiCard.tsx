@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { taxiAnswer, type TaxiAnswer } from "@/lib/taxiAnswer";
+import ProofPhotos from "@/components/ProofPhotos";
 import { formatINR } from "@/lib/trip";
 import { profileStore } from "@/lib/tripState";
 import type { Taxi } from "@/lib/types";
@@ -98,6 +99,12 @@ export default function TaxiCard({ taxi }: { taxi: Taxi }) {
         {taxi.note}
         {taxi.sourceUrl && <> <a href={taxi.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">Source: {taxi.sourceName ?? "provider website"}<span className="sr-only"> (opens in a new tab)</span> ↗</a></>}
       </p>
+      <details className="mt-3 rounded-lg border border-gray-200 p-3">
+        <summary className="cursor-pointer text-sm font-semibold text-brand">📸 Photos of this taxi</summary>
+        <div className="mt-3">
+          <ProofPhotos placeId={taxi.id} placeName={taxi.provider} />
+        </div>
+      </details>
       {!taxi.contactPhones && (
         <p className="mt-1 text-xs text-gray-600">Add it when you book a hotel in {taxi.city}, or contact {taxi.provider} directly and ask for a wheelchair-accessible vehicle.</p>
       )}

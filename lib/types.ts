@@ -38,8 +38,21 @@ export type Hotel = {
   wheelchairProvided: boolean | null; // can the hotel lend a wheelchair? null = not recorded
   bookingUrl?: string | null; // the hotel's own MakeMyTrip page, added by an auditor
   ratePerNight?: number | null; // sample price in rupees for the demo; null = price on request
+  evidence?: Evidence[]; // time-stamped proof photos
   photo: string;
   photoCaption: string;
+};
+
+// A proof photo: what it shows, when it was taken and by whom. The time is stamped onto the image.
+export type Evidence = {
+  id: string;
+  photo: string; // image path or data URL
+  shows: string; // e.g. "Washroom door"
+  detail: string; // e.g. "Tape measure reads 82 cm"
+  takenAt: string; // ISO time the photo was taken
+  by: "StepFree auditor" | "Hotel staff" | "Guest reviewer" | "Taxi provider" | "You";
+  sample?: boolean; // made up for the demo
+  worked?: "yes" | "no" | "unsure"; // did it work for the wheelchair?
 };
 
 export type Taxi = {

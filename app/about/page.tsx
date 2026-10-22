@@ -20,6 +20,14 @@ export default function About() {
         </p>
       </section>
       <section className="space-y-2">
+        <h2 className="text-xl font-semibold">Proof, not promises</h2>
+        <p className="text-muted">
+          Many sites call a hotel &ldquo;wheelchair friendly&rdquo;, and families still arrive to a step, a lift the chair doesn&apos;t fit in, or a washroom
+          it can&apos;t enter. StepFree shows the evidence instead: tape-measure readings, and live photos stamped with the date and time they were taken by
+          auditors, hotels and guests. Photos older than 30 minutes are refused, so an old picture can&apos;t be passed off as today&apos;s.
+        </p>
+      </section>
+      <section className="space-y-2">
         <h2 className="text-xl font-semibold">How the technology helps</h2>
         <p className="text-muted">
           People measure. A fixed rule compares the numbers with your parent&apos;s chair, so the answer can be checked. AI only helps with reading

@@ -1,110 +1,875 @@
 [
-    {
-        "id":  "h1",
-        "name":  "Placeholder Hotel 1",
-        "area":  "Karol Bagh, Delhi",
-        "isPlaceholder":  true,
-        "auditDate":  "2026-10-20",
-        "entranceSteps":  0,
-        "ramp":  null,
-        "roomDoorCm":  90,
-        "bathroomDoorCm":  82,
-        "liftDoorCm":  90,
-        "liftDepthCm":  120,
-        "turningSpaceCm":  160,
-        "photo":  "/photos/bathroom.svg",
-        "photoCaption":  "Bathroom door, 82 cm (placeholder)",
-        "wheelchairProvided":  true,
-        "ratePerNight":  3800
-    },
-    {
-        "id":  "h2",
-        "name":  "Placeholder Hotel 2",
-        "area":  "Paharganj, Delhi",
-        "isPlaceholder":  true,
-        "auditDate":  "2026-10-20",
-        "entranceSteps":  2,
-        "ramp":  false,
-        "roomDoorCm":  80,
-        "bathroomDoorCm":  75,
-        "liftDoorCm":  80,
-        "liftDepthCm":  105,
-        "turningSpaceCm":  130,
-        "photo":  "/photos/entrance.svg",
-        "photoCaption":  "Entrance, 2 steps, no ramp (placeholder)",
-        "wheelchairProvided":  false,
-        "ratePerNight":  2200
-    },
-    {
-        "id":  "h3",
-        "name":  "Placeholder Hotel 3",
-        "area":  "Aerocity, Delhi",
-        "isPlaceholder":  true,
-        "auditDate":  "2026-10-20",
-        "entranceSteps":  0,
-        "ramp":  null,
-        "roomDoorCm":  85,
-        "bathroomDoorCm":  70,
-        "liftDoorCm":  90,
-        "liftDepthCm":  125,
-        "turningSpaceCm":  155,
-        "photo":  "/photos/bathroom.svg",
-        "photoCaption":  "Bathroom door, 70 cm (placeholder)",
-        "wheelchairProvided":  null,
-        "ratePerNight":  5400
-    },
-    {
-        "id":  "h4",
-        "name":  "Placeholder Hotel 4",
-        "area":  "Saket, Delhi",
-        "isPlaceholder":  true,
-        "auditDate":  "2026-10-20",
-        "entranceSteps":  3,
-        "ramp":  true,
-        "roomDoorCm":  85,
-        "bathroomDoorCm":  78,
-        "liftDoorCm":  85,
-        "liftDepthCm":  115,
-        "turningSpaceCm":  150,
-        "photo":  "/photos/entrance.svg",
-        "photoCaption":  "Entrance with ramp (placeholder)",
-        "wheelchairProvided":  true,
-        "ratePerNight":  4600
-    },
-    {
-        "id":  "h5",
-        "name":  "Placeholder Hotel 5",
-        "area":  "Dwarka, Delhi",
-        "isPlaceholder":  true,
-        "auditDate":  "2026-10-20",
-        "entranceSteps":  0,
-        "ramp":  null,
-        "roomDoorCm":  88,
-        "bathroomDoorCm":  null,
-        "liftDoorCm":  null,
-        "liftDepthCm":  null,
-        "turningSpaceCm":  150,
-        "photo":  "/photos/entrance.svg",
-        "photoCaption":  "Entrance, step-free (placeholder); bathroom and lift not yet measured",
-        "wheelchairProvided":  null,
-        "ratePerNight":  3100
-    },
-    {
-        "id":  "h6",
-        "name":  "Placeholder Hotel 6",
-        "area":  "Lajpat Nagar, Delhi",
-        "isPlaceholder":  true,
-        "auditDate":  "2026-10-20",
-        "entranceSteps":  1,
-        "ramp":  null,
-        "roomDoorCm":  84,
-        "bathroomDoorCm":  80,
-        "liftDoorCm":  85,
-        "liftDepthCm":  112,
-        "turningSpaceCm":  150,
-        "photo":  "/photos/entrance.svg",
-        "photoCaption":  "Entrance, 1 step, ramp unknown (placeholder)",
-        "wheelchairProvided":  null,
-        "ratePerNight":  2700
-    }
+  {
+    "id": "h1",
+    "name": "Placeholder Hotel 1",
+    "area": "Karol Bagh, Delhi",
+    "isPlaceholder": true,
+    "auditDate": "2026-10-20",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 90,
+    "bathroomDoorCm": 82,
+    "liftDoorCm": 90,
+    "liftDepthCm": 120,
+    "turningSpaceCm": 160,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Bathroom door, 82 cm (placeholder)",
+    "wheelchairProvided": true,
+    "ratePerNight": 3800,
+    "evidence": [
+      {
+        "id": "h1-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h1-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 82 cm",
+        "takenAt": "2026-10-20T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h1-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 90 cm, cabin 120 cm deep",
+        "takenAt": "2026-10-20T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h1-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-20T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "id": "h2",
+    "name": "Placeholder Hotel 2",
+    "area": "Paharganj, Delhi",
+    "isPlaceholder": true,
+    "auditDate": "2026-10-20",
+    "entranceSteps": 2,
+    "ramp": false,
+    "roomDoorCm": 80,
+    "bathroomDoorCm": 75,
+    "liftDoorCm": 80,
+    "liftDepthCm": 105,
+    "turningSpaceCm": 130,
+    "photo": "/photos/entrance.svg",
+    "photoCaption": "Entrance, 2 steps, no ramp (placeholder)",
+    "wheelchairProvided": false,
+    "ratePerNight": 2200,
+    "evidence": [
+      {
+        "id": "h2-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "2 steps, no ramp",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h2-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 75 cm",
+        "takenAt": "2026-10-20T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h2-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 80 cm, cabin 105 cm deep",
+        "takenAt": "2026-10-20T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "id": "h3",
+    "name": "Placeholder Hotel 3",
+    "area": "Aerocity, Delhi",
+    "isPlaceholder": true,
+    "auditDate": "2026-10-20",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 85,
+    "bathroomDoorCm": 70,
+    "liftDoorCm": 90,
+    "liftDepthCm": 125,
+    "turningSpaceCm": 155,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Bathroom door, 70 cm (placeholder)",
+    "wheelchairProvided": null,
+    "ratePerNight": 5400,
+    "evidence": [
+      {
+        "id": "h3-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h3-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 70 cm",
+        "takenAt": "2026-10-20T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h3-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 90 cm, cabin 125 cm deep",
+        "takenAt": "2026-10-20T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "id": "h4",
+    "name": "Placeholder Hotel 4",
+    "area": "Saket, Delhi",
+    "isPlaceholder": true,
+    "auditDate": "2026-10-20",
+    "entranceSteps": 3,
+    "ramp": true,
+    "roomDoorCm": 85,
+    "bathroomDoorCm": 78,
+    "liftDoorCm": 85,
+    "liftDepthCm": 115,
+    "turningSpaceCm": 150,
+    "photo": "/photos/entrance.svg",
+    "photoCaption": "Entrance with ramp (placeholder)",
+    "wheelchairProvided": true,
+    "ratePerNight": 4600,
+    "evidence": [
+      {
+        "id": "h4-p1",
+        "sample": true,
+        "photo": "/photos/ramp.svg",
+        "shows": "Entrance",
+        "detail": "3 steps, with a ramp",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h4-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 78 cm",
+        "takenAt": "2026-10-20T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h4-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 85 cm, cabin 115 cm deep",
+        "takenAt": "2026-10-20T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h4-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-20T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "id": "h5",
+    "name": "Placeholder Hotel 5",
+    "area": "Dwarka, Delhi",
+    "isPlaceholder": true,
+    "auditDate": "2026-10-20",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 88,
+    "bathroomDoorCm": null,
+    "liftDoorCm": null,
+    "liftDepthCm": null,
+    "turningSpaceCm": 150,
+    "photo": "/photos/entrance.svg",
+    "photoCaption": "Entrance, step-free (placeholder); bathroom and lift not yet measured",
+    "wheelchairProvided": null,
+    "ratePerNight": 3100,
+    "evidence": [
+      {
+        "id": "h5-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "id": "h6",
+    "name": "Placeholder Hotel 6",
+    "area": "Lajpat Nagar, Delhi",
+    "isPlaceholder": true,
+    "auditDate": "2026-10-20",
+    "entranceSteps": 1,
+    "ramp": null,
+    "roomDoorCm": 84,
+    "bathroomDoorCm": 80,
+    "liftDoorCm": 85,
+    "liftDepthCm": 112,
+    "turningSpaceCm": 150,
+    "photo": "/photos/entrance.svg",
+    "photoCaption": "Entrance, 1 step, ramp unknown (placeholder)",
+    "wheelchairProvided": null,
+    "ratePerNight": 2700,
+    "evidence": [
+      {
+        "id": "h6-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "1 step",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h6-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 80 cm",
+        "takenAt": "2026-10-20T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h6-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 85 cm, cabin 112 cm deep",
+        "takenAt": "2026-10-20T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h7",
+    "name": "Sample Sea View Hotel",
+    "area": "Bandra, Mumbai",
+    "auditDate": "2026-10-14",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 85,
+    "bathroomDoorCm": 80,
+    "liftDoorCm": 90,
+    "liftDepthCm": 120,
+    "turningSpaceCm": 155,
+    "wheelchairProvided": true,
+    "ratePerNight": 5200,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 80 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h7-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-14T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h7-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 80 cm",
+        "takenAt": "2026-10-14T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h7-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 90 cm, cabin 120 cm deep",
+        "takenAt": "2026-10-14T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h7-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-14T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h8",
+    "name": "Sample Station Inn",
+    "area": "Andheri, Mumbai",
+    "auditDate": "2026-10-15",
+    "entranceSteps": 3,
+    "ramp": false,
+    "roomDoorCm": 78,
+    "bathroomDoorCm": 68,
+    "liftDoorCm": 80,
+    "liftDepthCm": 105,
+    "turningSpaceCm": 130,
+    "wheelchairProvided": false,
+    "ratePerNight": 2600,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 68 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h8-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "3 steps, no ramp",
+        "takenAt": "2026-10-15T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h8-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 68 cm",
+        "takenAt": "2026-10-15T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h8-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 80 cm, cabin 105 cm deep",
+        "takenAt": "2026-10-15T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h9",
+    "name": "Sample Beach Resort",
+    "area": "Calangute, Goa",
+    "auditDate": "2026-10-09",
+    "entranceSteps": 2,
+    "ramp": true,
+    "roomDoorCm": 90,
+    "bathroomDoorCm": 80,
+    "liftDoorCm": 85,
+    "liftDepthCm": 115,
+    "turningSpaceCm": 160,
+    "wheelchairProvided": true,
+    "ratePerNight": 6800,
+    "photo": "/photos/ramp.svg",
+    "photoCaption": "Ramp to the entrance (sample photo)",
+    "evidence": [
+      {
+        "id": "h9-p1",
+        "sample": true,
+        "photo": "/photos/ramp.svg",
+        "shows": "Entrance",
+        "detail": "2 steps, with a ramp",
+        "takenAt": "2026-10-09T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h9-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 80 cm",
+        "takenAt": "2026-10-09T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h9-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 85 cm, cabin 115 cm deep",
+        "takenAt": "2026-10-09T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h9-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-09T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h10",
+    "name": "Sample Old Quarter Guesthouse",
+    "area": "Panaji, Goa",
+    "auditDate": "2026-10-10",
+    "entranceSteps": 1,
+    "ramp": null,
+    "roomDoorCm": 72,
+    "bathroomDoorCm": 64,
+    "liftDoorCm": null,
+    "liftDepthCm": null,
+    "turningSpaceCm": 120,
+    "wheelchairProvided": null,
+    "ratePerNight": 2100,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 64 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h10-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "1 step",
+        "takenAt": "2026-10-10T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h10-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 64 cm",
+        "takenAt": "2026-10-10T10:26:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h11",
+    "name": "Sample Riverfront Hotel",
+    "area": "Ashram Road, Ahmedabad",
+    "auditDate": "2026-10-12",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 88,
+    "bathroomDoorCm": 82,
+    "liftDoorCm": 90,
+    "liftDepthCm": 125,
+    "turningSpaceCm": 150,
+    "wheelchairProvided": true,
+    "ratePerNight": 3900,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 82 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h11-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-12T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h11-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 82 cm",
+        "takenAt": "2026-10-12T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h11-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 90 cm, cabin 125 cm deep",
+        "takenAt": "2026-10-12T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h11-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-12T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h12",
+    "name": "Sample Heritage Haveli",
+    "area": "Old City, Ahmedabad",
+    "auditDate": "2026-10-12",
+    "entranceSteps": 4,
+    "ramp": false,
+    "roomDoorCm": 75,
+    "bathroomDoorCm": 70,
+    "liftDoorCm": null,
+    "liftDepthCm": null,
+    "turningSpaceCm": 120,
+    "wheelchairProvided": false,
+    "ratePerNight": 3300,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 70 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h12-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "4 steps, no ramp",
+        "takenAt": "2026-10-12T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h12-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 70 cm",
+        "takenAt": "2026-10-12T10:26:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h13",
+    "name": "Sample Sector 17 Hotel",
+    "area": "Sector 17, Chandigarh",
+    "auditDate": "2026-10-16",
+    "entranceSteps": 2,
+    "ramp": true,
+    "roomDoorCm": 85,
+    "bathroomDoorCm": 78,
+    "liftDoorCm": 85,
+    "liftDepthCm": 112,
+    "turningSpaceCm": 150,
+    "wheelchairProvided": true,
+    "ratePerNight": 3600,
+    "photo": "/photos/ramp.svg",
+    "photoCaption": "Ramp to the entrance (sample photo)",
+    "evidence": [
+      {
+        "id": "h13-p1",
+        "sample": true,
+        "photo": "/photos/ramp.svg",
+        "shows": "Entrance",
+        "detail": "2 steps, with a ramp",
+        "takenAt": "2026-10-16T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h13-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 78 cm",
+        "takenAt": "2026-10-16T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h13-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 85 cm, cabin 112 cm deep",
+        "takenAt": "2026-10-16T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h13-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-16T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h14",
+    "name": "Sample Lake View Lodge",
+    "area": "Sector 6, Chandigarh",
+    "auditDate": "2026-10-17",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 80,
+    "bathroomDoorCm": null,
+    "liftDoorCm": 80,
+    "liftDepthCm": 100,
+    "turningSpaceCm": 140,
+    "wheelchairProvided": null,
+    "ratePerNight": 2800,
+    "photo": "/photos/entrance.svg",
+    "photoCaption": "Entrance (sample photo)",
+    "evidence": [
+      {
+        "id": "h14-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-17T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h14-p2",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 80 cm, cabin 100 cm deep",
+        "takenAt": "2026-10-17T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h15",
+    "name": "Sample Race Course Hotel",
+    "area": "Race Course, Coimbatore",
+    "auditDate": "2026-10-18",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 86,
+    "bathroomDoorCm": 80,
+    "liftDoorCm": 88,
+    "liftDepthCm": 118,
+    "turningSpaceCm": 150,
+    "wheelchairProvided": true,
+    "ratePerNight": 3200,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 80 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h15-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-18T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h15-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 80 cm",
+        "takenAt": "2026-10-18T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h15-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 88 cm, cabin 118 cm deep",
+        "takenAt": "2026-10-18T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h15-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-18T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h16",
+    "name": "Sample Gandhipuram Inn",
+    "area": "Gandhipuram, Coimbatore",
+    "auditDate": "2026-10-18",
+    "entranceSteps": 2,
+    "ramp": false,
+    "roomDoorCm": 76,
+    "bathroomDoorCm": 72,
+    "liftDoorCm": 76,
+    "liftDepthCm": 95,
+    "turningSpaceCm": 125,
+    "wheelchairProvided": false,
+    "ratePerNight": 1900,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 72 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h16-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "2 steps, no ramp",
+        "takenAt": "2026-10-18T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h16-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 72 cm",
+        "takenAt": "2026-10-18T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h16-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 76 cm, cabin 95 cm deep",
+        "takenAt": "2026-10-18T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h17",
+    "name": "Sample MG Road Hotel",
+    "area": "MG Road, Bengaluru",
+    "auditDate": "2026-10-19",
+    "entranceSteps": 0,
+    "ramp": null,
+    "roomDoorCm": 90,
+    "bathroomDoorCm": 84,
+    "liftDoorCm": 92,
+    "liftDepthCm": 130,
+    "turningSpaceCm": 165,
+    "wheelchairProvided": true,
+    "ratePerNight": 5600,
+    "photo": "/photos/bathroom.svg",
+    "photoCaption": "Washroom door, 84 cm (sample photo)",
+    "evidence": [
+      {
+        "id": "h17-p1",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Entrance",
+        "detail": "No steps at the entrance",
+        "takenAt": "2026-10-19T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h17-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 84 cm",
+        "takenAt": "2026-10-19T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h17-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 92 cm, cabin 130 cm deep",
+        "takenAt": "2026-10-19T10:41:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h17-p4",
+        "sample": true,
+        "photo": "/photos/entrance.svg",
+        "shows": "Guest visit",
+        "detail": "Guest confirmed the ramp and lift worked for their wheelchair",
+        "takenAt": "2026-10-19T15:08:00+05:30",
+        "by": "Guest reviewer"
+      }
+    ]
+  },
+  {
+    "isPlaceholder": true,
+    "id": "h18",
+    "name": "Sample Indiranagar Stay",
+    "area": "Indiranagar, Bengaluru",
+    "auditDate": "2026-10-20",
+    "entranceSteps": 1,
+    "ramp": true,
+    "roomDoorCm": 80,
+    "bathroomDoorCm": 66,
+    "liftDoorCm": 78,
+    "liftDepthCm": 108,
+    "turningSpaceCm": 145,
+    "wheelchairProvided": null,
+    "ratePerNight": 3400,
+    "photo": "/photos/ramp.svg",
+    "photoCaption": "Ramp to the entrance (sample photo)",
+    "evidence": [
+      {
+        "id": "h18-p1",
+        "sample": true,
+        "photo": "/photos/ramp.svg",
+        "shows": "Entrance",
+        "detail": "1 step, with a ramp",
+        "takenAt": "2026-10-20T10:12:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h18-p2",
+        "sample": true,
+        "photo": "/photos/bathroom.svg",
+        "shows": "Washroom door",
+        "detail": "Tape measure reads 66 cm",
+        "takenAt": "2026-10-20T10:26:00+05:30",
+        "by": "StepFree auditor"
+      },
+      {
+        "id": "h18-p3",
+        "sample": true,
+        "photo": "/photos/lift.svg",
+        "shows": "Lift",
+        "detail": "Door 78 cm, cabin 108 cm deep",
+        "takenAt": "2026-10-20T10:41:00+05:30",
+        "by": "StepFree auditor"
+      }
+    ]
+  }
 ]

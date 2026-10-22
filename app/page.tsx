@@ -17,6 +17,13 @@ const STEPS = [
   { icon: "🎉", title: "Book and relax", body: "Request your room and a wheelchair taxi, pay at the hotel, and arrive with no surprise stairs." },
 ];
 
+const TRUST = [
+  { icon: "📏", title: "Measured on site", body: "A StepFree auditor visits with a tape measure: entrance steps, ramp, lift door and depth, washroom and room doors." },
+  { icon: "📸", title: "Live, time-stamped photos", body: "Every photo is stamped with the date and time it was taken. Photos older than 30 minutes are refused, so an old picture can't pass as today's." },
+  { icon: "🦽", title: "Checked against your chair", body: "We only say a hotel or taxi fits after comparing it with your parent's actual chair width." },
+  { icon: "⭐", title: "Guests confirm it", body: "Families add their own live photos after a stay, and say whether it really worked for their wheelchair." },
+];
+
 const WHY = [
   { icon: "📏", color: "border-t-brand", title: "Measured, not claimed", body: "A person with a tape measure checks steps, ramps, lifts and washroom doors on site." },
   { icon: "🎯", color: "border-t-accent", title: "Matched to your parent", body: "Every place is compared with your parent's actual chair width, not a vague \"accessible\" label." },
@@ -98,9 +105,32 @@ export default function Home() {
       <section className="reveal mx-auto max-w-5xl px-4 py-14">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <h2 className="text-2xl font-bold sm:text-3xl">Hotels that fit your parent <span aria-hidden>🏨</span></h2>
-          <Link href="/city/delhi" className="font-semibold text-brand underline">See all of Delhi</Link>
+          <Link href="/cities" className="font-semibold text-brand underline">See every city</Link>
         </div>
         <FeaturedHotels />
+      </section>
+
+      <section aria-labelledby="real" className="reveal bg-tint">
+        <div className="mx-auto max-w-5xl px-4 py-14">
+          <h2 id="real" className="text-2xl font-bold sm:text-3xl">How we keep it real <span aria-hidden>🔍</span></h2>
+          <p className="mt-1 max-w-3xl text-muted">
+            A website saying &ldquo;wheelchair friendly&rdquo; isn&apos;t proof. Families arrive to find a step, a lift too small for the chair, or a washroom door
+            it can&apos;t get through. StepFree only trusts what can be checked.
+          </p>
+          <ol className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {TRUST.map((t, i) => (
+              <li key={t.title} className="lift rounded-2xl bg-white p-6 shadow-sm">
+                <span aria-hidden className="text-4xl">{t.icon}</span>
+                <h3 className="mt-2 font-semibold"><span className="sr-only">{i + 1}. </span>{t.title}</h3>
+                <p className="mt-1 text-sm text-muted">{t.body}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-6 text-sm text-muted">
+            What we check: a <strong>step-free way in</strong> (no steps, or a ramp), <strong>doors and lifts at least as wide as the chair</strong>, a lift deep
+            enough to hold it, room to turn, and a <strong>washroom the chair can get into</strong>.
+          </p>
+        </div>
       </section>
 
       <section className="reveal bg-warm">

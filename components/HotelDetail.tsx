@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AccessSummary from "@/components/AccessSummary";
 import { BookOnMakeMyTrip, NearbyOnMakeMyTrip } from "@/components/BookingLinks";
+import ProofPhotos, { ProofBadge } from "@/components/ProofPhotos";
 import { StayFields, useStay } from "@/components/StaySearch";
 import { Badge, CheckTable, Reason, useExplanation, type Lang } from "@/components/ui";
 import { citySlug } from "@/lib/cities";
@@ -69,7 +70,10 @@ export default function HotelDetail({ id }: { id: string }) {
         <div>
           <h1 className="text-3xl font-bold">{hotel.name}</h1>
           <p className="text-muted">{area}, {city ?? "Delhi"} · audited {hotel.auditDate}</p>
-          {hotel.isPlaceholder && <p className="mt-1 inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">Sample hotel for the demo, not a real audit</p>}
+          <div className="mt-2 flex flex-wrap gap-2">
+            <ProofBadge evidence={hotel.evidence} />
+            {hotel.isPlaceholder && <span className="inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-900">Sample hotel for the demo, not a real audit</span>}
+          </div>
         </div>
         <button onClick={() => setLang(lang === "en" ? "hi" : "en")} className="rounded border border-gray-300 bg-white px-3 py-1.5 text-sm" aria-label="Switch explanation language">
           {lang === "en" ? "हिन्दी" : "English"}
@@ -99,6 +103,14 @@ export default function HotelDetail({ id }: { id: string }) {
           <div className="rounded-xl border border-gray-200 p-5">
             <AccessSummary hotel={hotel} chairWidthCm={profile?.chairWidthCm} compact />
           </div>
+
+          <section aria-labelledby="proof" className="rounded-xl border border-gray-200 p-5">
+            <h2 id="proof" className="text-xl font-bold"><span aria-hidden>📸 </span>Proof photos</h2>
+            <p className="mb-3 text-sm text-muted">
+              Every photo carries the date and time it was taken, so you can see the ramp, lift and washroom as they really are, not as an advert says.
+            </p>
+            <ProofPhotos placeId={hotel.id} placeName={hotel.name} evidence={hotel.evidence} />
+          </section>
 
           <section aria-labelledby="policies" className="rounded-xl border border-gray-200 p-5 text-sm">
             <h2 id="policies" className="text-lg font-bold">Good to know</h2>

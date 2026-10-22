@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import taxiData from "@/data/taxis.json";
 import { MakeMyTripCity } from "@/components/BookingLinks";
 import { StayFields, useStay } from "@/components/StaySearch";
+import { ProofBadge } from "@/components/ProofPhotos";
 import TaxiCard from "@/components/TaxiCard";
 import { Badge } from "@/components/ui";
 import { CITIES, cityOfArea, citySlug } from "@/lib/cities";
@@ -132,6 +133,7 @@ export default function CityHub({ city }: { city: string }) {
                       <div>
                         <h3 className="text-lg font-semibold">{h.name}</h3>
                         <p className="text-sm text-gray-600">{h.area}{h.isPlaceholder && " · sample hotel"}</p>
+                        <div className="mt-1"><ProofBadge evidence={h.evidence} /></div>
                       </div>
                       {verdict && <Badge verdict={verdict} />}
                     </div>
