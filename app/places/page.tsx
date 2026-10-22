@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import taxis from "@/data/taxis.json";
 import AccessSummary from "@/components/AccessSummary";
 import { BookOnMakeMyTrip, MakeMyTripCity, NearbyOnMakeMyTrip } from "@/components/BookingLinks";
@@ -23,12 +23,35 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
 }
 
 function Explore() {
+  // The address bar is the single source of truth for the filters, so footer links, the home page,
+  // the back button and shared links all behave the same way.
   const params = useSearchParams();
-  const [q, setQ] = useState(params.get("q") ?? "");
-  const [city, setCity] = useState(params.get("city") ?? "");
-  const [category, setCategory] = useState(params.get("category") ?? "");
-  const [features, setFeatures] = useState<Feature[]>([]);
+  const router = useRouter();
+  const q = params.get("q") ?? "";
+  const city = params.get("city") ?? "";
+  const category = params.get("category") ?? "";
+  const features = params.getAll("f").filter((f): f is Feature => (FEATURES as readonly string[]).includes(f));
+  const searchRef = useRef<HTMLInputElement>(null);
   const [hotels, setHotels] = useState<Listing[]>([]);
+
+  function update(changes: { q?: string; city?: string; category?: string; features?: Feature[] }) {
+    const p = new URLSearchParams(params.toString());
+    const setOrClear = (key: string, value: string) => (value ? p.set(key, value) : p.delete(key));
+    if (changes.q !== undefined) setOrClear("q", changes.q);
+    if (changes.city !== undefined) setOrClear("city", changes.city);
+    if (changes.category !== undefined) setOrClear("category", changes.category);
+    if (changes.features) {
+      p.delete("f");
+      changes.features.forEach((f) => p.append("f", f));
+    }
+    const s = p.toString();
+    router.replace(s ? `/places?${s}` : "/places", { scroll: false });
+  }
+
+  // When the address changes from outside the box (a footer link, the back button), show it in the box.
+  useEffect(() => {
+    if (searchRef.current && searchRef.current.value !== q) searchRef.current.value = q;
+  }, [q]);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -49,7 +72,7 @@ function Explore() {
   );
   // One MakeMyTrip link per city that has hotels in the current results (or all hotel cities if none match).
   const hotelCities = [...new Set((shown.some((l) => l.category === "Hotel") ? shown : all).filter((l) => l.category === "Hotel").map((l) => l.city))];
-  const toggle = (f: Feature) => setFeatures((cur) => (cur.includes(f) ? cur.filter((x) => x !== f) : [...cur, f]));
+  const toggle = (f: Feature) => update({ features: features.includes(f) ? features.filter((x) => x !== f) : [...features, f] });
 
   return (
     <main className="mx-auto max-w-5xl space-y-6 p-4 py-10">
@@ -62,8 +85,9 @@ function Explore() {
         <label htmlFor="q" className="sr-only">Search places</label>
         <input
           id="q"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
+          ref={searchRef}
+          defaultValue={q}
+          onChange={(e) => update({ q: e.target.value })}
           placeholder="Search a city, a hotel or a taxi provider"
           className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900"
         />
@@ -72,11 +96,11 @@ function Explore() {
       <div className="space-y-3">
         <div className="flex flex-wrap items-center gap-2" role="group" aria-label="City">
           <span className="text-sm font-semibold">City</span>
-          {cities.map(([c, n]) => <Chip key={c} on={city === c} onClick={() => setCity(city === c ? "" : c)}>{c} ({n})</Chip>)}
+          {cities.map(([c, n]) => <Chip key={c} on={city === c} onClick={() => update({ city: city === c ? "" : c })}>{c} ({n})</Chip>)}
         </div>
         <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Type">
           <span className="text-sm font-semibold">Type</span>
-          {["Hotel", "Taxi"].map((c) => <Chip key={c} on={category === c} onClick={() => setCategory(category === c ? "" : c)}>{c}</Chip>)}
+          {["Hotel", "Taxi"].map((c) => <Chip key={c} on={category === c} onClick={() => update({ category: category === c ? "" : c })}>{c}</Chip>)}
         </div>
         <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Features">
           <span className="text-sm font-semibold">Features</span>

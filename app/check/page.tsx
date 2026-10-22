@@ -5,6 +5,7 @@ import HotelCard from "@/components/HotelCard";
 import ProfileForm from "@/components/ProfileForm";
 import TaxiPanel from "@/components/TaxiPanel";
 import type { Lang } from "@/components/ui";
+import { profileSummary, unknownNotes } from "@/lib/profileSummary";
 import type { Hotel, Profile } from "@/lib/types";
 
 export default function Check() {
@@ -48,6 +49,18 @@ export default function Check() {
         </div>
 
         {!profile && <p className="rounded border border-gray-200 bg-tint p-4 text-muted">Confirm your parent&apos;s details above and the results will appear here.</p>}
+
+        {profile && (
+          <div className="rounded-lg border border-blue-200 bg-tint p-4 text-sm text-slate-900">
+            <p><span className="font-semibold">Showing results for:</span> {profileSummary(profile)}</p>
+            {unknownNotes(profile).length > 0 && (
+              <p className="mt-1 text-muted">
+                We don&apos;t know {unknownNotes(profile).join(" or ")}. Where we can&apos;t be sure, a hotel shows &ldquo;Fits with help&rdquo; rather than
+                &ldquo;Fits&rdquo;. Pick an answer above and confirm again for a firmer result.
+              </p>
+            )}
+          </div>
+        )}
 
         {profile && (
           <>

@@ -5,6 +5,7 @@ import { accessFacts, passesChecklist } from "../lib/accessFacts";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
 import { cleanMakeMyTripUrl, mmtCityUrl } from "../lib/links";
 import { hotelListing, rampText } from "../lib/listings";
+import { profileSummary, sameProfile, unknownNotes } from "../lib/profileSummary";
 import { readProfileText } from "../lib/readProfileText";
 import { requirementsFor } from "../lib/requirements";
 import { validateAudit, validateProfile } from "../lib/validate";
@@ -112,6 +113,29 @@ describe("accessFacts (hotel summary in words)", () => {
   });
   it("a small lift is called out", () => expect(facts("h2").lift.status).toBe("no"));
   it("every hotel gets all seven lines", () => H.forEach((h) => expect(accessFacts(h)).toHaveLength(7)));
+});
+
+describe("profileSummary (says the numbers back)", () => {
+  it("describes the example parent", () => {
+    expect(profileSummary({ chairWidthCm: 66, maxSteps: 0, transferHelp: "none" })).toBe(
+      "chair 66 cm wide · can't manage any steps · needs no help to transfer",
+    );
+  });
+  it("says 'not sure' for unknowns and pluralises steps", () => {
+    expect(profileSummary({ chairWidthCm: 70, maxSteps: 1, transferHelp: null })).toBe("chair 70 cm wide · can manage up to 1 step · help to transfer: not sure");
+    expect(profileSummary({ chairWidthCm: 70, maxSteps: 3, transferHelp: "some" })).toContain("up to 3 steps");
+    expect(profileSummary({ chairWidthCm: 70, maxSteps: null, transferHelp: "full" })).toContain("steps: not sure");
+  });
+  it("lists what is unknown, and nothing when all is known", () => {
+    expect(unknownNotes({ chairWidthCm: 66, maxSteps: null, transferHelp: null })).toHaveLength(2);
+    expect(unknownNotes({ chairWidthCm: 66, maxSteps: 0, transferHelp: "none" })).toEqual([]);
+  });
+  it("sameProfile notices any change", () => {
+    const a = { chairWidthCm: 66, maxSteps: 0, transferHelp: "none" as const };
+    expect(sameProfile(a, { ...a })).toBe(true);
+    expect(sameProfile(a, { ...a, chairWidthCm: 67 })).toBe(false);
+    expect(sameProfile(a, { ...a, maxSteps: null })).toBe(false);
+  });
 });
 
 describe("passesChecklist (step-free way in + friendly washroom)", () => {

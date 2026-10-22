@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { requirementsFor } from "@/lib/requirements";
+import { profileSummary, sameProfile } from "@/lib/profileSummary";
 import { validateProfile } from "@/lib/validate";
 import type { Profile, TransferHelp } from "@/lib/types";
 
@@ -105,8 +106,17 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
         <label className="block text-sm">Chair width (cm)
           <input className={field} inputMode="numeric" value={draft.chairWidthCm ?? ""} onChange={(e) => setDraft({ ...draft, chairWidthCm: toNum(e.target.value) })} />
         </label>
-        <label className="block text-sm">Steps your parent can manage (0 = none; leave blank if unsure)
-          <input className={field} inputMode="numeric" value={draft.maxSteps ?? ""} onChange={(e) => setDraft({ ...draft, maxSteps: toNum(e.target.value) })} />
+        <label className="block text-sm">How many steps can your parent manage?
+          <select
+            className={field}
+            value={draft.maxSteps === null ? "" : String(draft.maxSteps)}
+            onChange={(e) => setDraft({ ...draft, maxSteps: e.target.value === "" ? null : Number(e.target.value) })}
+          >
+            <option value="">Not sure</option>
+            <option value="0">None: can&apos;t manage any steps</option>
+            {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n} step{n === 1 ? "" : "s"}</option>)}
+            {draft.maxSteps !== null && (draft.maxSteps > 5 || !Number.isInteger(draft.maxSteps)) && <option value={draft.maxSteps}>{draft.maxSteps} steps</option>}
+          </select>
         </label>
         <label className="block text-sm">Help needed to transfer (chair ↔ bed/seat)
           <select className={field} value={draft.transferHelp ?? ""} onChange={(e) => setDraft({ ...draft, transferHelp: (e.target.value || null) as TransferHelp | null })}>
@@ -121,7 +131,15 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
             {problems.map((p) => <li key={p}>{p}</li>)}
           </ul>
         )}
+        {confirmed && !sameProfile(confirmed, draft) && (
+          <p role="status" className="rounded bg-amber-50 p-3 text-sm text-amber-950">
+            You changed the numbers. Click <strong>Confirm profile</strong> to update the results below.
+          </p>
+        )}
         <button onClick={confirm} className="rounded bg-brand hover:bg-brand-dark px-4 py-2 font-medium text-white">Confirm profile</button>
+        {confirmed && sameProfile(confirmed, draft) && (
+          <p role="status" className="text-sm font-medium text-green-800">✓ Confirmed: {profileSummary(confirmed)}</p>
+        )}
         <p className="text-xs text-gray-600">Anything left blank is treated as unknown, so results will say &ldquo;Fits with help&rdquo;, never &ldquo;Fits&rdquo;.</p>
       </section>
 
