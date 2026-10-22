@@ -43,6 +43,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="border-t border-gray-200 bg-tint">
           <div className="mx-auto max-w-5xl space-y-1 p-4 text-sm text-muted">
             <p className="font-semibold text-foreground">Stepfree</p>
+            <p className="flex gap-4">
+              <Link href="/market" className="underline">Why it matters</Link>
+              <Link href="/auditor" className="underline">For auditors</Link>
+            </p>
             <p>Know before you book whether your parent&apos;s wheelchair can get in.</p>
             <p>Hackathon MVP. All hotels, taxis and photos shown are placeholders, not real audits.</p>
           </div>
