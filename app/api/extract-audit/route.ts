@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       liftDoorCm: num(obj.liftDoorCm),
       liftDepthCm: num(obj.liftDepthCm),
       turningSpaceCm: num(obj.turningSpaceCm),
+      wheelchairProvided: typeof obj.wheelchairProvided === "boolean" ? obj.wheelchairProvided : null,
     };
     return Response.json({ fields });
   } catch (e) {

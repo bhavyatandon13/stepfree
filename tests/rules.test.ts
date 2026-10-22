@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import hotels from "../data/hotels.json";
 import taxis from "../data/taxis.json";
+import { accessFacts } from "../lib/accessFacts";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
 import { hotelListing, rampText } from "../lib/listings";
 import { readProfileText } from "../lib/readProfileText";
@@ -64,7 +65,7 @@ describe("readProfileText (backup reader)", () => {
 
 describe("listings (for search and browsing)", () => {
   it("marks step-free, lift and wide bathroom from the measurements", () => {
-    expect(hotelListing(hotel("h1")).features).toEqual(["Step-free entrance", "Lift", "Wide bathroom door"]);
+    expect(hotelListing(hotel("h1")).features).toEqual(["Step-free entrance", "Lift", "Wide bathroom door", "Lends a wheelchair"]);
   });
   it("a ramp counts as step-free", () => expect(hotelListing(hotel("h4")).features).toContain("Step-free entrance"));
   it("lists the ramp only when one is recorded", () => {
@@ -82,6 +83,34 @@ describe("listings (for search and browsing)", () => {
   });
   it("unmeasured items are not claimed", () => expect(hotelListing(hotel("h5")).features).not.toContain("Lift"));
   it("splits area and city", () => expect(hotelListing(hotel("h1"))).toMatchObject({ area: "Karol Bagh", city: "Delhi" }));
+});
+
+describe("accessFacts (hotel summary in words)", () => {
+  const facts = (id: string) => Object.fromEntries(accessFacts(hotel(id)).map((f) => [f.key, f]));
+  it("wide washroom door is wheelchair-friendly and says the width", () => {
+    expect(facts("h1").washroom).toMatchObject({ status: "yes" });
+    expect(facts("h1").washroom.text).toMatch(/Wheelchair-friendly washroom: door 82 cm/);
+  });
+  it("narrow washroom door says so with the needed width", () => {
+    expect(facts("h3").washroom).toMatchObject({ status: "no" });
+    expect(facts("h3").washroom.text).toMatch(/70 cm \(needs 76 cm or more\)/);
+  });
+  it("unmeasured washroom is 'not measured', never friendly", () => expect(facts("h5").washroom.status).toBe("unknown"));
+  it("stairs: none, some and unknown", () => {
+    expect(facts("h1").stairs.text).toBe("No stairs at the entrance");
+    expect(facts("h2").stairs.text).toBe("2 steps at the entrance");
+    expect(facts("h6").stairs.text).toBe("1 step at the entrance");
+  });
+  it("ramp and wheelchair loan: yes, no and not recorded", () => {
+    expect(facts("h4").ramp.status).toBe("yes");
+    expect(facts("h2").ramp.status).toBe("no");
+    expect(facts("h1").ramp.status).toBe("unknown");
+    expect(facts("h1").lend.status).toBe("yes");
+    expect(facts("h2").lend.status).toBe("no");
+    expect(facts("h3").lend.status).toBe("unknown");
+  });
+  it("a small lift is called out", () => expect(facts("h2").lift.status).toBe("no"));
+  it("every hotel gets all seven lines", () => H.forEach((h) => expect(accessFacts(h)).toHaveLength(7)));
 });
 
 describe("basicReason", () => {
@@ -108,7 +137,7 @@ describe("validate", () => {
   });
   it("66 cm chair is fine", () => expect(validateProfile(papa)).toEqual([]));
   it("18 cm bathroom door is flagged", () => {
-    const fields = { entranceSteps: 0, ramp: null, roomDoorCm: null, bathroomDoorCm: 18, liftDoorCm: null, liftDepthCm: null, turningSpaceCm: null };
+    const fields = { entranceSteps: 0, ramp: null, roomDoorCm: null, bathroomDoorCm: 18, liftDoorCm: null, liftDepthCm: null, turningSpaceCm: null, wheelchairProvided: null };
     expect(validateAudit(fields)[0]).toMatch(/Bathroom door/);
   });
 });

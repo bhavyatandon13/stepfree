@@ -34,6 +34,7 @@ export type Hotel = {
   liftDoorCm: number | null;
   liftDepthCm: number | null;
   turningSpaceCm: number | null;
+  wheelchairProvided: boolean | null; // can the hotel lend a wheelchair? null = not recorded
   photo: string;
   photoCaption: string;
 };
@@ -58,4 +59,5 @@ export type AuditFields = Pick<
   | "liftDoorCm"
   | "liftDepthCm"
   | "turningSpaceCm"
+  | "wheelchairProvided"
 >;

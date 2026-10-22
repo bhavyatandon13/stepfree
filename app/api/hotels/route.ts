@@ -27,6 +27,7 @@ export async function POST(req: Request) {
     liftDoorCm: body.liftDoorCm ?? null,
     liftDepthCm: body.liftDepthCm ?? null,
     turningSpaceCm: body.turningSpaceCm ?? null,
+    wheelchairProvided: body.wheelchairProvided ?? null,
     photo: body.photo ?? "/photos/entrance.svg",
     photoCaption: body.photoCaption ?? "Auditor photo",
   };

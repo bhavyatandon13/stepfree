@@ -10,7 +10,8 @@ Use null for anything not stated. Never guess.`;
 
 export const EXTRACT_AUDIT_SYSTEM = `You read an on-site accessibility audit of a hotel: free-text notes (English or Hindi) and sometimes a photo of a tape measure.
 Output JSON only, with no other text:
-{"entranceSteps": number or null, "ramp": true | false | null, "roomDoorCm": number or null, "bathroomDoorCm": number or null, "liftDoorCm": number or null, "liftDepthCm": number or null, "turningSpaceCm": number or null}
+{"entranceSteps": number or null, "ramp": true | false | null, "roomDoorCm": number or null, "bathroomDoorCm": number or null, "liftDoorCm": number or null, "liftDepthCm": number or null, "turningSpaceCm": number or null, "wheelchairProvided": true | false | null}
+"wheelchairProvided" is true only if the notes say the hotel can lend a wheelchair, false only if they say it cannot.
 All widths are clear widths in centimetres. Convert inches (1 in = 2.54 cm). Use null when unclear. Never guess a number. The auditor will confirm every value.`;
 
 export function explainSystem(lang: "en" | "hi") {

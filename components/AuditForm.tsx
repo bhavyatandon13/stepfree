@@ -3,7 +3,7 @@ import { useState } from "react";
 import { validateAudit } from "@/lib/validate";
 import type { AuditFields } from "@/lib/types";
 
-const EMPTY: AuditFields = { entranceSteps: null, ramp: null, roomDoorCm: null, bathroomDoorCm: null, liftDoorCm: null, liftDepthCm: null, turningSpaceCm: null };
+const EMPTY: AuditFields = { entranceSteps: null, ramp: null, roomDoorCm: null, bathroomDoorCm: null, liftDoorCm: null, liftDepthCm: null, turningSpaceCm: null, wheelchairProvided: null };
 const toNum = (s: string) => (s.trim() === "" ? null : Number(s));
 
 const NUMBER_FIELDS: [keyof AuditFields, string][] = [
@@ -115,6 +115,11 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
         ))}
         <label className="block text-sm">Ramp at entrance
           <select className={input} value={fields.ramp === null ? "" : String(fields.ramp)} onChange={(e) => setFields({ ...fields, ramp: e.target.value === "" ? null : e.target.value === "true" })}>
+            <option value="">Not sure</option><option value="true">Yes</option><option value="false">No</option>
+          </select>
+        </label>
+        <label className="block text-sm">Hotel can lend a wheelchair
+          <select className={input} value={fields.wheelchairProvided === null ? "" : String(fields.wheelchairProvided)} onChange={(e) => setFields({ ...fields, wheelchairProvided: e.target.value === "" ? null : e.target.value === "true" })}>
             <option value="">Not sure</option><option value="true">Yes</option><option value="false">No</option>
           </select>
         </label>
