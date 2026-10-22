@@ -29,6 +29,19 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+/* High contrast mode, switched on by the toolbar. Pure black on white, strong borders. */
+[data-contrast="high"] {
+  --foreground: #000000;
+  --muted: #000000;
+  --brand: #004d47;
+  --tint: #ffffff;
+}
+[data-contrast="high"] [class*="text-gray-"] { color: #000000 !important; }
+[data-contrast="high"] [class*="border-gray-"] { border-color: #000000 !important; }
+[data-contrast="high"] .text-brand { color: #004d47 !important; }
+[data-contrast="high"] a { text-decoration: underline; }
+[data-contrast="high"] .bg-accent { background-color: #ffd54a !important; color: #000000 !important; }
+
 /* Clear focus ring for keyboard users. */
 :focus-visible {
   outline: 3px solid var(--brand);

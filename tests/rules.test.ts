@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import hotels from "../data/hotels.json";
 import taxis from "../data/taxis.json";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
+import { hotelListing } from "../lib/listings";
 import { readProfileText } from "../lib/readProfileText";
 import { requirementsFor } from "../lib/requirements";
 import { validateAudit, validateProfile } from "../lib/validate";
@@ -59,6 +60,20 @@ describe("readProfileText (backup reader)", () => {
   it("leaves unknowns as null", () => {
     expect(read("my dad uses a wheelchair")).toEqual({ chairWidthCm: null, maxSteps: null, transferHelp: null });
   });
+});
+
+describe("listings (for search and browsing)", () => {
+  it("marks step-free, lift and wide bathroom from the measurements", () => {
+    expect(hotelListing(hotel("h1")).features).toEqual(["Step-free entrance", "Lift", "Wide bathroom door"]);
+  });
+  it("a ramp counts as step-free", () => expect(hotelListing(hotel("h4")).features).toContain("Step-free entrance"));
+  it("2 steps and no ramp is not step-free; a 75 cm bathroom door is not wide", () => {
+    const f = hotelListing(hotel("h2")).features;
+    expect(f).not.toContain("Step-free entrance");
+    expect(f).not.toContain("Wide bathroom door");
+  });
+  it("unmeasured items are not claimed", () => expect(hotelListing(hotel("h5")).features).not.toContain("Lift"));
+  it("splits area and city", () => expect(hotelListing(hotel("h1"))).toMatchObject({ area: "Karol Bagh", city: "Delhi" }));
 });
 
 describe("basicReason", () => {

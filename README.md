@@ -49,7 +49,12 @@ Stepfree is a hackathon MVP. A family describes their parent's wheelchair in pla
 **Claude never decides the verdict.** It prepares inputs and writes words. A fixed rule compares numbers.
 
 ```
-app/page.tsx              one screen, five tabs: Parent, Hotels, Taxis, Market, Auditor
+app/page.tsx              home page (hero, stats, search, browse by city and type, how it works)
+app/check                 the fit checker: describe your parent, then see hotels and taxis
+app/places                search and filter listings by city, type and features
+app/auditor, market       auditor form and market facts
+app/about, events, accessibility, volunteer, submit, partner, contact, terms, privacy   content pages and demo forms
+components/SiteTools.tsx  text size, high contrast, storage choice and back-to-top
 app/api/parse-profile     AI: text → chair width, steps, transfer help
 app/api/extract-audit     AI: audit notes/photo → measurements
 app/api/explain           AI: verdict + numbers → plain-language reason
@@ -108,13 +113,13 @@ Stepfree does not store any person's measurements.
 - The parent profile (chair width, steps, transfer help) lives only in the browser page. It is not written to a database, a file, cookies or browser storage, and it is gone on refresh.
 - The server routes keep no copy of what they receive and do not log it. The only log line prints the AI service's error text.
 - To read the description and write each reason, the text and the numbers behind each verdict are sent to Claude through OpenRouter. Their data policy applies there. The screen says so and asks users not to type names, addresses or phone numbers.
-- Hotel and taxi measurements are about places, not people. Audits saved in the Auditor tab are kept in server memory only.
+- Hotel and taxi measurements are about places, not people. Audits saved on the Auditor page are kept in server memory only. The volunteer, submit, partner and contact forms are demos and store nothing.
 
 ## Known limits
 
 - All hotels, taxis and photos are placeholders. The Market figures come from search snippets in the scope doc and are unverified.
 - The measurement constants (+10 cm, 110 cm, 150 cm, 140 cm taxi height) are assumptions to confirm with an accessibility expert.
-- Audits saved in the Auditor tab live in memory and are lost when the server restarts.
+- Audits saved on the Auditor page live in memory and are lost when the server restarts.
 - No taxi provider for Delhi is listed, because none was named in the scope doc.
 
 ## Run it locally
