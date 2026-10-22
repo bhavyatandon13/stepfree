@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import hotels from "../data/hotels.json";
 import taxis from "../data/taxis.json";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
-import { hotelListing } from "../lib/listings";
+import { hotelListing, rampText } from "../lib/listings";
 import { readProfileText } from "../lib/readProfileText";
 import { requirementsFor } from "../lib/requirements";
 import { validateAudit, validateProfile } from "../lib/validate";
@@ -67,6 +67,14 @@ describe("listings (for search and browsing)", () => {
     expect(hotelListing(hotel("h1")).features).toEqual(["Step-free entrance", "Lift", "Wide bathroom door"]);
   });
   it("a ramp counts as step-free", () => expect(hotelListing(hotel("h4")).features).toContain("Step-free entrance"));
+  it("lists the ramp only when one is recorded", () => {
+    expect(hotelListing(hotel("h4")).features).toContain("Ramp at entrance"); // ramp: true
+    expect(hotelListing(hotel("h2")).features).not.toContain("Ramp at entrance"); // ramp: false
+    expect(hotelListing(hotel("h1")).features).not.toContain("Ramp at entrance"); // ramp: not recorded
+  });
+  it("says 'not recorded' rather than 'no' when the ramp is unknown", () => {
+    expect([true, false, null].map(rampText)).toEqual(["Ramp available", "No ramp", "Ramp not recorded"]);
+  });
   it("2 steps and no ramp is not step-free; a 75 cm bathroom door is not wide", () => {
     const f = hotelListing(hotel("h2")).features;
     expect(f).not.toContain("Step-free entrance");

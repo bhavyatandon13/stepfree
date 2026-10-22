@@ -34,7 +34,7 @@ const INVOLVED = [
   { href: "/partner", title: "Partner with us", body: "Schools, businesses and groups can help with audits and awareness drives.", cta: "Start a conversation" },
 ];
 
-const FILTER_CHIPS = ["Step-free entrance", "Lift", "Wide bathroom door"];
+const FILTER_CHIPS = ["Step-free entrance", "Ramp at entrance", "Lift", "Wide bathroom door"];
 
 export default function Home() {
   return (

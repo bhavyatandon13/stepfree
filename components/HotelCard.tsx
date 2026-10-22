@@ -1,5 +1,6 @@
 "use client";
 import { hotelFit } from "@/lib/fitRule";
+import { rampText } from "@/lib/listings";
 import type { Hotel, Profile } from "@/lib/types";
 import { Badge, CheckTable, Reason, useExplanation, type Lang } from "./ui";
 
@@ -15,6 +16,10 @@ export default function HotelCard({ hotel, profile, lang }: { hotel: Hotel; prof
         </div>
         <Badge verdict={result.verdict} />
       </div>
+      <p className="mt-2 text-sm font-medium">
+        <span aria-hidden>{hotel.ramp === true ? "✓ " : hotel.ramp === false ? "✕ " : "? "}</span>
+        {rampText(hotel.ramp)}
+      </p>
       <Reason text={reason.text} byAI={reason.byAI} />
       <CheckTable checks={result.checks} />
       <figure className="mt-3">

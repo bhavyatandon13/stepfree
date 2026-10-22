@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import taxis from "@/data/taxis.json";
-import { FEATURES, countBy, hotelListing, taxiListing, type Feature, type Listing } from "@/lib/listings";
+import { FEATURES, countBy, hotelListing, rampText, taxiListing, type Feature, type Listing } from "@/lib/listings";
 import type { Hotel, Taxi } from "@/lib/types";
 
 const TAXI_LISTINGS = (taxis as Taxi[]).map(taxiListing);
@@ -100,6 +100,12 @@ function Explore() {
                 {l.features.length === 0 && <li className="text-xs text-gray-600">No step-free features recorded</li>}
                 {l.features.map((f) => <li key={f} className="rounded-full border border-gray-300 px-2 py-0.5 text-xs">✓ {f}</li>)}
               </ul>
+              {l.category === "Hotel" && (
+                <p className="mt-2 text-sm font-medium">
+                  <span aria-hidden>{l.ramp === true ? "✓ " : l.ramp === false ? "✕ " : "? "}</span>
+                  {rampText(l.ramp ?? null)}
+                </p>
+              )}
               <p className="mt-3 text-xs text-gray-600">
                 {l.auditDate ? `Audited ${l.auditDate}` : "Not audited yet"}
                 {l.placeholder && " · placeholder data"}
