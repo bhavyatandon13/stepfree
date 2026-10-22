@@ -36,6 +36,7 @@ export type Hotel = {
   turningSpaceCm: number | null;
   wheelchairProvided: boolean | null; // can the hotel lend a wheelchair? null = not recorded
   bookingUrl?: string | null; // the hotel's own MakeMyTrip page, added by an auditor
+  ratePerNight?: number | null; // sample price in rupees for the demo; null = price on request
   photo: string;
   photoCaption: string;
 };

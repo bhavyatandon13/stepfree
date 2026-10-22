@@ -1,4 +1,4 @@
-import { askClaude, errorResponse, parseJsonObject } from "@/lib/claude";
+import { askClaude, parseJsonObject } from "@/lib/claude";
 import { PARSE_PROFILE_SYSTEM } from "@/lib/prompts";
 import { readProfileText } from "@/lib/readProfileText";
 import type { Profile } from "@/lib/types";
@@ -34,6 +34,10 @@ export async function POST(req: Request) {
   if (rules.chairWidthCm !== null || rules.maxSteps !== null || rules.transferHelp !== null) {
     return Response.json({ profile: rules, source: "rules" });
   }
-  if (aiError) return errorResponse(aiError);
-  return Response.json({ error: "bad-json", message: "Couldn't read that. Fill the form by hand." }, { status: 502 });
+  // Neither the AI nor the simple reader found anything. Say what to type, not what broke.
+  if (aiError) console.error("AI unavailable, simple reader found nothing:", aiError instanceof Error ? aiError.message : aiError);
+  return Response.json(
+    { error: "unreadable", message: "We couldn't find a chair width or steps in that. Try “Chair is 66 cm wide, no steps”, or fill in the boxes below." },
+    { status: 422 },
+  );
 }

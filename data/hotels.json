@@ -14,7 +14,8 @@
         "turningSpaceCm":  160,
         "photo":  "/photos/bathroom.svg",
         "photoCaption":  "Bathroom door, 82 cm (placeholder)",
-        "wheelchairProvided":  true
+        "wheelchairProvided":  true,
+        "ratePerNight":  3800
     },
     {
         "id":  "h2",
@@ -31,7 +32,8 @@
         "turningSpaceCm":  130,
         "photo":  "/photos/entrance.svg",
         "photoCaption":  "Entrance, 2 steps, no ramp (placeholder)",
-        "wheelchairProvided":  false
+        "wheelchairProvided":  false,
+        "ratePerNight":  2200
     },
     {
         "id":  "h3",
@@ -48,7 +50,8 @@
         "turningSpaceCm":  155,
         "photo":  "/photos/bathroom.svg",
         "photoCaption":  "Bathroom door, 70 cm (placeholder)",
-        "wheelchairProvided":  null
+        "wheelchairProvided":  null,
+        "ratePerNight":  5400
     },
     {
         "id":  "h4",
@@ -65,7 +68,8 @@
         "turningSpaceCm":  150,
         "photo":  "/photos/entrance.svg",
         "photoCaption":  "Entrance with ramp (placeholder)",
-        "wheelchairProvided":  true
+        "wheelchairProvided":  true,
+        "ratePerNight":  4600
     },
     {
         "id":  "h5",
@@ -82,7 +86,8 @@
         "turningSpaceCm":  150,
         "photo":  "/photos/entrance.svg",
         "photoCaption":  "Entrance, step-free (placeholder); bathroom and lift not yet measured",
-        "wheelchairProvided":  null
+        "wheelchairProvided":  null,
+        "ratePerNight":  3100
     },
     {
         "id":  "h6",
@@ -99,6 +104,7 @@
         "turningSpaceCm":  150,
         "photo":  "/photos/entrance.svg",
         "photoCaption":  "Entrance, 1 step, ramp unknown (placeholder)",
-        "wheelchairProvided":  null
+        "wheelchairProvided":  null,
+        "ratePerNight":  2700
     }
 ]

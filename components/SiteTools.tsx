@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { SIZES, getServerSnapshot, getSnapshot, initPrefs, setPrefs, subscribe } from "@/lib/prefs";
+import { persistTripsNow } from "@/lib/tripState";
 
 function usePrefs() {
   const prefs = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
@@ -35,12 +36,12 @@ export function ConsentBanner() {
     <div role="dialog" aria-label="Storage choice" className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-300 bg-white p-4 shadow-lg">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-4">
         <p className="min-w-60 flex-1 text-sm">
-          StepFree has no trackers or adverts. If you agree, we remember your text size and contrast choice in this browser. If you disagree, we remember only this choice. Read the{" "}
+          StepFree has no trackers or adverts. If you agree, we remember your text size, contrast and trips in this browser. If you disagree, we remember only this choice. Read the{" "}
           <Link href="/terms" className="underline">terms</Link> and <Link href="/privacy" className="underline">privacy notice</Link>.
         </p>
         <div className="flex gap-2">
           <button onClick={() => setPrefs({ consent: "disagree" })} className="rounded-full border border-brand px-4 py-2 text-sm font-semibold text-brand">Disagree</button>
-          <button onClick={() => setPrefs({ consent: "agree" })} className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white">Agree</button>
+          <button onClick={() => { setPrefs({ consent: "agree" }); persistTripsNow(); }} className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white">Agree</button>
         </div>
       </div>
     </div>

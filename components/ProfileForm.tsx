@@ -80,9 +80,9 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
       <aside className="rounded-lg border border-blue-200 bg-tint p-3 text-sm text-slate-900">
         <p className="font-semibold">Your parent&apos;s details are not saved.</p>
         <p>
-          StepFree keeps no copy of your description or your parent&apos;s measurements. They live on this page only and disappear when you
-          refresh or close it. To read your text and write each reason, they are sent to Claude (through OpenRouter), which has its
-          own data policy. Please don&apos;t type a name, address or phone number.
+          StepFree keeps no copy on its server. Your parent&apos;s details stay in this browser tab, so every hotel can show whether it fits,
+          and are forgotten when you close the tab. To read your text, it may be sent to Claude (through OpenRouter), which has its own
+          data policy. Please don&apos;t type a name, address or phone number here.
         </p>
       </aside>
       <section className="space-y-2">

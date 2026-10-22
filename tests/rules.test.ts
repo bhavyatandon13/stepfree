@@ -60,6 +60,15 @@ describe("readProfileText (backup reader)", () => {
     expect(read("Mummy's wheelchair is 70 cm. She can manage two low steps with support")).toEqual({ chairWidthCm: 70, maxSteps: 2, transferHelp: "some" });
   });
   it("converts inches", () => expect(read("chair is 26 inches wide").chairWidthCm).toBe(66));
+  it("reads a number typed on its own as the width (the '63' screenshot)", () => {
+    expect(read("63")).toEqual({ chairWidthCm: 63, maxSteps: null, transferHelp: null });
+    expect(read("  70 ")).toMatchObject({ chairWidthCm: 70 });
+  });
+  it("reads a width without 'cm' when it sits next to 'wide' or 'chair'", () => {
+    expect(read("chair is 64 wide").chairWidthCm).toBe(64);
+    expect(read("wheelchair width 68, no steps")).toMatchObject({ chairWidthCm: 68, maxSteps: 0 });
+  });
+  it("does not mistake a step count for a width", () => expect(read("can manage 2 steps").chairWidthCm).toBeNull());
   it("leaves unknowns as null", () => {
     expect(read("my dad uses a wheelchair")).toEqual({ chairWidthCm: null, maxSteps: null, transferHelp: null });
   });

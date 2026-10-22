@@ -12,8 +12,13 @@ export function readProfileText(text: string): Profile {
   let chairWidthCm: number | null = null;
   const cm = t.match(/(\d+(?:\.\d+)?)\s*(?:cm|centimet\w*|सेमी)/);
   const inch = t.match(/(\d+(?:\.\d+)?)\s*(?:inches|inch|in\b|"|इंच)/);
+  // A number near "wide", "width" or "chair", or a number typed on its own (like "63"), is the width in cm.
+  const near = t.match(/(\d{2,3}(?:\.\d+)?)\s*(?:wide|width)|(?:width|wide|chair)\D{0,20}?(\d{2,3}(?:\.\d+)?)(?!\s*(?:steps?|stairs?|in\b|inch))/);
+  const alone = t.match(/^\s*(\d{2,3}(?:\.\d+)?)\s*$/);
   if (cm) chairWidthCm = Number(cm[1]);
   else if (inch) chairWidthCm = Math.round(Number(inch[1]) * 2.54);
+  else if (alone) chairWidthCm = Number(alone[1]);
+  else if (near) chairWidthCm = Number(near[1] ?? near[2]);
 
   let maxSteps: number | null = null;
   const none = new RegExp(

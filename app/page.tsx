@@ -1,211 +1,130 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import hotels from "@/data/hotels.json";
-import market from "@/data/market.json";
 import { Mark, Wordmark } from "@/components/Logo";
-import { hotelFit } from "@/lib/fitRule";
+import StaySearch from "@/components/StaySearch";
+import { accessFacts, passesChecklist } from "@/lib/accessFacts";
 import { countBy } from "@/lib/listings";
 import { listings } from "@/lib/siteData";
+import { formatINR } from "@/lib/trip";
 import type { Hotel } from "@/lib/types";
 
-// The numbers on this page come from the data and rules, so they can't drift from the app.
-const criteria = hotelFit({ chairWidthCm: 66, maxSteps: 0, transferHelp: "none" }, hotels[0] as Hotel).checks.length;
-const byCity = countBy(listings, "city");
-const byCategory = countBy(listings, "category");
-const STATS = [
-  { value: listings.length, label: "sample listings" },
-  { value: byCity.length, label: "cities" },
-  { value: criteria, label: "measurements checked per hotel" },
-];
-
-const PILLARS = [
-  { color: "border-t-brand", title: "We measure", body: "A person with a tape measure checks steps, ramps, lifts and doors on site. A label that says \"accessible\" tells you nothing." },
-  { color: "border-t-accent", title: "We match", body: "You describe the wheelchair once. Every place is compared with that exact width, not with a generic idea of access." },
-  { color: "border-t-violet-600", title: "We explain", body: "Each answer shows the number measured, the number needed and a dated photo, in English or Hindi." },
-];
+const HOTELS = hotels as Hotel[];
+// Cities that have hotels, for the search box. Today that is the Delhi pilot.
+const HOTEL_CITIES = countBy(listings.filter((l) => l.category === "Hotel"), "city").map(([c]) => c);
+// Hotels with a step-free way in and a wheelchair-friendly washroom.
+const FEATURED = HOTELS.filter(passesChecklist);
 
 const STEPS = [
-  { n: "1", title: "Describe your parent", body: "Type the chair width and what steps they can manage. Confirm the numbers we read." },
-  { n: "2", title: "See what fits", body: "Every hotel and taxi shows Fits, Fits with help or Doesn't fit, with the measurements behind it." },
-  { n: "3", title: "Book with confidence", body: "Choose a place that works, and skip the surprise stairs on arrival." },
+  { n: "1", title: "Tell us about the chair", body: "Type the wheelchair width and how many steps your parent can manage. It takes a minute." },
+  { n: "2", title: "See what fits", body: "Every hotel shows Fits, Fits with help or Doesn't fit, with the measurements behind it." },
+  { n: "3", title: "Book and relax", body: "Request your room, pay at the hotel, and arrive knowing there are no surprise stairs." },
 ];
 
-const INVOLVED = [
-  { color: "border-t-brand", href: "/volunteer", title: "Volunteer", body: "Measure places in your city, take photos and help us reach more neighbourhoods.", cta: "Join the team" },
-  { color: "border-t-accent", href: "/submit", title: "Submit a place", body: "Know a hotel or taxi provider with good or bad access? Tell us and we will measure it.", cta: "Suggest a place" },
-  { color: "border-t-violet-600", href: "/partner", title: "Partner with us", body: "Schools, businesses and groups can help with audits and awareness drives.", cta: "Start a conversation" },
+const WHY = [
+  { color: "border-t-brand", title: "Measured, not claimed", body: "A person with a tape measure checks steps, ramps, lifts and washroom doors on site." },
+  { color: "border-t-accent", title: "Matched to your parent", body: "We compare every place with your parent's actual chair width, not a vague \"accessible\" label." },
+  { color: "border-t-violet-600", title: "Clear answers", body: "The number measured, the number needed and a dated photo, in English or Hindi." },
 ];
-
-const FILTER_CHIPS = ["Step-free entrance", "Ramp at entrance", "Lift", "Wide bathroom door"];
 
 export default function Home() {
   return (
     <main>
       <section className="hero bg-gradient-to-br from-brand-dark via-brand to-violet-600 text-white">
-        <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
           <p className="flex items-center gap-3" aria-label="StepFree">
-            <Mark size={56} tone="light" />
+            <Mark size={52} tone="light" />
             <Wordmark tone="light" className="text-5xl sm:text-6xl" />
           </p>
-          <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-sky-200">Accessible trip planning for families</p>
-          <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
-            Access, <span className="text-orange-200">measured.</span>
+          <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
+            Hotels your parent&apos;s wheelchair can <span className="text-orange-200">really</span> get into.
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-blue-50">
-            Real measurements. Dated photos. Plain answers. Know before you book whether your parent&apos;s wheelchair can get in.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/places" className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Explore places</Link>
-            <Link href="/check" className="rounded-full bg-white px-6 py-3 font-bold text-brand shadow-lg hover:bg-blue-50">Check my parent&apos;s chair</Link>
-            <Link href="/submit" className="rounded-full border-2 border-white px-6 py-3 font-semibold text-white hover:bg-white/15">Submit a place</Link>
+          <p className="mt-3 max-w-2xl text-lg text-blue-50">Every hotel is measured on site and checked against your parent&apos;s chair before you book.</p>
+          <div className="mt-8">
+            {/* The search box reads today's date, so it renders in the browser. */}
+            <Suspense fallback={<div className="h-44 rounded-2xl bg-white/20" aria-hidden />}>
+              <StaySearch cities={HOTEL_CITIES} />
+            </Suspense>
           </div>
+          <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-blue-50">
+            <li>✓ Measured on site</li>
+            <li>✓ Matched to your parent&apos;s chair</li>
+            <li>✓ Pay at the hotel</li>
+          </ul>
         </div>
       </section>
 
-      <section aria-label="At a glance" className="bg-brand-dark text-white">
-        <dl className="mx-auto grid max-w-5xl gap-6 px-4 py-8 sm:grid-cols-3">
-          {STATS.map((s) => (
-            <div key={s.label}>
-              <dt className="sr-only">{s.label}</dt>
-              <dd>
-                <span className="text-4xl font-extrabold text-orange-300">{s.value}</span>
-                <span className="ml-2 text-blue-100">{s.label}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mx-auto max-w-5xl px-4 pb-6 text-xs text-blue-200">Sample data for this demo. None of it is a real audit yet.</p>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand">Our approach</p>
-        <h2 className="mt-1 text-2xl font-bold">What makes StepFree different</h2>
-        <ul className="mt-6 grid gap-6 sm:grid-cols-3">
-          {PILLARS.map((p) => (
-            <li key={p.title} className={`rounded-lg border border-gray-200 border-t-4 ${p.color} bg-white p-5 shadow-sm`}>
-              <h3 className="font-semibold text-brand">{p.title}</h3>
-              <p className="mt-2 text-muted">{p.body}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="bg-tint">
-        <div className="mx-auto max-w-5xl px-4 py-16">
-          <h2 className="text-2xl font-bold">Find accessible places</h2>
-          <p className="mt-1 text-muted">Search by city, place name or type.</p>
-          <form action="/places" method="get" role="search" className="mt-4 flex flex-wrap gap-2">
-            <label htmlFor="home-q" className="sr-only">Search places</label>
-            <input id="home-q" name="q" placeholder="Search a city, a hotel or a taxi provider" className="min-w-60 flex-1 rounded-lg border border-gray-300 bg-white p-3 text-gray-900" />
-            <button className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 hover:bg-accent-dark">Search</button>
-          </form>
-          <p className="mt-4 text-sm font-semibold">Popular cities</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
-            {byCity.slice(0, 4).map(([c]) => (
-              <li key={c}><Link href={`/places?city=${encodeURIComponent(c)}`} className="inline-block rounded-full border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 hover:bg-white">{c}</Link></li>
-            ))}
-          </ul>
-          <p className="mt-4 text-sm font-semibold">Features</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
-            {FILTER_CHIPS.map((f) => (
-              <li key={f} className="rounded-full border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900">✓ {f}</li>
-            ))}
-          </ul>
-          <p className="mt-1 text-xs text-muted">You can filter by these on the Explore page.</p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="text-2xl font-bold">Browse by city</h2>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-          {byCity.map(([c, n]) => (
-            <li key={c}>
-              <Link href={`/places?city=${encodeURIComponent(c)}`} className="block rounded-lg border border-gray-200 p-4 hover:border-brand">
-                <span className="font-semibold">{c}</span>
-                <span className="block text-sm text-muted">{n} sample listing{n === 1 ? "" : "s"}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <h2 className="mt-12 text-2xl font-bold">Browse by type</h2>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-          {byCategory.map(([c, n]) => (
-            <li key={c}>
-              <Link href={`/places?category=${encodeURIComponent(c)}`} className="block rounded-lg border border-gray-200 p-4 hover:border-brand">
-                <span className="font-semibold">{c}s</span>
-                <span className="block text-sm text-muted">{n} sample listing{n === 1 ? "" : "s"}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section id="how" className="bg-tint">
-        <div className="mx-auto max-w-5xl px-4 py-16">
-          <p className="text-sm font-semibold uppercase tracking-wide text-brand">Process</p>
-          <h2 className="mt-1 text-2xl font-bold">How it works</h2>
+      <section id="how" className="scroll-mt-4 bg-tint">
+        <div className="mx-auto max-w-5xl px-4 py-14">
+          <h2 className="text-2xl font-bold sm:text-3xl">How it works</h2>
           <ol className="mt-6 grid gap-6 sm:grid-cols-3">
             {STEPS.map((s) => (
-              <li key={s.n} className="rounded-lg bg-white p-5 shadow-sm">
-                <span aria-hidden className="flex h-9 w-9 items-center justify-center rounded-full bg-accent font-bold text-slate-900">{s.n}</span>
+              <li key={s.n} className="rounded-xl bg-white p-5 shadow-sm">
+                <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-lg font-bold text-slate-900">{s.n}</span>
                 <h3 className="mt-3 font-semibold">{s.title}</h3>
                 <p className="mt-1 text-muted">{s.body}</p>
               </li>
             ))}
           </ol>
+          <Link href="/check" className="mt-6 inline-block rounded-full bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark">Start with my parent&apos;s chair</Link>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand">Why it matters</p>
-        <h2 className="mt-1 text-2xl font-bold">The need is real</h2>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-          {market.facts.slice(0, 3).map((f) => (
-            <li key={f.what} className="rounded-lg border border-gray-200 p-4">
-              <p className="text-2xl font-bold text-brand">{f.figure}</p>
-              <p className="text-sm">{f.what}</p>
-              <p className="mt-1 text-xs text-muted">Source: {f.source}</p>
-            </li>
-          ))}
+      <section className="mx-auto max-w-5xl px-4 py-14">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <h2 className="text-2xl font-bold sm:text-3xl">Hotels that pass the checklist</h2>
+          <Link href="/places?category=Hotel" className="font-semibold text-brand underline">See all hotels</Link>
+        </div>
+        <p className="mt-1 text-muted">A step-free way in and a wheelchair-friendly washroom. Sample hotels for this demo.</p>
+        <ul className="mt-6 grid gap-6 sm:grid-cols-2">
+          {FEATURED.map((h) => {
+            const facts = accessFacts(h).filter((f) => f.status === "yes").slice(0, 3);
+            return (
+              <li key={h.id} className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={h.photo} alt="" className="h-40 w-full object-cover" />
+                <div className="space-y-2 p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div>
+                      <h3 className="text-lg font-semibold">{h.name}</h3>
+                      <p className="text-sm text-muted">{h.area}</p>
+                    </div>
+                    <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-900">✓ Passes checklist</span>
+                  </div>
+                  <ul className="space-y-0.5 text-sm">{facts.map((f) => <li key={f.key}>✓ {f.text}</li>)}</ul>
+                  <div className="flex items-center justify-between pt-2">
+                    <p>{typeof h.ratePerNight === "number" ? <><span className="text-xl font-extrabold">{formatINR(h.ratePerNight)}</span><span className="text-sm text-muted"> / night · sample</span></> : "Price on request"}</p>
+                    <Link href={`/hotels/${h.id}`} className="rounded-full bg-accent px-5 py-2.5 font-bold text-slate-900 hover:bg-accent-dark">View &amp; book</Link>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
-        <p className="mt-3 text-xs text-muted">{market.caveat} <Link href="/market" className="underline">See all figures</Link>.</p>
       </section>
 
       <section className="bg-warm">
-        <div className="mx-auto grid max-w-5xl gap-6 px-4 py-16 sm:grid-cols-2">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">Events and campaigns</p>
-            <h2 className="mt-1 text-2xl font-bold">What&apos;s happening</h2>
-            <p className="mt-2 text-muted">No events are scheduled yet. We would rather show nothing than invent dates.</p>
-            <Link href="/events" className="mt-3 inline-block font-semibold text-brand underline">See what we plan</Link>
-          </div>
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">Built for everyone</p>
-            <h2 className="mt-1 text-2xl font-bold">Usable by all</h2>
-            <p className="mt-2 text-muted">Text size and high contrast controls are at the top of every page, and the whole site works with a keyboard.</p>
-            <Link href="/accessibility" className="mt-3 inline-block font-semibold text-brand underline">Read our accessibility commitment</Link>
-          </div>
+        <div className="mx-auto max-w-5xl px-4 py-14">
+          <h2 className="text-2xl font-bold sm:text-3xl">Why families use StepFree</h2>
+          <ul className="mt-6 grid gap-6 sm:grid-cols-3">
+            {WHY.map((w) => (
+              <li key={w.title} className={`rounded-xl border border-gray-200 border-t-4 ${w.color} bg-white p-5 shadow-sm`}>
+                <h3 className="font-semibold text-brand">{w.title}</h3>
+                <p className="mt-2 text-muted">{w.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <p className="text-sm font-semibold uppercase tracking-wide text-brand">Get involved</p>
-        <h2 className="mt-1 text-2xl font-bold">Help us build a StepFree India</h2>
-        <ul className="mt-6 grid gap-6 sm:grid-cols-3">
-          {INVOLVED.map((i) => (
-            <li key={i.href} className={`rounded-lg border border-gray-200 border-t-4 ${i.color} bg-white p-5 shadow-sm`}>
-              <h3 className="font-semibold text-brand">{i.title}</h3>
-              <p className="mt-2 text-muted">{i.body}</p>
-              <Link href={i.href} className="mt-3 inline-block font-semibold underline">{i.cta}</Link>
-            </li>
-          ))}
-        </ul>
       </section>
 
       <section className="hero bg-gradient-to-br from-brand-dark via-brand to-violet-600 text-white">
         <div className="mx-auto max-w-5xl px-4 py-14 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">Planning a trip with your parent?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-blue-50">Tell us about their wheelchair and see in minutes which places they can enter.</p>
-          <Link href="/check" className="mt-6 inline-block rounded-full bg-accent px-8 py-3 text-lg font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Check a place now</Link>
+          <p className="mx-auto mt-2 max-w-xl text-blue-50">Add their wheelchair once and see in minutes which hotels they can enter.</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link href="/check" className="rounded-full bg-accent px-8 py-3 text-lg font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Check my parent&apos;s chair</Link>
+            <Link href="/submit" className="rounded-full border-2 border-white px-6 py-3 text-lg font-semibold text-white hover:bg-white/15">Suggest a hotel</Link>
+          </div>
         </div>
       </section>
     </main>

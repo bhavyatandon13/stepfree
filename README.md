@@ -49,9 +49,14 @@ StepFree is a hackathon MVP. A family describes their parent's wheelchair in pla
 **Claude never decides the verdict.** It prepares inputs and writes words. A fixed rule compares numbers.
 
 ```
-app/page.tsx              home page (hero, stats, search, browse by city and type, how it works)
-app/check                 the fit checker: describe your parent, then see hotels and taxis
-app/places                search and filter listings by city, type and features
+app/page.tsx              home page: city + dates + guests search, how it works, hotels that pass the checklist
+app/check                 describe your parent once; every page then shows Fits / Fits with help / Doesn't fit
+app/places                results: filters, sort by best fit or price, price per night, View & book
+app/hotels/[id]           hotel page: fit for your parent, measurements, accessibility summary, Reserve box
+app/book                  3-step booking: your stay, guest details, confirm (pay at hotel)
+app/trips                 confirmation with a reference (SF-XXXXXX), My trips, cancel
+lib/trip.ts               dates, nights, sample prices, booking references, guest checks (tested)
+lib/tripState.ts          parent profile and dates for this tab; trips on this device only with consent
 app/auditor, market       auditor form and market facts
 app/about, events, accessibility, volunteer, submit, partner, contact, terms, privacy   content pages and demo forms
 components/SiteTools.tsx  text size, high contrast, storage choice and back-to-top
@@ -121,6 +126,17 @@ StepFree does not store any person's measurements.
 - The measurement constants (+10 cm, 110 cm, 150 cm, 140 cm taxi height) are assumptions to confirm with an accessibility expert.
 - Audits saved on the Auditor page live in memory and are lost when the server restarts.
 - No taxi provider for Delhi is listed, because none was named in the scope doc.
+
+## The booking journey (demo)
+
+Search (city, dates, guests) → results sorted by best fit for your parent → hotel page → Reserve → your stay → guest details → confirm → booking reference and My trips.
+
+Modelled on how travel sites work (MakeMyTrip-style search and checkout), combined with the verified-accessibility idea used by Wheel the World and Airbnb's specific accessibility filters. Wording, design and data are StepFree's own.
+
+What is real and what is not:
+- Booking requests are saved in the visitor's browser only. **No hotel is contacted and no money is taken.** Payment is "pay at the hotel".
+- All hotels, prices and photos are samples.
+- A hotel that doesn't fit the parent's chair needs an explicit "I understand" tick before it can be requested.
 
 ## Run it locally
 

@@ -29,14 +29,13 @@ export const metadata: Metadata = {
   description: "Measured, on-site checks that show whether a wheelchair can get into a hotel or taxi.",
 };
 
+// Only what a family planning a trip needs. Everything else lives in the footer.
 const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/places", label: "Explore" },
+  { href: "/places?category=Hotel", label: "Hotels" },
+  { href: "/places?category=Taxi", label: "Taxis" },
+  { href: "/#how", label: "How it works" },
+  { href: "/trips", label: "My trips" },
   { href: "/about", label: "About" },
-  { href: "/events", label: "Events" },
-  { href: "/accessibility", label: "Accessibility" },
-  { href: "/volunteer", label: "Volunteer" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -54,19 +53,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="border-b border-gray-200 bg-white">
           <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 p-4">
             <Logo size="text-3xl" markSize={42} />
-            <nav aria-label="Main" className="hidden items-center gap-4 text-sm font-medium lg:flex">
+            <nav aria-label="Main" className="hidden items-center gap-5 text-sm font-semibold lg:flex">
               {NAV.map((n) => <Link key={n.href} href={n.href} className="hover:text-brand">{n.label}</Link>)}
             </nav>
-            <div className="hidden items-center gap-2 text-sm font-semibold sm:flex">
-              <Link href="/submit" className="rounded-full border border-brand px-4 py-2 text-brand hover:bg-tint">Submit a place</Link>
-              <Link href="/check" className="rounded-full bg-accent px-4 py-2 font-bold text-slate-900 hover:bg-accent-dark">Check a place</Link>
-            </div>
+            <Link href="/check" className="hidden rounded-full bg-accent px-4 py-2 text-sm font-bold text-slate-900 hover:bg-accent-dark sm:inline-block">Check my parent&apos;s chair</Link>
             <details className="relative lg:hidden">
               <summary className="cursor-pointer list-none rounded border border-gray-300 px-3 py-2 text-sm font-medium">Menu</summary>
               <div className="absolute right-0 z-30 mt-2 flex w-56 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-lg">
                 {NAV.map((n) => <Link key={n.href} href={n.href} className="rounded px-2 py-1.5 hover:bg-tint">{n.label}</Link>)}
-                <Link href="/submit" className="rounded px-2 py-1.5 hover:bg-tint">Submit a place</Link>
-                <Link href="/check" className="mt-1 rounded-full bg-accent px-3 py-2 text-center font-bold text-slate-900">Check a place</Link>
+                <Link href="/check" className="mt-1 rounded-full bg-accent px-3 py-2 text-center font-bold text-slate-900">Check my parent&apos;s chair</Link>
               </div>
             </details>
           </div>
@@ -82,7 +77,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <p className="font-semibold text-white">Platform</p>
               <ul className="mt-1 space-y-1">
                 <li><Link href="/places" className="hover:underline">Explore places</Link></li>
-                <li><Link href="/check" className="hover:underline">Check a place</Link></li>
+                <li><Link href="/check" className="hover:underline">Check my parent&apos;s chair</Link></li>
+                <li><Link href="/trips" className="hover:underline">My trips</Link></li>
                 <li><Link href="/submit" className="hover:underline">Submit a place</Link></li>
                 <li><Link href="/events" className="hover:underline">Events</Link></li>
                 <li><Link href="/volunteer" className="hover:underline">Volunteer</Link></li>
