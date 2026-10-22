@@ -138,7 +138,7 @@ export default function HotelDetail({ id }: { id: string }) {
           </button>
           <p className="text-xs text-muted">You won&apos;t pay anything now. This is a demo booking request.</p>
           {hotel.bookingUrl && <BookOnMakeMyTrip url={hotel.bookingUrl} name={hotel.name} />}
-          <NearbyOnMakeMyTrip hotel={hotel} />
+          <NearbyOnMakeMyTrip hotel={hotel} chairWidthCm={profile?.chairWidthCm} />
         </aside>
       </div>
     </main>

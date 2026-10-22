@@ -73,11 +73,34 @@ export default function TaxiCard({ taxi }: { taxi: Taxi }) {
       ) : (
         <AskWidth taxiName={taxi.id} />
       )}
-      <p className="mt-3 text-xs text-gray-600">{taxi.verified ? "Sizes measured by StepFree." : "Sizes not yet verified by StepFree. "}{taxi.note}</p>
+      {taxi.details && <p className="mt-3 text-sm">{taxi.details}</p>}
+      {taxi.serviceArea && <p className="mt-1 text-sm"><span className="font-semibold">Where:</span> {taxi.serviceArea}</p>}
       <p className="mt-2 text-sm">
-        {typeof taxi.sampleFare === "number" ? <><span className="font-bold">{formatINR(taxi.sampleFare)}</span> <span className="text-gray-600">per trip in the city · sample fare</span></> : <span className="text-gray-600">Fare: ask the provider</span>}
+        {taxi.fareText ? (
+          <><span className="font-semibold">Fares:</span> {taxi.fareText}</>
+        ) : typeof taxi.sampleFare === "number" ? (
+          <><span className="font-bold">{formatINR(taxi.sampleFare)}</span> <span className="text-gray-600">per trip in the city · sample fare</span></>
+        ) : (
+          <span className="text-gray-600">Fare: ask the provider</span>
+        )}
       </p>
-      <p className="mt-1 text-xs text-gray-600">Add it when you book a hotel in {taxi.city}, or contact {taxi.provider} directly and ask for a wheelchair-accessible vehicle.</p>
+      {(taxi.contactPhones?.length || taxi.contactEmail) && (
+        <p className="mt-2 text-sm">
+          <span className="font-semibold">Book:</span>{" "}
+          {taxi.contactPhones?.map((ph, i) => (
+            <span key={ph}>{i > 0 && " · "}<a href={`tel:${ph.replace(/[^\d+]/g, "")}`} className="font-semibold text-brand underline">{ph}</a></span>
+          ))}
+          {taxi.contactEmail && <> · <a href={`mailto:${taxi.contactEmail}`} className="font-semibold text-brand underline">{taxi.contactEmail}</a></>}
+        </p>
+      )}
+      <p className="mt-3 text-xs text-gray-600">
+        {taxi.verified ? "Sizes measured by StepFree. " : "Sizes not yet verified by StepFree. "}
+        {taxi.note}
+        {taxi.sourceUrl && <> <a href={taxi.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">Source: {taxi.sourceName ?? "provider website"}<span className="sr-only"> (opens in a new tab)</span> ↗</a></>}
+      </p>
+      {!taxi.contactPhones && (
+        <p className="mt-1 text-xs text-gray-600">Add it when you book a hotel in {taxi.city}, or contact {taxi.provider} directly and ask for a wheelchair-accessible vehicle.</p>
+      )}
     </article>
   );
 }

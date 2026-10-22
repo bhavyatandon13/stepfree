@@ -149,13 +149,20 @@ describe("listings (for search and browsing)", () => {
 });
 
 describe("accessFacts (hotel summary in words)", () => {
-  const facts = (id: string) => Object.fromEntries(accessFacts(hotel(id)).map((f) => [f.key, f]));
-  it("wide washroom door is wheelchair-friendly and says the width", () => {
-    expect(facts("h1").washroom).toMatchObject({ status: "yes" });
-    expect(facts("h1").washroom.text).toMatch(/Wheelchair-friendly washroom: door 82 cm/);
+  const facts = (id: string) => Object.fromEntries(accessFacts(hotel(id), 66).map((f) => [f.key, f]));
+  it("with a known 66 cm chair, an 82 cm washroom door is said to fit, with the width", () => {
+    expect(facts("h1").washroom).toMatchObject({ status: "yes", text: "Washroom door 82 cm wide: fits a 66 cm chair" });
   });
-  it("a 70 cm washroom door is wheelchair-friendly for a typical 66 cm chair", () => {
-    expect(facts("h3").washroom).toMatchObject({ status: "yes", text: "Wheelchair-friendly washroom: door 70 cm wide" });
+  it("a 70 cm washroom door fits a 66 cm chair", () => {
+    expect(facts("h3").washroom).toMatchObject({ status: "yes", text: "Washroom door 70 cm wide: fits a 66 cm chair" });
+  });
+  it("without a chair, sizes are plain measurements and nothing is called a fit or friendly", () => {
+    const untested = accessFacts(hotel("h1"), null);
+    const sized = untested.filter((f) => ["washroom", "lift", "roomDoor", "turning"].includes(f.key));
+    expect(sized.map((f) => f.status)).toEqual(["info", "info", "info", "info"]);
+    expect(untested.find((f) => f.key === "washroom")!.text).toBe("Washroom door 82 cm wide");
+    for (const f of untested) expect(f.text).not.toMatch(/fit|friendly|accessible/i);
+    expect(untested).toHaveLength(7);
   });
   it("judges the washroom for the parent's own chair when known (75 cm door)", () => {
     const own = (w: number) => Object.fromEntries(accessFacts(hotel("h2"), w).map((f) => [f.key, f]));
@@ -184,9 +191,9 @@ describe("accessFacts (hotel summary in words)", () => {
   });
   it("a 105 cm-deep lift is called a tight fit, and a 90 cm one too small", () => {
     expect(facts("h2").lift).toMatchObject({ status: "tight", text: "Lift: door 80 cm, depth 105 cm (a tight fit)" });
-    expect(Object.fromEntries(accessFacts({ ...hotel("h2"), liftDepthCm: 90 }).map((f) => [f.key, f])).lift.status).toBe("no");
+    expect(Object.fromEntries(accessFacts({ ...hotel("h2"), liftDepthCm: 90 }, 66).map((f) => [f.key, f])).lift.status).toBe("no");
   });
-  it("every hotel gets all seven lines", () => H.forEach((h) => expect(accessFacts(h)).toHaveLength(7)));
+  it("every hotel gets all seven lines", () => H.forEach((h) => expect(accessFacts(h, 66)).toHaveLength(7)));
 });
 
 describe("profileSummary (says the numbers back)", () => {
@@ -212,16 +219,16 @@ describe("profileSummary (says the numbers back)", () => {
   });
 });
 
-describe("passesChecklist (step-free way in + friendly washroom)", () => {
-  const passing = () => H.filter(passesChecklist).map((h) => h.id);
+describe("passesChecklist (for a known chair: step-free way in + washroom door it fits)", () => {
+  const passing = () => H.filter((h) => passesChecklist(h, 66)).map((h) => h.id);
   it("passes hotels with no stairs or a ramp, and a washroom door at least 66 cm wide", () => expect(passing()).toEqual(["h1", "h3", "h4"]));
   it("a washroom door narrower than a typical chair fails; stairs without a ramp fail (h2)", () => {
-    expect(passesChecklist({ ...hotel("h3"), bathroomDoorCm: 65 })).toBe(false);
-    expect(passesChecklist(hotel("h2"))).toBe(false);
+    expect(passesChecklist({ ...hotel("h3"), bathroomDoorCm: 65 }, 66)).toBe(false);
+    expect(passesChecklist(hotel("h2"), 66)).toBe(false);
   });
   it("unknown never passes: unmeasured washroom (h5), 1 step with unknown ramp (h6)", () => {
-    expect(passesChecklist(hotel("h5"))).toBe(false);
-    expect(passesChecklist(hotel("h6"))).toBe(false);
+    expect(passesChecklist(hotel("h5"), 66)).toBe(false);
+    expect(passesChecklist(hotel("h6"), 66)).toBe(false);
   });
 });
 

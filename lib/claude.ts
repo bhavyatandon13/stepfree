@@ -14,6 +14,11 @@ function hasRealKey(key: string | undefined): key is string {
   return !!key && !key.includes("paste-your");
 }
 
+// True when an AI key is set, so pages can skip AI calls that would only fail.
+export function aiConfigured(): boolean {
+  return hasRealKey(process.env.OPENROUTER_API_KEY);
+}
+
 export async function askClaude(opts: {
   system: string;
   text: string;

@@ -122,6 +122,15 @@ StepFree does not store any person's measurements.
 - To read the description and write each reason, the text and the numbers behind each verdict are sent to Claude through OpenRouter. Their data policy applies there. The screen says so and asks users not to type names, addresses or phone numbers.
 - Hotel and taxi measurements are about places, not people. Audits saved on the Auditor page are kept in server memory only. The volunteer, submit, partner and contact forms are demos and store nothing.
 
+## Data sources
+
+- **Mobility India wheelchair taxi (Bengaluru):** service details, published fares and booking contacts, written in our own words from [mobility-india.org/wheelchair-taxi](https://mobility-india.org/wheelchair-taxi/) and linked on the card. Door width and inside height are not published, so the taxi answer is "Not sure, phone to check".
+- **accessibleGO:** linked only, as a place to search hotels by accessibility features. Its terms of use forbid copying or republishing its listings without written permission, so none of its data is copied here.
+- **MakeMyTrip:** linked city pages for booking real hotels (each link checked).
+- **Everything else** (the six Delhi hotels, Sample Ramp Cab, Sample Lift Van, and the sizes for the scope-doc taxi providers) is sample data for the demo and is labelled as such.
+
+StepFree only calls a hotel a fit after the family has entered the wheelchair width. Before that, hotels show plain measurements.
+
 ## Known limits
 
 - All hotels, taxis and photos are placeholders. The Market figures come from search snippets in the scope doc and are unverified.

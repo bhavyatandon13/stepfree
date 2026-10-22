@@ -1,21 +1,15 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import hotels from "@/data/hotels.json";
 import market from "@/data/market.json";
+import FeaturedHotels from "@/components/FeaturedHotels";
 import HeroArt from "@/components/HeroArt";
 import { Mark, Wordmark } from "@/components/Logo";
 import StaySearch from "@/components/StaySearch";
-import { accessFacts, passesChecklist } from "@/lib/accessFacts";
 import { CITIES } from "@/lib/cities";
-import { formatINR } from "@/lib/trip";
-import type { Hotel } from "@/lib/types";
 
-const HOTELS = hotels as Hotel[];
 // Every city we have hotels or taxis for. Choosing one opens that city's page.
 const CITY_NAMES = CITIES.map((c) => c.name);
 const TOPS = ["border-t-brand", "border-t-accent", "border-t-pink-500"];
-// Hotels with a step-free way in and a wheelchair-friendly washroom.
-const FEATURED = HOTELS.filter(passesChecklist);
 
 const STEPS = [
   { icon: "🦽", title: "Tell us about the chair", body: "Type the wheelchair width and how many steps your parent can manage. It takes a minute." },
@@ -103,31 +97,10 @@ export default function Home() {
 
       <section className="reveal mx-auto max-w-5xl px-4 py-14">
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <h2 className="text-2xl font-bold sm:text-3xl">Hotels that pass the checklist <span aria-hidden>🏨</span></h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Hotels that fit your parent <span aria-hidden>🏨</span></h2>
           <Link href="/city/delhi" className="font-semibold text-brand underline">See all of Delhi</Link>
         </div>
-        <p className="mt-1 text-muted">A step-free way in and a wheelchair-friendly washroom. Sample hotels for this demo.</p>
-        <ul className="mt-6 grid gap-6 sm:grid-cols-3">
-          {FEATURED.map((h) => {
-            const facts = accessFacts(h).filter((f) => f.status === "yes").slice(0, 3);
-            return (
-              <li key={h.id} className="lift overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={h.photo} alt="" className="h-36 w-full object-cover" />
-                <div className="space-y-2 p-5">
-                  <span className="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-900">✓ Passes checklist</span>
-                  <h3 className="text-lg font-semibold">{h.name}</h3>
-                  <p className="text-sm text-muted">{h.area}</p>
-                  <ul className="space-y-0.5 text-sm">{facts.map((f) => <li key={f.key}>✓ {f.text}</li>)}</ul>
-                  <div className="flex items-center justify-between pt-2">
-                    <p>{typeof h.ratePerNight === "number" ? <><span className="text-xl font-extrabold">{formatINR(h.ratePerNight)}</span><span className="text-sm text-muted"> / night</span></> : "Price on request"}</p>
-                    <Link href={`/hotels/${h.id}`} className="rounded-full bg-accent px-4 py-2 font-bold text-slate-900 hover:bg-accent-dark">View</Link>
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+        <FeaturedHotels />
       </section>
 
       <section className="reveal bg-warm">

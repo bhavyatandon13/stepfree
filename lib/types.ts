@@ -50,6 +50,13 @@ export type Taxi = {
   doorWidthCm: number | null;
   interiorHeightCm: number | null;
   sampleFare?: number | null; // sample fare in rupees for one trip in the city; null = ask the provider
+  fareText?: string; // the provider's own published fares, in plain words
+  serviceArea?: string;
+  details?: string; // what the provider says about its vehicles and service
+  contactPhones?: string[];
+  contactEmail?: string;
+  sourceUrl?: string; // where these facts come from
+  sourceName?: string;
   verified: boolean;
   note: string;
 };

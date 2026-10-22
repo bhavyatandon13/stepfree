@@ -7,6 +7,29 @@ const T = taxis as Taxi[];
 const taxi = (id: string) => T.find((t) => t.id === id)!;
 const base: Taxi = { id: "x", city: "Test", provider: "Test Cabs", vehicleType: "ramp", doorWidthCm: 90, interiorHeightCm: 150, verified: false, note: "" };
 
+describe("taxi data is complete and safe to show", () => {
+  it("every taxi has an id, city, provider, a known vehicle type and a note", () => {
+    const ids = new Set<string>();
+    for (const t of T) {
+      expect(t.id && t.city && t.provider && t.note).toBeTruthy();
+      expect(["ramp", "lift", "fold-chair-only"]).toContain(t.vehicleType);
+      expect(ids.has(t.id)).toBe(false);
+      ids.add(t.id);
+      if (t.sourceUrl) expect(t.sourceUrl).toMatch(/^https:\/\//);
+      if (t.contactEmail) expect(t.contactEmail).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    }
+  });
+  it("Mobility India (Bengaluru) is listed with its published fares, contacts and source", () => {
+    const mi = T.find((t) => t.provider.startsWith("Mobility India"))!;
+    expect(mi).toMatchObject({ city: "Bengaluru", vehicleType: "ramp", sampleFare: 700, sourceUrl: "https://mobility-india.org/wheelchair-taxi/" });
+    expect(mi.contactPhones).toEqual(["+91 93537 30661", "26494444", "26597337"]);
+    expect(mi.fareText).toMatch(/₹700 \(non-AC\) or ₹800 \(AC\)/);
+  });
+  it("no door size is published for Mobility India, so the answer is 'not sure', never a guess", () => {
+    expect(taxiAnswer(66, T.find((t) => t.id === "t9")!).answer).toBe("unsure");
+  });
+});
+
 describe("taxiAnswer: a plain yes or no", () => {
   it("yes when the door and height are enough (Mobicab, 66 cm chair)", () => {
     const a = taxiAnswer(66, taxi("t1"));

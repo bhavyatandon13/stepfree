@@ -1,4 +1,5 @@
-import { TYPICAL_CHAIR_CM, accessFacts, type FactStatus } from "@/lib/accessFacts";
+import Link from "next/link";
+import { accessFacts, type FactStatus } from "@/lib/accessFacts";
 import type { Hotel } from "@/lib/types";
 
 const MARK: Record<FactStatus, { symbol: string; word: string; cls: string }> = {
@@ -6,18 +7,26 @@ const MARK: Record<FactStatus, { symbol: string; word: string; cls: string }> = 
   tight: { symbol: "≈", word: "Tight", cls: "text-amber-700" },
   no: { symbol: "✕", word: "No", cls: "text-red-800" },
   unknown: { symbol: "?", word: "Not recorded", cls: "text-gray-600" },
+  info: { symbol: "•", word: "Measured", cls: "text-gray-700" },
 };
 
 const ICON: Record<string, string> = { washroom: "🚻", stairs: "🪜", ramp: "♿", lift: "🛗", roomDoor: "🚪", turning: "🔄", lend: "🦽" };
 
 // The whole story in words, one line per thing a wheelchair user cares about.
+// Without the parent's chair it only lists measurements; it never calls a size a fit untested.
 export default function AccessSummary({ hotel, compact = false, chairWidthCm }: { hotel: Hotel; compact?: boolean; chairWidthCm?: number | null }) {
-  const width = chairWidthCm ?? TYPICAL_CHAIR_CM;
+  const width = chairWidthCm ?? null;
   const facts = accessFacts(hotel, width);
   return (
     <section aria-label={`Accessibility summary for ${hotel.name}`} className={compact ? "mt-3" : "mt-3 rounded-lg border border-gray-200 bg-tint p-3"}>
       <h4 className="text-sm font-semibold">Accessibility at a glance</h4>
-      <p className="text-xs text-muted">{chairWidthCm ? `Sizes judged for your parent's ${width} cm chair.` : `Sizes judged for a typical ${width} cm chair.`} A door fits if it is at least as wide as the chair. ≈ means a lift or turning space is tight.</p>
+      <p className="text-xs text-muted">
+        {width !== null ? (
+          <>Judged for your parent&apos;s {width} cm chair. A door fits if it is at least as wide as the chair. ≈ means a lift or turning space is tight.</>
+        ) : (
+          <>Measurements only. <Link href={`/check?next=/hotels/${hotel.id}`} className="font-semibold text-brand underline">Add your parent&apos;s chair</Link> to see whether each one fits.</>
+        )}
+      </p>
       <ul className="mt-1 space-y-0.5 text-sm">
         {facts.map((f) => (
           <li key={f.key} className="flex gap-2">

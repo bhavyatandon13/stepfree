@@ -55,6 +55,17 @@ export function CheckTable({ checks }: { checks: Check[] }) {
 }
 
 // Shows the plain-code reason at once, then swaps in Claude's wording when it arrives.
+// Asked once per page load: is AI wording switched on? If not, we keep the rule-written reason
+// and make no AI calls at all.
+let aiStatus: Promise<boolean> | null = null;
+function aiEnabled(): Promise<boolean> {
+  aiStatus ??= fetch("/api/ai-status")
+    .then((r) => (r.ok ? r.json() : { enabled: false }))
+    .then((d) => d.enabled === true)
+    .catch(() => false);
+  return aiStatus;
+}
+
 export function useExplanation(name: string, result: FitResult, lang: Lang) {
   const fallback = basicReason(result);
   const key = JSON.stringify([name, result, lang]);
@@ -65,12 +76,20 @@ export function useExplanation(name: string, result: FitResult, lang: Lang) {
   useEffect(() => {
     if (result.checks.length === 0) return;
     let live = true;
-    fetch("/api/explain", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, verdict: result.verdict, checks: result.checks, lang }),
-    })
-      .then((r) => (r.ok ? r.json() : null))
+    aiEnabled()
+      .then((on) =>
+        on
+          ? fetch("/api/explain", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, verdict: result.verdict, checks: result.checks, lang }),
+            }).then((r) => {
+              // If the AI service refuses once, stop asking for the rest of this visit.
+              if (!r.ok) aiStatus = Promise.resolve(false);
+              return r.ok ? r.json() : null;
+            })
+          : null,
+      )
       .then((d) => live && d?.text && setAnswer({ key, text: d.text }))
       .catch(() => {});
     return () => {
