@@ -23,7 +23,7 @@ export default function HotelCard({ hotel, profile, lang }: { hotel: Hotel; prof
       <details className="mt-3 rounded-lg border border-gray-200 p-3">
         <summary className="cursor-pointer text-sm font-semibold text-brand">See the measurements</summary>
         <CheckTable checks={result.checks} />
-        <AccessSummary hotel={hotel} compact />
+        <AccessSummary hotel={hotel} chairWidthCm={profile.chairWidthCm} compact />
       </details>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm">

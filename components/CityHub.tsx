@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui";
 import { CITIES, cityOfArea, citySlug } from "@/lib/cities";
 import { hotelFit } from "@/lib/fitRule";
 import { profileSummary } from "@/lib/profileSummary";
+import { requirementsFor } from "@/lib/requirements";
 import { useStore } from "@/lib/store";
 import { formatDate, formatINR, nightsBetween, stayTotal, todayISO, validateStay } from "@/lib/trip";
 import { profileStore, stayStore } from "@/lib/tripState";
@@ -160,7 +161,7 @@ export default function CityHub({ city }: { city: string }) {
             <div className="rounded-xl border border-gray-200 p-5">
               <p className="font-semibold">No wheelchair taxi provider in our data for {city} yet.</p>
               <p className="text-muted">
-                When you phone a taxi company, ask for a ramp or lift vehicle{hasChair ? ` with a door at least ${profile!.chairWidthCm! + 10} cm wide` : ""}.
+                When you phone a taxi company, ask for a ramp or lift vehicle{hasChair ? ` with a door at least ${requirementsFor(profile!.chairWidthCm!).taxiDoor.minimum} cm wide (${requirementsFor(profile!.chairWidthCm!).taxiDoor.comfortable} cm is comfortable)` : ""}.
               </p>
             </div>
           ) : (

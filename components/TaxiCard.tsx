@@ -14,6 +14,7 @@ const TYPE_LABEL: Record<Taxi["vehicleType"], string> = {
 
 const STYLE: Record<TaxiAnswer["answer"], { box: string; mark: string }> = {
   yes: { box: "border-green-300 bg-green-50 text-green-950", mark: "✓" },
+  tight: { box: "border-amber-300 bg-amber-50 text-amber-950", mark: "≈" },
   no: { box: "border-red-300 bg-red-50 text-red-950", mark: "✕" },
   unsure: { box: "border-amber-300 bg-amber-50 text-amber-950", mark: "?" },
   transfer: { box: "border-amber-300 bg-amber-50 text-amber-950", mark: "!" },

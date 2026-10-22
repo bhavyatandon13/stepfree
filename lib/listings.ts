@@ -3,7 +3,7 @@ import { requirementsFor } from "./requirements";
 import type { Hotel, Taxi } from "./types";
 
 export const STANDARD_CHAIR_CM = 66; // a typical adult wheelchair; used only for the "bathroom" label
-export const BATHROOM_MIN_CM = requirementsFor(STANDARD_CHAIR_CM).bathroomDoorCm;
+export const BATHROOM_MIN_CM = requirementsFor(STANDARD_CHAIR_CM).bathroomDoor.comfortable;
 
 export const FEATURES = ["Step-free entrance", "Ramp at entrance", "Lift", "Wide bathroom door", "Lends a wheelchair", "Ramp or lift vehicle"] as const;
 

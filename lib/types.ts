@@ -8,7 +8,7 @@ export type Profile = {
 
 export type Verdict = "fits" | "help" | "no";
 
-export type CheckStatus = "ok" | "fail" | "unknown";
+export type CheckStatus = "ok" | "tight" | "fail" | "unknown";
 
 export type Check = {
   key: string;
@@ -17,6 +17,7 @@ export type Check = {
   required: string; // what this parent's chair needs
   status: CheckStatus;
   gap?: string; // what is missing when status is "unknown", in plain words
+  note?: string; // the problem in plain words when status is "tight" or "fail"
 };
 
 export type FitResult = { verdict: Verdict; checks: Check[] };

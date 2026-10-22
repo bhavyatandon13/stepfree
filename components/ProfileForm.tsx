@@ -10,24 +10,33 @@ const toNum = (s: string) => (s.trim() === "" ? null : Number(s));
 
 export function RequirementsChecklist({ chairWidthCm }: { chairWidthCm: number }) {
   const r = requirementsFor(chairWidthCm);
-  const rows: [string, string][] = [
-    ["Room door", `at least ${r.roomDoorCm} cm clear width`],
-    ["Bathroom door", `at least ${r.bathroomDoorCm} cm clear width`],
-    ["Lift door", `at least ${r.liftDoorCm} cm clear width`],
-    ["Lift cabin depth", `at least ${r.liftDepthCm} cm`],
-    ["Turning space", `at least ${r.turningSpaceCm} cm`],
-    ["Taxi door", `at least ${r.taxiDoorCm} cm clear width`],
-    ["Entrance steps", "no more than your parent can manage, or a ramp"],
+  const rows: [string, number, number][] = [
+    ["Room door", r.roomDoor.comfortable, r.roomDoor.minimum],
+    ["Bathroom door", r.bathroomDoor.comfortable, r.bathroomDoor.minimum],
+    ["Lift door", r.liftDoor.comfortable, r.liftDoor.minimum],
+    ["Lift cabin depth", r.liftDepth.comfortable, r.liftDepth.minimum],
+    ["Turning space", r.turningSpace.comfortable, r.turningSpace.minimum],
+    ["Taxi door", r.taxiDoor.comfortable, r.taxiDoor.minimum],
   ];
   return (
     <section className="rounded-lg border border-violet-200 bg-tint p-4 text-gray-900">
-      <h3 className="font-semibold">What a {chairWidthCm} cm chair needs</h3>
-      <p className="text-sm text-gray-700">Use this to check any hotel or taxi, even ones we haven&apos;t audited. Each width is chair width + 10 cm.</p>
-      <ul className="mt-2 space-y-1 text-sm">
-        {rows.map(([k, v]) => (
-          <li key={k}><span className="font-medium">{k}:</span> {v}</li>
-        ))}
-      </ul>
+      <h3 className="font-semibold">Sizes to look for with a {chairWidthCm} cm chair</h3>
+      <p className="text-sm text-gray-700">
+        These are <strong>not</strong> hotel measurements. They are how wide a door or space should be for your parent&apos;s chair. A door this wide
+        <strong> or wider</strong> works: for example, a {chairWidthCm + 10} cm door fits a {chairWidthCm} cm chair easily, with room for hands on the wheels.
+        Below the &ldquo;squeeze&rdquo; size the chair won&apos;t get through.
+      </p>
+      <table className="mt-2 w-full text-left text-sm">
+        <thead>
+          <tr className="text-gray-700"><th className="py-1 pr-2 font-medium">Item</th><th className="py-1 pr-2 font-medium">Fits easily if at least</th><th className="py-1 font-medium">Squeezes through if at least</th></tr>
+        </thead>
+        <tbody>
+          {rows.map(([k, comfortable, minimum]) => (
+            <tr key={k} className="border-t border-violet-200"><td className="py-1 pr-2">{k}</td><td className="py-1 pr-2">{comfortable} cm</td><td className="py-1">{minimum} cm</td></tr>
+          ))}
+          <tr className="border-t border-violet-200"><td className="py-1 pr-2">Entrance steps</td><td className="py-1" colSpan={2}>no more than your parent can manage, or a ramp</td></tr>
+        </tbody>
+      </table>
     </section>
   );
 }

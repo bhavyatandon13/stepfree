@@ -21,27 +21,32 @@ export function Badge({ verdict }: { verdict: Verdict }) {
   );
 }
 
+// What each row's result means, in words (steps use "OK" rather than "Fits easily").
+const RESULT = { ok: "Fits easily", tight: "Tight fit", fail: "Won't fit", unknown: "Not measured" } as const;
+const STEP_RESULT = { ok: "OK", tight: "OK", fail: "Blocked", unknown: "Not sure" } as const;
+
 export function CheckTable({ checks }: { checks: Check[] }) {
   if (checks.length === 0) return null;
-  const mark = { ok: "✓", fail: "✕", unknown: "?" } as const;
+  const mark = { ok: "✓", tight: "≈", fail: "✕", unknown: "?" } as const;
   return (
     <table className="mt-3 w-full text-left text-sm">
       <thead>
         <tr className="text-gray-600">
           <th className="py-1 pr-2 font-medium">Item</th>
-          <th className="py-1 pr-2 font-medium">Measured</th>
-          <th className="py-1 font-medium">Needs</th>
+          <th className="py-1 pr-2 font-medium">This place has</th>
+          <th className="py-1 pr-2 font-medium">Your parent&apos;s chair needs</th>
+          <th className="py-1 font-medium">Result</th>
         </tr>
       </thead>
       <tbody>
         {checks.map((c) => (
           <tr key={c.key} className="border-t border-gray-200">
-            <td className="py-1 pr-2">
-              <span className="mr-1" aria-label={c.status}>{mark[c.status]}</span>
-              {c.label}
+            <td className="py-1 pr-2">{c.label}</td>
+            <td className="py-1 pr-2 font-semibold">{c.measured}</td>
+            <td className="py-1 pr-2">{c.required}</td>
+            <td className={`py-1 font-semibold ${c.status === "ok" ? "text-green-800" : c.status === "tight" ? "text-amber-700" : c.status === "fail" ? "text-red-700" : "text-gray-600"}`}>
+              <span aria-hidden>{mark[c.status]} </span>{(c.key === "steps" ? STEP_RESULT : RESULT)[c.status]}
             </td>
-            <td className="py-1 pr-2">{c.measured}</td>
-            <td className="py-1">{c.required}</td>
           </tr>
         ))}
       </tbody>

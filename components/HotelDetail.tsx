@@ -97,7 +97,7 @@ export default function HotelDetail({ id }: { id: string }) {
           )}
 
           <div className="rounded-xl border border-gray-200 p-5">
-            <AccessSummary hotel={hotel} compact />
+            <AccessSummary hotel={hotel} chairWidthCm={profile?.chairWidthCm} compact />
           </div>
 
           <section aria-labelledby="policies" className="rounded-xl border border-gray-200 p-5 text-sm">
