@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import hotels from "../data/hotels.json";
 import taxis from "../data/taxis.json";
-import { accessFacts } from "../lib/accessFacts";
+import { accessFacts, passesChecklist } from "../lib/accessFacts";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
 import { cleanMakeMyTripUrl, mmtCityUrl } from "../lib/links";
 import { hotelListing, rampText } from "../lib/listings";
@@ -112,6 +112,19 @@ describe("accessFacts (hotel summary in words)", () => {
   });
   it("a small lift is called out", () => expect(facts("h2").lift.status).toBe("no"));
   it("every hotel gets all seven lines", () => H.forEach((h) => expect(accessFacts(h)).toHaveLength(7)));
+});
+
+describe("passesChecklist (step-free way in + friendly washroom)", () => {
+  const passing = () => H.filter(passesChecklist).map((h) => h.id);
+  it("passes hotels with no stairs or a ramp, and a wide washroom door", () => expect(passing()).toEqual(["h1", "h4"]));
+  it("narrow washroom fails (h3), stairs without a ramp fail (h2)", () => {
+    expect(passesChecklist(hotel("h3"))).toBe(false);
+    expect(passesChecklist(hotel("h2"))).toBe(false);
+  });
+  it("unknown never passes: unmeasured washroom (h5), 1 step with unknown ramp (h6)", () => {
+    expect(passesChecklist(hotel("h5"))).toBe(false);
+    expect(passesChecklist(hotel("h6"))).toBe(false);
+  });
 });
 
 describe("MakeMyTrip links", () => {

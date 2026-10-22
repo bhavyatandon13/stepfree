@@ -11,6 +11,13 @@ export type Fact = { key: string; label: string; status: FactStatus; text: strin
 const DOOR_MIN = BATHROOM_MIN_CM; // same rule as the washroom door
 const LIFT_DEPTH_MIN = requirementsFor(66).liftDepthCm;
 
+// The checklist: a step-free way in (no stairs, or a ramp) AND a wheelchair-friendly washroom door.
+// Unknown counts as not passed, so a gap in the audit never earns the badge.
+export function passesChecklist(h: Hotel): boolean {
+  const f = Object.fromEntries(accessFacts(h).map((x) => [x.key, x.status]));
+  return f.washroom === "yes" && (f.stairs === "yes" || f.ramp === "yes");
+}
+
 export function accessFacts(h: Hotel): Fact[] {
   const facts: Fact[] = [];
 

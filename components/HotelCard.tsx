@@ -1,7 +1,7 @@
 "use client";
 import { hotelFit } from "@/lib/fitRule";
 import AccessSummary from "./AccessSummary";
-import { BookOnMakeMyTrip } from "./BookingLinks";
+import { BookOnMakeMyTrip, NearbyOnMakeMyTrip } from "./BookingLinks";
 import type { Hotel, Profile } from "@/lib/types";
 import { Badge, CheckTable, Reason, useExplanation, type Lang } from "./ui";
 
@@ -20,6 +20,7 @@ export default function HotelCard({ hotel, profile, lang }: { hotel: Hotel; prof
       <Reason text={reason.text} byAI={reason.byAI} />
       <AccessSummary hotel={hotel} />
       {hotel.bookingUrl && <BookOnMakeMyTrip url={hotel.bookingUrl} name={hotel.name} />}
+      <NearbyOnMakeMyTrip hotel={hotel} />
       <CheckTable checks={result.checks} />
       <figure className="mt-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}

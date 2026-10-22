@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import taxis from "@/data/taxis.json";
 import AccessSummary from "@/components/AccessSummary";
-import { BookOnMakeMyTrip, MakeMyTripCity } from "@/components/BookingLinks";
+import { BookOnMakeMyTrip, MakeMyTripCity, NearbyOnMakeMyTrip } from "@/components/BookingLinks";
 import { FEATURES, countBy, hotelListing, taxiListing, type Feature, type Listing } from "@/lib/listings";
 import type { Hotel, Taxi } from "@/lib/types";
 
@@ -106,6 +106,7 @@ function Explore() {
               </ul>
               {l.hotel && <AccessSummary hotel={l.hotel} compact />}
               {l.hotel?.bookingUrl && <BookOnMakeMyTrip url={l.hotel.bookingUrl} name={l.name} />}
+              {l.hotel && <NearbyOnMakeMyTrip hotel={l.hotel} />}
               <p className="mt-3 text-xs text-gray-600">
                 {l.auditDate ? `Audited ${l.auditDate}` : "Not audited yet"}
                 {l.placeholder && " · placeholder data"}

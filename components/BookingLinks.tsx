@@ -1,4 +1,6 @@
+import { passesChecklist } from "@/lib/accessFacts";
 import { mmtCityUrl } from "@/lib/links";
+import type { Hotel } from "@/lib/types";
 
 // One clear next step per city, with an honest note about what MakeMyTrip does and doesn't tell you.
 export function MakeMyTripCity({ city }: { city: string }) {
@@ -18,6 +20,31 @@ export function MakeMyTripCity({ city }: { city: string }) {
         Search {city} hotels on MakeMyTrip<span className="sr-only"> (opens in a new tab)</span> ↗
       </a>
     </aside>
+  );
+}
+
+// Shown on a hotel that passes the checklist but has no page of its own to link to.
+// MakeMyTrip has no area pages we can rely on, so we link to the city page and say what to search.
+export function NearbyOnMakeMyTrip({ hotel }: { hotel: Hotel }) {
+  if (!passesChecklist(hotel) || hotel.bookingUrl) return null;
+  const city = hotel.area.split(",").map((s) => s.trim())[1] ?? "Delhi";
+  const area = hotel.area.split(",")[0].trim();
+  return (
+    <div className="mt-3 rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-950">
+      <p className="font-semibold">✓ Passes the checklist: step-free way in and a wheelchair-friendly washroom</p>
+      <p className="mt-1">
+        Looking for real hotels near {area}? Open MakeMyTrip&apos;s {city} page and search for &ldquo;{area}&rdquo;. It doesn&apos;t show wheelchair access, so
+        phone any hotel to confirm the same things before you book.
+      </p>
+      <a
+        href={mmtCityUrl(city)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 inline-block font-semibold text-brand underline"
+      >
+        Hotels in {city} on MakeMyTrip<span className="sr-only"> (opens in a new tab)</span> ↗
+      </a>
+    </div>
   );
 }
 
