@@ -66,7 +66,7 @@ export default function InterestForm({ kind }: { kind: Kind }) {
         <textarea className={input} name="message" rows={4} required />
       </label>
       <p className="text-xs text-muted">Demo only: nothing you type here is sent or stored. Please don&apos;t add private details.</p>
-      <button className="rounded-full bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark">{c.button}</button>
+      <button className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 hover:bg-accent-dark">{c.button}</button>
     </form>
   );
 }

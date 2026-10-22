@@ -18,9 +18,9 @@ const STATS = [
 ];
 
 const PILLARS = [
-  { title: "We measure", body: "A person with a tape measure checks steps, ramps, lifts and doors on site. A label that says \"accessible\" tells you nothing." },
-  { title: "We match", body: "You describe the wheelchair once. Every place is compared with that exact width, not with a generic idea of access." },
-  { title: "We explain", body: "Each answer shows the number measured, the number needed and a dated photo, in English or Hindi." },
+  { color: "border-t-brand", title: "We measure", body: "A person with a tape measure checks steps, ramps, lifts and doors on site. A label that says \"accessible\" tells you nothing." },
+  { color: "border-t-accent", title: "We match", body: "You describe the wheelchair once. Every place is compared with that exact width, not with a generic idea of access." },
+  { color: "border-t-violet-600", title: "We explain", body: "Each answer shows the number measured, the number needed and a dated photo, in English or Hindi." },
 ];
 
 const STEPS = [
@@ -30,9 +30,9 @@ const STEPS = [
 ];
 
 const INVOLVED = [
-  { href: "/volunteer", title: "Volunteer", body: "Measure places in your city, take photos and help us reach more neighbourhoods.", cta: "Join the team" },
-  { href: "/submit", title: "Submit a place", body: "Know a hotel or taxi provider with good or bad access? Tell us and we will measure it.", cta: "Suggest a place" },
-  { href: "/partner", title: "Partner with us", body: "Schools, businesses and groups can help with audits and awareness drives.", cta: "Start a conversation" },
+  { color: "border-t-brand", href: "/volunteer", title: "Volunteer", body: "Measure places in your city, take photos and help us reach more neighbourhoods.", cta: "Join the team" },
+  { color: "border-t-accent", href: "/submit", title: "Submit a place", body: "Know a hotel or taxi provider with good or bad access? Tell us and we will measure it.", cta: "Suggest a place" },
+  { color: "border-t-violet-600", href: "/partner", title: "Partner with us", body: "Schools, businesses and groups can help with audits and awareness drives.", cta: "Start a conversation" },
 ];
 
 const FILTER_CHIPS = ["Step-free entrance", "Ramp at entrance", "Lift", "Wide bathroom door"];
@@ -40,7 +40,7 @@ const FILTER_CHIPS = ["Step-free entrance", "Ramp at entrance", "Lift", "Wide ba
 export default function Home() {
   return (
     <main>
-      <section className="hero bg-gradient-to-br from-brand-dark via-brand to-blue-600 text-white">
+      <section className="hero bg-gradient-to-br from-brand-dark via-brand to-violet-600 text-white">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24">
           <p className="flex items-center gap-3" aria-label="StepFree">
             <Mark size={56} tone="light" />
@@ -48,32 +48,32 @@ export default function Home() {
           </p>
           <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-sky-200">Accessible trip planning for families</p>
           <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
-            Access, <span className="text-sky-200">measured.</span>
+            Access, <span className="text-orange-200">measured.</span>
           </h1>
           <p className="mt-4 max-w-xl text-lg text-blue-50">
             Real measurements. Dated photos. Plain answers. Know before you book whether your parent&apos;s wheelchair can get in.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/places" className="rounded-full bg-white px-6 py-3 font-semibold text-brand hover:bg-blue-50">Explore places</Link>
-            <Link href="/check" className="rounded-full border-2 border-white px-6 py-3 font-semibold text-white hover:bg-white/15">Check my parent&apos;s chair</Link>
+            <Link href="/places" className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Explore places</Link>
+            <Link href="/check" className="rounded-full bg-white px-6 py-3 font-bold text-brand shadow-lg hover:bg-blue-50">Check my parent&apos;s chair</Link>
             <Link href="/submit" className="rounded-full border-2 border-white px-6 py-3 font-semibold text-white hover:bg-white/15">Submit a place</Link>
           </div>
         </div>
       </section>
 
-      <section aria-label="At a glance" className="border-y border-gray-200">
+      <section aria-label="At a glance" className="bg-brand-dark text-white">
         <dl className="mx-auto grid max-w-5xl gap-6 px-4 py-8 sm:grid-cols-3">
           {STATS.map((s) => (
             <div key={s.label}>
               <dt className="sr-only">{s.label}</dt>
               <dd>
-                <span className="text-3xl font-bold text-brand">{s.value}</span>
-                <span className="ml-2 text-muted">{s.label}</span>
+                <span className="text-4xl font-extrabold text-orange-300">{s.value}</span>
+                <span className="ml-2 text-blue-100">{s.label}</span>
               </dd>
             </div>
           ))}
         </dl>
-        <p className="mx-auto max-w-5xl px-4 pb-6 text-xs text-muted">Sample data for this demo. None of it is a real audit yet.</p>
+        <p className="mx-auto max-w-5xl px-4 pb-6 text-xs text-blue-200">Sample data for this demo. None of it is a real audit yet.</p>
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-16">
@@ -81,7 +81,7 @@ export default function Home() {
         <h2 className="mt-1 text-2xl font-bold">What makes StepFree different</h2>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {PILLARS.map((p) => (
-            <li key={p.title} className="rounded-lg border border-gray-200 p-5">
+            <li key={p.title} className={`rounded-lg border border-gray-200 border-t-4 ${p.color} bg-white p-5 shadow-sm`}>
               <h3 className="font-semibold text-brand">{p.title}</h3>
               <p className="mt-2 text-muted">{p.body}</p>
             </li>
@@ -96,7 +96,7 @@ export default function Home() {
           <form action="/places" method="get" role="search" className="mt-4 flex flex-wrap gap-2">
             <label htmlFor="home-q" className="sr-only">Search places</label>
             <input id="home-q" name="q" placeholder="Search a city, a hotel or a taxi provider" className="min-w-60 flex-1 rounded-lg border border-gray-300 bg-white p-3 text-gray-900" />
-            <button className="rounded-full bg-brand px-6 py-3 font-semibold text-white">Search</button>
+            <button className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 hover:bg-accent-dark">Search</button>
           </form>
           <p className="mt-4 text-sm font-semibold">Popular cities</p>
           <ul className="mt-2 flex flex-wrap gap-2">
@@ -146,7 +146,7 @@ export default function Home() {
           <ol className="mt-6 grid gap-6 sm:grid-cols-3">
             {STEPS.map((s) => (
               <li key={s.n} className="rounded-lg bg-white p-5 shadow-sm">
-                <span aria-hidden className="flex h-9 w-9 items-center justify-center rounded-full bg-brand font-bold text-white">{s.n}</span>
+                <span aria-hidden className="flex h-9 w-9 items-center justify-center rounded-full bg-accent font-bold text-slate-900">{s.n}</span>
                 <h3 className="mt-3 font-semibold">{s.title}</h3>
                 <p className="mt-1 text-muted">{s.body}</p>
               </li>
@@ -170,7 +170,7 @@ export default function Home() {
         <p className="mt-3 text-xs text-muted">{market.caveat} <Link href="/market" className="underline">See all figures</Link>.</p>
       </section>
 
-      <section className="bg-tint">
+      <section className="bg-warm">
         <div className="mx-auto grid max-w-5xl gap-6 px-4 py-16 sm:grid-cols-2">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-brand">Events and campaigns</p>
@@ -192,13 +192,21 @@ export default function Home() {
         <h2 className="mt-1 text-2xl font-bold">Help us build a StepFree India</h2>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {INVOLVED.map((i) => (
-            <li key={i.href} className="rounded-lg border border-gray-200 p-5">
+            <li key={i.href} className={`rounded-lg border border-gray-200 border-t-4 ${i.color} bg-white p-5 shadow-sm`}>
               <h3 className="font-semibold text-brand">{i.title}</h3>
               <p className="mt-2 text-muted">{i.body}</p>
               <Link href={i.href} className="mt-3 inline-block font-semibold underline">{i.cta}</Link>
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="hero bg-gradient-to-br from-brand-dark via-brand to-violet-600 text-white">
+        <div className="mx-auto max-w-5xl px-4 py-14 text-center">
+          <h2 className="text-3xl font-bold sm:text-4xl">Planning a trip with your parent?</h2>
+          <p className="mx-auto mt-2 max-w-xl text-blue-50">Tell us about their wheelchair and see in minutes which places they can enter.</p>
+          <Link href="/check" className="mt-6 inline-block rounded-full bg-accent px-8 py-3 text-lg font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Check a place now</Link>
+        </div>
       </section>
     </main>
   );

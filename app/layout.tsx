@@ -59,27 +59,27 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </nav>
             <div className="hidden items-center gap-2 text-sm font-semibold sm:flex">
               <Link href="/submit" className="rounded-full border border-brand px-4 py-2 text-brand hover:bg-tint">Submit a place</Link>
-              <Link href="/check" className="rounded-full bg-brand px-4 py-2 text-white hover:bg-brand-dark">Check a place</Link>
+              <Link href="/check" className="rounded-full bg-accent px-4 py-2 font-bold text-slate-900 hover:bg-accent-dark">Check a place</Link>
             </div>
             <details className="relative lg:hidden">
               <summary className="cursor-pointer list-none rounded border border-gray-300 px-3 py-2 text-sm font-medium">Menu</summary>
               <div className="absolute right-0 z-30 mt-2 flex w-56 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-lg">
                 {NAV.map((n) => <Link key={n.href} href={n.href} className="rounded px-2 py-1.5 hover:bg-tint">{n.label}</Link>)}
                 <Link href="/submit" className="rounded px-2 py-1.5 hover:bg-tint">Submit a place</Link>
-                <Link href="/check" className="mt-1 rounded-full bg-brand px-3 py-2 text-center font-semibold text-white">Check a place</Link>
+                <Link href="/check" className="mt-1 rounded-full bg-accent px-3 py-2 text-center font-bold text-slate-900">Check a place</Link>
               </div>
             </details>
           </div>
         </header>
         <div id="main" className="flex-1">{children}</div>
-        <footer className="border-t border-gray-200 bg-tint">
-          <div className="mx-auto grid max-w-5xl gap-6 p-6 text-sm text-muted sm:grid-cols-4">
+        <footer className="bg-brand-dark text-blue-100">
+          <div className="mx-auto grid max-w-5xl gap-6 p-6 text-sm text-blue-100 sm:grid-cols-4">
             <div>
-              <p className="flex items-center gap-2"><Mark size={30} /><Wordmark className="text-2xl" /></p>
+              <p className="flex items-center gap-2"><Mark size={30} tone="light" /><Wordmark tone="light" className="text-2xl" /></p>
               <p className="mt-1">Know before you book whether your parent&apos;s wheelchair can get in.</p>
             </div>
             <div>
-              <p className="font-semibold text-foreground">Platform</p>
+              <p className="font-semibold text-white">Platform</p>
               <ul className="mt-1 space-y-1">
                 <li><Link href="/places" className="hover:underline">Explore places</Link></li>
                 <li><Link href="/check" className="hover:underline">Check a place</Link></li>
@@ -90,7 +90,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </ul>
             </div>
             <div>
-              <p className="font-semibold text-foreground">About</p>
+              <p className="font-semibold text-white">About</p>
               <ul className="mt-1 space-y-1">
                 <li><Link href="/about" className="hover:underline">Our story</Link></li>
                 <li><Link href="/market" className="hover:underline">Why it matters</Link></li>
@@ -101,13 +101,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </ul>
             </div>
             <div>
-              <p className="font-semibold text-foreground">Cities</p>
+              <p className="font-semibold text-white">Cities</p>
               <ul className="mt-1 space-y-1">
                 {cities.map((c) => <li key={c}><Link href={`/places?city=${encodeURIComponent(c)}`} className="hover:underline">{c}</Link></li>)}
               </ul>
             </div>
           </div>
-          <p className="border-t border-gray-200 px-6 py-3 text-center text-xs text-muted">
+          <p className="border-t border-white/20 px-6 py-3 text-center text-xs text-blue-200">
             Hackathon MVP. All hotels, taxis and photos shown are placeholders, not real audits.
           </p>
         </footer>
