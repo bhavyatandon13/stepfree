@@ -13,25 +13,24 @@ describe("taxiAnswer: a plain yes or no", () => {
     expect(a.answer).toBe("yes");
     expect(a.headline).toBe("Yes, the chair fits");
   });
-  it("tight, not no, when the door is narrower than comfortable but the chair gets through (Ability on Wheels: 70 cm)", () => {
+  it("a 70 cm door is wide enough for a 66 cm chair; Ability on Wheels is tight only because its roof is low (135 cm)", () => {
     const a = taxiAnswer(66, taxi("t5"));
     expect(a.answer).toBe("tight");
-    expect(a.headline).toBe("Yes, but it's a tight fit");
-    expect(a.detail).toMatch(/only 4 cm wider than the chair/);
+    expect(a.detail).toMatch(/door is wide enough, but the roof is a little low/);
   });
-  it("no when the door is narrower than chair + 2 cm", () => {
-    const a = taxiAnswer(66, { ...base, doorWidthCm: 67 });
+  it("yes when the door is exactly as wide as the chair", () => expect(taxiAnswer(66, { ...base, doorWidthCm: 66 }).answer).toBe("yes"));
+  it("no when the door is narrower than the chair", () => {
+    const a = taxiAnswer(66, { ...base, doorWidthCm: 65 });
     expect(a.answer).toBe("no");
-    expect(a.detail).toMatch(/67 cm wide.*at least 68 cm/);
+    expect(a.detail).toBe("The door is 65 cm wide, narrower than the 66 cm chair.");
   });
   it("no when the inside is too low, tight when a little low", () => {
     expect(taxiAnswer(66, { ...base, interiorHeightCm: 120 }).answer).toBe("no");
     expect(taxiAnswer(66, { ...base, interiorHeightCm: 135 }).answer).toBe("tight");
   });
-  it("a wider chair moves the answer from yes to tight to no", () => {
-    expect(taxiAnswer(66, { ...base, doorWidthCm: 80 }).answer).toBe("yes");
-    expect(taxiAnswer(75, { ...base, doorWidthCm: 80 }).answer).toBe("tight");
-    expect(taxiAnswer(79, { ...base, doorWidthCm: 80 }).answer).toBe("no");
+  it("an 80 cm door fits chairs up to 80 cm and no wider", () => {
+    for (const w of [60, 66, 75, 80]) expect(taxiAnswer(w, { ...base, doorWidthCm: 80 }).answer).toBe("yes");
+    expect(taxiAnswer(81, { ...base, doorWidthCm: 80 }).answer).toBe("no");
   });
   it("not sure when a size is missing, and says what to ask", () => {
     const a = taxiAnswer(66, { ...base, doorWidthCm: null });

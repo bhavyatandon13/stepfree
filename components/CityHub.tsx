@@ -161,7 +161,7 @@ export default function CityHub({ city }: { city: string }) {
             <div className="rounded-xl border border-gray-200 p-5">
               <p className="font-semibold">No wheelchair taxi provider in our data for {city} yet.</p>
               <p className="text-muted">
-                When you phone a taxi company, ask for a ramp or lift vehicle{hasChair ? ` with a door at least ${requirementsFor(profile!.chairWidthCm!).taxiDoor.minimum} cm wide (${requirementsFor(profile!.chairWidthCm!).taxiDoor.comfortable} cm is comfortable)` : ""}.
+                When you phone a taxi company, ask for a ramp or lift vehicle{hasChair ? ` with a door at least ${requirementsFor(profile!.chairWidthCm!).taxiDoor.minimum} cm wide` : ""}.
               </p>
             </div>
           ) : (

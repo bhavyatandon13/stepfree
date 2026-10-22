@@ -15,7 +15,7 @@ export default function AccessSummary({ hotel, compact = false, chairWidthCm }: 
   return (
     <section aria-label={`Accessibility summary for ${hotel.name}`} className={compact ? "mt-3" : "mt-3 rounded-lg border border-gray-200 bg-tint p-3"}>
       <h4 className="text-sm font-semibold">Accessibility at a glance</h4>
-      <p className="text-xs text-muted">{chairWidthCm ? `Sizes judged for your parent's ${width} cm chair.` : `Sizes judged for a typical ${width} cm chair.`} ≈ means tight: the chair gets through, but a helper may need to guide it.</p>
+      <p className="text-xs text-muted">{chairWidthCm ? `Sizes judged for your parent's ${width} cm chair.` : `Sizes judged for a typical ${width} cm chair.`} A door fits if it is at least as wide as the chair. ≈ means a lift or turning space is tight.</p>
       <ul className="mt-1 space-y-0.5 text-sm">
         {facts.map((f) => (
           <li key={f.key} className="flex gap-2">

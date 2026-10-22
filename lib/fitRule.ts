@@ -1,6 +1,6 @@
 // The verdict is decided here, by plain comparison. Claude never decides it.
 //
-//  - Anything the chair can't get through, or stairs the parent can't manage  -> Doesn't fit
+//  - A door narrower than the chair, anything else too small, or stairs the parent can't manage -> Doesn't fit
 //  - Anything tight, unknown, or help needed to transfer                      -> Fits with help
 //  - Everything comfortable                                                   -> Fits
 import { band, needText, requirementsFor, type Need } from "./requirements";
@@ -18,7 +18,7 @@ function noteFor(kind: Kind, label: string, m: number, need: Need, chairWidthCm:
     return `the inside is ${m} cm high, a little low (${need.comfortable} cm is comfortable)`;
   }
   if (status === "fail") {
-    if (kind === "door") return `the ${what} is ${m} cm, but the chair needs at least ${need.minimum} cm to get through`;
+    if (kind === "door") return `the ${what} is ${m} cm, narrower than the ${chairWidthCm} cm chair`;
     if (kind === "depth") return `the lift is only ${m} cm deep, but a wheelchair needs at least ${need.minimum} cm`;
     if (kind === "turning") return `there is only ${m} cm to turn, but a wheelchair needs at least ${need.minimum} cm`;
     return `the inside is only ${m} cm high, but sitting in a wheelchair needs at least ${need.minimum} cm`;

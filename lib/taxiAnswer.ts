@@ -21,7 +21,7 @@ export function taxiAnswer(chairWidthCm: number, t: Taxi): TaxiAnswer {
   const hb = band(height, r.taxiHeight);
 
   if (db === "fail") {
-    return { answer: "no", headline: "No, the chair won't fit", detail: `The door is ${door} cm wide. A ${chairWidthCm} cm chair needs at least ${r.taxiDoor.minimum} cm to get in.` };
+    return { answer: "no", headline: "No, the chair won't fit", detail: `The door is ${door} cm wide, narrower than the ${chairWidthCm} cm chair.` };
   }
   if (hb === "fail") {
     return { answer: "no", headline: "No, the chair won't fit", detail: `The inside is ${height} cm high. Sitting in a wheelchair needs at least ${r.taxiHeight.minimum} cm.` };
@@ -30,17 +30,16 @@ export function taxiAnswer(chairWidthCm: number, t: Taxi): TaxiAnswer {
     return {
       answer: "unsure",
       headline: "Not sure, phone to check",
-      detail: `We don't have this taxi's ${db === "unknown" ? "door width" : "inside height"} yet. Ask: is the door at least ${r.taxiDoor.minimum} cm wide (${r.taxiDoor.comfortable} cm is comfortable) and the inside at least ${r.taxiHeight.minimum} cm high?`,
+      detail: `We don't have this taxi's ${db === "unknown" ? "door width" : "inside height"} yet. Ask: is the door at least ${r.taxiDoor.minimum} cm wide and the inside at least ${r.taxiHeight.minimum} cm high?`,
     };
   }
   const sizes = `Door ${door} cm, inside ${height} cm high`;
-  if (db === "tight" || hb === "tight") {
-    const why = [db === "tight" ? `the door is only ${door! - chairWidthCm} cm wider than the chair` : "", hb === "tight" ? "the roof is a little low" : ""].filter(Boolean).join(" and ");
-    return { answer: "tight", headline: "Yes, but it's a tight fit", detail: `${sizes}: ${why}. Someone may need to guide the chair in.` };
+  if (hb === "tight") {
+    return { answer: "tight", headline: "Yes, but it's a tight fit", detail: `${sizes}: the door is wide enough, but the roof is a little low (${r.taxiHeight.comfortable} cm is comfortable). Someone may need to guide the chair in.` };
   }
   return {
     answer: "yes",
     headline: "Yes, the chair fits",
-    detail: `${t.vehicleType === "ramp" ? "Ramp" : "Lift"} vehicle. ${sizes}, with room to spare.`,
+    detail: `${t.vehicleType === "ramp" ? "Ramp" : "Lift"} vehicle. ${sizes}: the door is at least as wide as the ${chairWidthCm} cm chair.`,
   };
 }

@@ -22,7 +22,7 @@ export function Badge({ verdict }: { verdict: Verdict }) {
 }
 
 // What each row's result means, in words (steps use "OK" rather than "Fits easily").
-const RESULT = { ok: "Fits easily", tight: "Tight fit", fail: "Won't fit", unknown: "Not measured" } as const;
+const RESULT = { ok: "Fits", tight: "Tight fit", fail: "Won't fit", unknown: "Not measured" } as const;
 const STEP_RESULT = { ok: "OK", tight: "OK", fail: "Blocked", unknown: "Not sure" } as const;
 
 export function CheckTable({ checks }: { checks: Check[] }) {

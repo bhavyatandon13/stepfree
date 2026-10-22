@@ -7,7 +7,7 @@ import { cleanMakeMyTripUrl, mmtCityUrl } from "../lib/links";
 import { hotelListing, rampText } from "../lib/listings";
 import { profileSummary, sameProfile, unknownNotes } from "../lib/profileSummary";
 import { readProfileText } from "../lib/readProfileText";
-import { band, requirementsFor } from "../lib/requirements";
+import { band, needText, requirementsFor } from "../lib/requirements";
 import { validateAudit, validateProfile } from "../lib/validate";
 import type { Hotel, Profile, Taxi } from "../lib/types";
 
@@ -17,11 +17,12 @@ const T = taxis as Taxi[];
 const hotel = (id: string) => H.find((h) => h.id === id)!;
 
 describe("requirements: comfortable and minimum sizes", () => {
-  it("a 66 cm chair: doors are comfortable at 76 cm and passable from 68 cm", () => {
+  it("a 66 cm chair: every door must be at least 66 cm", () => {
     const r = requirementsFor(66);
-    for (const d of [r.bathroomDoor, r.liftDoor, r.roomDoor, r.taxiDoor]) expect(d).toEqual({ comfortable: 76, minimum: 68 });
+    for (const d of [r.bathroomDoor, r.liftDoor, r.roomDoor, r.taxiDoor]) expect(d).toEqual({ comfortable: 66, minimum: 66 });
   });
-  it("a 70 cm chair: 80 comfortable, 72 minimum", () => expect(requirementsFor(70).bathroomDoor).toEqual({ comfortable: 80, minimum: 72 }));
+  it("a 70 cm chair: doors must be at least 70 cm", () => expect(requirementsFor(70).bathroomDoor).toEqual({ comfortable: 70, minimum: 70 }));
+  it("a door need reads as 'N cm or wider'", () => expect(needText(requirementsFor(66).bathroomDoor)).toBe("66 cm or wider"));
   it("bands a measurement as ok, tight, fail or unknown", () => {
     const need = { comfortable: 76, minimum: 68 };
     expect([band(80, need), band(76, need), band(75, need), band(68, need), band(67, need), band(null, need)]).toEqual(["ok", "ok", "tight", "tight", "fail", "unknown"]);
@@ -39,26 +40,28 @@ describe("reason wording", () => {
   });
 });
 
-describe("the reported case: a 75 cm bathroom door and a 66 cm chair", () => {
+describe("the door rule: a door at least as wide as the chair fits", () => {
   const check = (id: string, key: string, p = papa) => hotelFit(p, hotel(id)).checks.find((c) => c.key === key)!;
-  it("the 75 cm door is tight, not a failure", () => {
-    expect(check("h2", "bathroomDoor").status).toBe("tight");
-    expect(check("h2", "bathroomDoor").note).toMatch(/75 cm, only 9 cm wider than the chair/);
+  const withDoor = (cm: number) => hotelFit(papa, { ...hotel("h1"), bathroomDoorCm: cm });
+  it("66 cm chair: doors of 66, 70, 75, 76 and 90 cm all fit", () => {
+    for (const cm of [66, 70, 75, 76, 90]) expect(withDoor(cm).verdict).toBe("fits");
   });
-  it("Hotel 2 still doesn't fit, but for the real reason: 2 steps and no ramp", () => {
+  it("66 cm chair: doors of 65 and 60 cm don't fit, and the reason says why", () => {
+    for (const cm of [65, 60]) expect(withDoor(cm).verdict).toBe("no");
+    expect(basicReason(withDoor(65))).toBe("Doesn't fit: the bathroom door is 65 cm, narrower than the 66 cm chair.");
+  });
+  it("the reported 75 cm bathroom door fits a 66 cm chair", () => {
+    expect(check("h2", "bathroomDoor").status).toBe("ok");
+  });
+  it("Hotel 2 doesn't fit only because of its 2 steps and no ramp", () => {
     const r = hotelFit(papa, hotel("h2"));
     expect(r.verdict).toBe("no");
     const reason = basicReason(r);
     expect(reason).toMatch(/^Doesn't fit: there are 2 steps at the entrance and no ramp, and your parent can't manage any steps\./);
-    expect(reason).toMatch(/Also tight: .*bathroom door is 75 cm/);
-    expect(reason).not.toMatch(/Doesn't fit:[^.]*bathroom/);
+    expect(reason).not.toMatch(/door/);
   });
-  it("if the parent could manage 2 steps, Hotel 2 fits with help (tight, not failed)", () => {
+  it("if the parent could manage 2 steps, Hotel 2 fits with help (its lift and turning space are tight)", () => {
     expect(hotelFit({ ...papa, maxSteps: 2 }, hotel("h2")).verdict).toBe("help");
-  });
-  it("a door narrower than chair + 2 cm really doesn't fit", () => {
-    expect(hotelFit(papa, { ...hotel("h1"), bathroomDoorCm: 67 }).verdict).toBe("no");
-    expect(basicReason(hotelFit(papa, { ...hotel("h1"), bathroomDoorCm: 67 }))).toMatch(/needs at least 68 cm to get through/);
   });
   it("lift depth and turning space are banded too (105 cm lift, 130 cm turning = tight)", () => {
     expect(check("h2", "liftDepth").status).toBe("tight");
@@ -77,8 +80,11 @@ describe("hotelFit", () => {
   });
   it("step-free wide hotel fits", () => expect(hotelFit(papa, hotel("h1")).verdict).toBe("fits"));
   it("2 steps and no ramp doesn't fit", () => expect(hotelFit(papa, hotel("h2")).verdict).toBe("no"));
-  it("a 70 cm bathroom door is tight for a 66 cm chair: fits with help", () => expect(hotelFit(papa, hotel("h3")).verdict).toBe("help"));
-  it("the same 70 cm door doesn't fit a 69 cm chair (needs 71)", () => expect(hotelFit({ ...papa, chairWidthCm: 69 }, hotel("h3")).verdict).toBe("no"));
+  it("a 70 cm bathroom door fits a 66 cm chair", () => expect(hotelFit(papa, hotel("h3")).verdict).toBe("fits"));
+  it("the same 70 cm door fits a 70 cm chair but not a 71 cm chair", () => {
+    expect(hotelFit({ ...papa, chairWidthCm: 70 }, hotel("h3")).verdict).toBe("fits");
+    expect(hotelFit({ ...papa, chairWidthCm: 71 }, hotel("h3")).verdict).toBe("no");
+  });
   it("ramp makes steps ok", () => expect(hotelFit(papa, hotel("h4")).verdict).toBe("fits"));
   it("unmeasured fields never give 'fits'", () => expect(hotelFit(papa, hotel("h5")).verdict).toBe("help"));
   it("unknown ramp with a step gives help", () => expect(hotelFit(papa, hotel("h6")).verdict).toBe("help"));
@@ -130,10 +136,13 @@ describe("listings (for search and browsing)", () => {
   it("says 'not recorded' rather than 'no' when the ramp is unknown", () => {
     expect([true, false, null].map(rampText)).toEqual(["Ramp available", "No ramp", "Ramp not recorded"]);
   });
-  it("2 steps and no ramp is not step-free; a 75 cm bathroom door is not wide", () => {
+  it("2 steps and no ramp is not step-free; a 75 cm bathroom door is wide enough for a typical chair", () => {
     const f = hotelListing(hotel("h2")).features;
     expect(f).not.toContain("Step-free entrance");
-    expect(f).not.toContain("Wide bathroom door");
+    expect(f).toContain("Wide bathroom door");
+  });
+  it("a bathroom door narrower than a typical 66 cm chair is not called wide", () => {
+    expect(hotelListing({ ...hotel("h2"), bathroomDoorCm: 65 }).features).not.toContain("Wide bathroom door");
   });
   it("unmeasured items are not claimed", () => expect(hotelListing(hotel("h5")).features).not.toContain("Lift"));
   it("splits area and city", () => expect(hotelListing(hotel("h1"))).toMatchObject({ area: "Karol Bagh", city: "Delhi" }));
@@ -145,15 +154,15 @@ describe("accessFacts (hotel summary in words)", () => {
     expect(facts("h1").washroom).toMatchObject({ status: "yes" });
     expect(facts("h1").washroom.text).toMatch(/Wheelchair-friendly washroom: door 82 cm/);
   });
-  it("a 70 cm washroom door is a tight fit for a typical 66 cm chair, not 'too narrow'", () => {
-    expect(facts("h3").washroom).toMatchObject({ status: "tight" });
-    expect(facts("h3").washroom.text).toBe("Washroom door 70 cm: a tight fit for a 66 cm chair");
+  it("a 70 cm washroom door is wheelchair-friendly for a typical 66 cm chair", () => {
+    expect(facts("h3").washroom).toMatchObject({ status: "yes", text: "Wheelchair-friendly washroom: door 70 cm wide" });
   });
-  it("judges the washroom for the parent's own chair when known", () => {
+  it("judges the washroom for the parent's own chair when known (75 cm door)", () => {
     const own = (w: number) => Object.fromEntries(accessFacts(hotel("h2"), w).map((f) => [f.key, f]));
-    expect(own(60).washroom.status).toBe("yes"); // 75 cm door, 60 cm chair: 15 cm spare
-    expect(own(66).washroom.status).toBe("tight"); // 9 cm spare
-    expect(own(74).washroom.status).toBe("no"); // needs 76 to pass
+    expect(own(60).washroom.status).toBe("yes");
+    expect(own(66).washroom.status).toBe("yes");
+    expect(own(75).washroom.status).toBe("yes"); // exactly as wide as the chair
+    expect(own(76).washroom).toMatchObject({ status: "no", text: "Washroom door 75 cm: too narrow for a 76 cm chair" });
   });
   it("steps with a ramp count as a step-free way in", () => {
     expect(facts("h4").stairs).toMatchObject({ status: "yes", text: "3 steps at the entrance, with a ramp beside them" });
@@ -205,9 +214,9 @@ describe("profileSummary (says the numbers back)", () => {
 
 describe("passesChecklist (step-free way in + friendly washroom)", () => {
   const passing = () => H.filter(passesChecklist).map((h) => h.id);
-  it("passes hotels with no stairs or a ramp, and a wide washroom door", () => expect(passing()).toEqual(["h1", "h4"]));
-  it("narrow washroom fails (h3), stairs without a ramp fail (h2)", () => {
-    expect(passesChecklist(hotel("h3"))).toBe(false);
+  it("passes hotels with no stairs or a ramp, and a washroom door at least 66 cm wide", () => expect(passing()).toEqual(["h1", "h3", "h4"]));
+  it("a washroom door narrower than a typical chair fails; stairs without a ramp fail (h2)", () => {
+    expect(passesChecklist({ ...hotel("h3"), bathroomDoorCm: 65 })).toBe(false);
     expect(passesChecklist(hotel("h2"))).toBe(false);
   });
   it("unknown never passes: unmeasured washroom (h5), 1 step with unknown ramp (h6)", () => {

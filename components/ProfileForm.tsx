@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { requirementsFor } from "@/lib/requirements";
+import { needText, requirementsFor } from "@/lib/requirements";
 import { profileSummary, sameProfile } from "@/lib/profileSummary";
 import { validateProfile } from "@/lib/validate";
 import type { Profile, TransferHelp } from "@/lib/types";
@@ -10,31 +10,30 @@ const toNum = (s: string) => (s.trim() === "" ? null : Number(s));
 
 export function RequirementsChecklist({ chairWidthCm }: { chairWidthCm: number }) {
   const r = requirementsFor(chairWidthCm);
-  const rows: [string, number, number][] = [
-    ["Room door", r.roomDoor.comfortable, r.roomDoor.minimum],
-    ["Bathroom door", r.bathroomDoor.comfortable, r.bathroomDoor.minimum],
-    ["Lift door", r.liftDoor.comfortable, r.liftDoor.minimum],
-    ["Lift cabin depth", r.liftDepth.comfortable, r.liftDepth.minimum],
-    ["Turning space", r.turningSpace.comfortable, r.turningSpace.minimum],
-    ["Taxi door", r.taxiDoor.comfortable, r.taxiDoor.minimum],
+  const rows: [string, string][] = [
+    ["Room door", needText(r.roomDoor)],
+    ["Bathroom door", needText(r.bathroomDoor)],
+    ["Lift door", needText(r.liftDoor)],
+    ["Taxi door", needText(r.taxiDoor)],
+    ["Lift cabin depth", needText(r.liftDepth)],
+    ["Turning space", needText(r.turningSpace)],
+    ["Entrance steps", "no more than your parent can manage, or a ramp"],
   ];
   return (
     <section className="rounded-lg border border-violet-200 bg-tint p-4 text-gray-900">
       <h3 className="font-semibold">Sizes to look for with a {chairWidthCm} cm chair</h3>
       <p className="text-sm text-gray-700">
-        These are <strong>not</strong> hotel measurements. They are how wide a door or space should be for your parent&apos;s chair. A door this wide
-        <strong> or wider</strong> works: for example, a {chairWidthCm + 10} cm door fits a {chairWidthCm} cm chair easily, with room for hands on the wheels.
-        Below the &ldquo;squeeze&rdquo; size the chair won&apos;t get through.
+        These are <strong>not</strong> hotel measurements; they are what to look for. The rule for doors is simple: a door{" "}
+        <strong>at least as wide as the chair</strong> fits. For a {chairWidthCm} cm chair, any door {chairWidthCm} cm or wider fits, and a narrower door doesn&apos;t.
       </p>
       <table className="mt-2 w-full text-left text-sm">
         <thead>
-          <tr className="text-gray-700"><th className="py-1 pr-2 font-medium">Item</th><th className="py-1 pr-2 font-medium">Fits easily if at least</th><th className="py-1 font-medium">Squeezes through if at least</th></tr>
+          <tr className="text-gray-700"><th className="py-1 pr-2 font-medium">Item</th><th className="py-1 font-medium">Fits if it is</th></tr>
         </thead>
         <tbody>
-          {rows.map(([k, comfortable, minimum]) => (
-            <tr key={k} className="border-t border-violet-200"><td className="py-1 pr-2">{k}</td><td className="py-1 pr-2">{comfortable} cm</td><td className="py-1">{minimum} cm</td></tr>
+          {rows.map(([k, need]) => (
+            <tr key={k} className="border-t border-violet-200"><td className="py-1 pr-2">{k}</td><td className="py-1">{need}</td></tr>
           ))}
-          <tr className="border-t border-violet-200"><td className="py-1 pr-2">Entrance steps</td><td className="py-1" colSpan={2}>no more than your parent can manage, or a ramp</td></tr>
         </tbody>
       </table>
     </section>
