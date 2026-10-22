@@ -3,7 +3,7 @@ import PageShell from "@/components/PageShell";
 
 export default function Events() {
   return (
-    <PageShell title="Events and campaigns" intro="What we are planning as Step Free grows.">
+    <PageShell title="Events and campaigns" intro="What we are planning as StepFree grows.">
       <p className="rounded-lg border border-gray-200 bg-tint p-5">
         No events are scheduled yet. This is a hackathon prototype, and we would rather show nothing than invent dates.
       </p>

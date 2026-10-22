@@ -19,6 +19,7 @@
   --color-tint: var(--tint);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
+  --font-brand: var(--font-outfit);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
+import Logo, { Mark, Wordmark } from "@/components/Logo";
 import { AccessibilityToolbar, BackToTop, ConsentBanner } from "@/components/SiteTools";
 import { listings } from "@/lib/siteData";
 import { countBy } from "@/lib/listings";
@@ -16,8 +17,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// A rounded, friendly heading font used for the StepFree name.
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["700", "800"],
+});
+
 export const metadata: Metadata = {
-  title: "Step Free: know before you book",
+  title: "StepFree: know before you book",
   description: "Measured, on-site checks that show whether a wheelchair can get into a hotel or taxi.",
 };
 
@@ -36,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-white focus:p-2">
@@ -45,7 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AccessibilityToolbar />
         <header className="border-b border-gray-200 bg-white">
           <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 p-4">
-            <Link href="/" className="text-xl font-bold text-brand">Step Free</Link>
+            <Logo size="text-3xl" markSize={42} />
             <nav aria-label="Main" className="hidden items-center gap-4 text-sm font-medium lg:flex">
               {NAV.map((n) => <Link key={n.href} href={n.href} className="hover:text-brand">{n.label}</Link>)}
             </nav>
@@ -67,7 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="border-t border-gray-200 bg-tint">
           <div className="mx-auto grid max-w-5xl gap-6 p-6 text-sm text-muted sm:grid-cols-4">
             <div>
-              <p className="font-semibold text-foreground">Step Free</p>
+              <p className="flex items-center gap-2"><Mark size={30} /><Wordmark className="text-2xl" /></p>
               <p className="mt-1">Know before you book whether your parent&apos;s wheelchair can get in.</p>
             </div>
             <div>

@@ -23,7 +23,7 @@ function TaxiCard({ taxi, profile, lang }: { taxi: Taxi; profile: Profile; lang:
       </div>
       <Reason text={reason.text} byAI={reason.byAI} />
       <CheckTable checks={result.checks} />
-      <p className="mt-2 text-xs text-gray-600">{taxi.verified ? "Measured by Step Free." : "NOT VERIFIED: "}{taxi.note}</p>
+      <p className="mt-2 text-xs text-gray-600">{taxi.verified ? "Measured by StepFree." : "NOT VERIFIED: "}{taxi.note}</p>
     </article>
   );
 }
@@ -38,7 +38,7 @@ export default function TaxiPanel({ profile, lang }: { profile: Profile; lang: L
           {CITIES.map((c) => <option key={c}>{c}</option>)}
         </select>
       </label>
-      <p className="text-sm text-gray-700">Wheelchair taxis are local, so we list them city by city. None of these has been measured by Step Free yet.</p>
+      <p className="text-sm text-gray-700">Wheelchair taxis are local, so we list them city by city. None of these has been measured by StepFree yet.</p>
       {list.length === 0 && (
         <p className="rounded border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900">
           No wheelchair taxi provider in our data for {city} yet. Use the taxi door width in the &ldquo;What a chair needs&rdquo; box above when you phone a provider.

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import hotels from "@/data/hotels.json";
 import market from "@/data/market.json";
+import { Mark, Wordmark } from "@/components/Logo";
 import { hotelFit } from "@/lib/fitRule";
 import { countBy } from "@/lib/listings";
 import { listings } from "@/lib/siteData";
@@ -41,7 +42,11 @@ export default function Home() {
     <main>
       <section className="hero bg-gradient-to-br from-brand-dark via-brand to-blue-600 text-white">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24">
-          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200">Accessible trip planning for families</p>
+          <p className="flex items-center gap-3" aria-label="StepFree">
+            <Mark size={56} tone="light" />
+            <Wordmark tone="light" className="text-5xl sm:text-6xl" />
+          </p>
+          <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-sky-200">Accessible trip planning for families</p>
           <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
             Access, <span className="text-sky-200">measured.</span>
           </h1>
@@ -73,7 +78,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-5xl px-4 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-brand">Our approach</p>
-        <h2 className="mt-1 text-2xl font-bold">What makes Step Free different</h2>
+        <h2 className="mt-1 text-2xl font-bold">What makes StepFree different</h2>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {PILLARS.map((p) => (
             <li key={p.title} className="rounded-lg border border-gray-200 p-5">
@@ -184,7 +189,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-5xl px-4 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-brand">Get involved</p>
-        <h2 className="mt-1 text-2xl font-bold">Help us build a Step Free India</h2>
+        <h2 className="mt-1 text-2xl font-bold">Help us build a StepFree India</h2>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {INVOLVED.map((i) => (
             <li key={i.href} className="rounded-lg border border-gray-200 p-5">
