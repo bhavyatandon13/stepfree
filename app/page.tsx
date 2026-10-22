@@ -1,78 +1,96 @@
-"use client";
-import { useCallback, useEffect, useState } from "react";
-import AuditForm from "@/components/AuditForm";
-import HotelCard from "@/components/HotelCard";
-import MarketPanel from "@/components/MarketPanel";
-import ProfileForm from "@/components/ProfileForm";
-import TaxiPanel from "@/components/TaxiPanel";
-import type { Lang } from "@/components/ui";
-import type { Hotel, Profile } from "@/lib/types";
+import Link from "next/link";
+import hotels from "@/data/hotels.json";
+import taxis from "@/data/taxis.json";
+import { hotelFit } from "@/lib/fitRule";
+import type { Hotel } from "@/lib/types";
 
-const TABS = ["Parent", "Hotels", "Taxis", "Market", "Auditor"] as const;
-type Tab = (typeof TABS)[number];
+// The numbers on this page come from the data and rules, so they can't drift from the app.
+const sample = hotelFit({ chairWidthCm: 66, maxSteps: 0, transferHelp: "none" }, hotels[0] as Hotel);
+const STATS = [
+  { value: hotels.length, label: "sample hotels in Delhi" },
+  { value: new Set(taxis.map((t) => t.city)).size, label: "cities with wheelchair taxis listed" },
+  { value: sample.checks.length, label: "measurements checked per hotel" },
+];
+
+const PILLARS = [
+  { title: "Measured, not claimed", body: "A person with a tape measure checks steps, ramps, lifts and doors on site. A label that says \"accessible\" tells you nothing." },
+  { title: "Matched to your parent", body: "You describe the wheelchair once. Every place is compared with that exact width, not with a generic idea of access." },
+  { title: "Explained in plain words", body: "Each answer shows the number measured, the number needed and a dated photo, in English or Hindi." },
+];
+
+const STEPS = [
+  { n: "1", title: "Describe your parent", body: "Type the chair width and what steps they can manage. Confirm the numbers we read." },
+  { n: "2", title: "See what fits", body: "Every hotel and taxi shows Fits, Fits with help or Doesn't fit, with the measurements behind it." },
+  { n: "3", title: "Book with confidence", body: "Choose a place that works, and skip the surprise stairs on arrival." },
+];
 
 export default function Home() {
-  const [tab, setTab] = useState<Tab>("Parent");
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [hotels, setHotels] = useState<Hotel[]>([]);
-  const [lang, setLang] = useState<Lang>("en");
-
-  const loadHotels = useCallback(() => {
-    fetch("/api/hotels").then((r) => r.json()).then((d) => setHotels(d.hotels));
-  }, []);
-  useEffect(loadHotels, [loadHotels]);
-
-  const needProfile = (
-    <p className="rounded border border-gray-300 bg-gray-50 p-3 text-gray-900">
-      Tell us about your parent first on the <button className="underline" onClick={() => setTab("Parent")}>Parent tab</button>.
-    </p>
-  );
-
   return (
-    <main className="mx-auto max-w-3xl space-y-4 p-4">
-      <header>
-        <h1 className="text-2xl font-bold">Stepfree</h1>
-        <p className="text-sm text-gray-700 dark:text-gray-300">Find out before you book whether your parent&apos;s wheelchair can get in. Pilot city: Delhi.</p>
-      </header>
-
-      <nav className="flex flex-wrap items-center gap-2" aria-label="Sections">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            aria-current={tab === t}
-            className={`rounded-full border px-4 py-1.5 text-sm font-medium ${tab === t ? "border-blue-700 bg-blue-700 text-white" : "border-gray-300 bg-white text-gray-900"}`}
-          >
-            {t}
-          </button>
-        ))}
-        <button
-          onClick={() => setLang(lang === "en" ? "hi" : "en")}
-          className="ml-auto rounded border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900"
-          aria-label="Switch explanation language"
-        >
-          {lang === "en" ? "हिन्दी" : "English"}
-        </button>
-      </nav>
-
-      {tab === "Parent" && (
-        <ProfileForm
-          confirmed={profile}
-          onConfirm={(p) => {
-            setProfile(p);
-            setTab("Parent");
-          }}
-        />
-      )}
-      {tab === "Hotels" &&
-        (profile ? (
-          <div className="space-y-3">
-            {hotels.map((h) => <HotelCard key={h.id} hotel={h} profile={profile} lang={lang} />)}
+    <main>
+      <section className="bg-tint">
+        <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24">
+          <p className="text-sm font-semibold uppercase tracking-wide text-brand">Accessible trip planning for families</p>
+          <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
+            Know before you book whether the wheelchair can get in.
+          </h1>
+          <p className="mt-4 max-w-xl text-lg text-muted">
+            Stepfree checks hotels and taxis against your parent&apos;s real wheelchair, using measurements taken on site.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/check" className="rounded-full bg-accent px-6 py-3 font-semibold text-gray-900 hover:brightness-95">
+              Check a place
+            </Link>
+            <Link href="/#how" className="rounded-full border border-brand px-6 py-3 font-semibold text-brand hover:bg-white">
+              How it works
+            </Link>
           </div>
-        ) : needProfile)}
-      {tab === "Taxis" && (profile ? <TaxiPanel profile={profile} lang={lang} /> : needProfile)}
-      {tab === "Market" && <MarketPanel />}
-      {tab === "Auditor" && <AuditForm onSaved={loadHotels} />}
+        </div>
+      </section>
+
+      <section aria-label="At a glance" className="border-y border-gray-200">
+        <dl className="mx-auto grid max-w-5xl gap-6 px-4 py-8 sm:grid-cols-3">
+          {STATS.map((s) => (
+            <div key={s.label}>
+              <dt className="sr-only">{s.label}</dt>
+              <dd>
+                <span className="text-3xl font-bold text-brand">{s.value}</span>
+                <span className="ml-2 text-muted">{s.label}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mx-auto max-w-5xl px-4 pb-6 text-xs text-muted">Sample data for this demo. None of it is a real audit yet.</p>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-4 py-16">
+        <h2 className="text-2xl font-bold">What makes it different</h2>
+        <ul className="mt-6 grid gap-6 sm:grid-cols-3">
+          {PILLARS.map((p) => (
+            <li key={p.title} className="rounded-lg border border-gray-200 p-5">
+              <h3 className="font-semibold text-brand">{p.title}</h3>
+              <p className="mt-2 text-muted">{p.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="how" className="bg-tint">
+        <div className="mx-auto max-w-5xl px-4 py-16">
+          <h2 className="text-2xl font-bold">How it works</h2>
+          <ol className="mt-6 grid gap-6 sm:grid-cols-3">
+            {STEPS.map((s) => (
+              <li key={s.n} className="rounded-lg bg-white p-5 shadow-sm">
+                <span aria-hidden className="flex h-9 w-9 items-center justify-center rounded-full bg-brand font-bold text-white">{s.n}</span>
+                <h3 className="mt-3 font-semibold">{s.title}</h3>
+                <p className="mt-1 text-muted">{s.body}</p>
+              </li>
+            ))}
+          </ol>
+          <Link href="/check" className="mt-8 inline-block rounded-full bg-accent px-6 py-3 font-semibold text-gray-900 hover:brightness-95">
+            Try it with your parent&apos;s chair
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }

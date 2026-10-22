@@ -93,7 +93,7 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
           onChange={(e) => setText(e.target.value)}
           placeholder="Papa's chair is 66 cm wide and he can't manage any steps"
         />
-        <button onClick={understand} disabled={busy || !text.trim()} className="rounded bg-blue-700 px-4 py-2 font-medium text-white disabled:opacity-50">
+        <button onClick={understand} disabled={busy || !text.trim()} className="rounded bg-brand px-4 py-2 font-medium text-white disabled:opacity-50">
           {busy ? "Reading…" : "Understand"}
         </button>
         {message && <p className="text-sm text-gray-700 dark:text-gray-300">{message}</p>}

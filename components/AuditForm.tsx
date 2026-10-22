@@ -102,7 +102,7 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img src={photo} alt="Audit upload preview" className="max-h-40 rounded" />
       )}
-      <button onClick={extract} disabled={busy || (!note.trim() && !photo)} className="rounded bg-blue-700 px-4 py-2 font-medium text-white disabled:opacity-50">
+      <button onClick={extract} disabled={busy || (!note.trim() && !photo)} className="rounded bg-brand px-4 py-2 font-medium text-white disabled:opacity-50">
         {busy ? "Reading…" : "Fill boxes with Claude"}
       </button>
 
