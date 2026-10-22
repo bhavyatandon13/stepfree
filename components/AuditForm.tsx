@@ -86,7 +86,7 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
   const input = "mt-1 w-full rounded border border-gray-300 bg-white p-2 text-gray-900";
   return (
     <div className="space-y-4">
-      <p className="text-sm text-gray-700 dark:text-gray-300">For auditors: write what you measured on site, then let Claude fill the boxes. You confirm every number.</p>
+      <p className="text-sm text-gray-700">For auditors: write what you measured on site, then let Claude fill the boxes. You confirm every number.</p>
       <label className="block text-sm font-medium">Hotel name<input className={input} value={name} onChange={(e) => setName(e.target.value)} /></label>
       <label className="block text-sm font-medium">Area<input className={input} value={area} onChange={(e) => setArea(e.target.value)} placeholder="Delhi" /></label>
       <label className="block text-sm font-medium">Notes (English or Hindi)
@@ -123,7 +123,7 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
         )}
         <button onClick={save} className="rounded bg-green-700 px-4 py-2 font-medium text-white">Confirm and save</button>
       </fieldset>
-      {message && <p className="text-sm text-gray-700 dark:text-gray-300">{message}</p>}
+      {message && <p className="text-sm text-gray-700">{message}</p>}
     </div>
   );
 }

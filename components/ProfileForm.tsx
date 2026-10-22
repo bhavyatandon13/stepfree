@@ -54,7 +54,8 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
       } else {
         setDraft(data.profile);
         const p = validateProfile(data.profile);
-        setMessage(p.length ? "" : "Here is what we understood. Please check it and confirm.");
+        const how = data.source === "rules" ? "The AI isn't available, so we read your text with simple rules. " : "";
+        setMessage(p.length ? how : how + "Here is what we understood. Please check every number and confirm.");
         setProblems(p);
       }
     } catch {
@@ -96,7 +97,7 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
         <button onClick={understand} disabled={busy || !text.trim()} className="rounded bg-brand px-4 py-2 font-medium text-white disabled:opacity-50">
           {busy ? "Reading…" : "Understand"}
         </button>
-        {message && <p className="text-sm text-gray-700 dark:text-gray-300">{message}</p>}
+        {message && <p className="text-sm text-gray-700">{message}</p>}
       </section>
 
       <section className="space-y-3 rounded-lg border border-gray-300 p-4">
@@ -121,7 +122,7 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
           </ul>
         )}
         <button onClick={confirm} className="rounded bg-green-700 px-4 py-2 font-medium text-white">Confirm profile</button>
-        <p className="text-xs text-gray-600 dark:text-gray-400">Anything left blank is treated as unknown, so results will say &ldquo;Fits with help&rdquo;, never &ldquo;Fits&rdquo;.</p>
+        <p className="text-xs text-gray-600">Anything left blank is treated as unknown, so results will say &ldquo;Fits with help&rdquo;, never &ldquo;Fits&rdquo;.</p>
       </section>
 
       {confirmed?.chairWidthCm != null && <RequirementsChecklist chairWidthCm={confirmed.chairWidthCm} />}

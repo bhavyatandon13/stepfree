@@ -19,7 +19,7 @@ export default function MarketPanel() {
           {market.gaps.map((g) => <li key={g}>{g}</li>)}
         </ul>
       </section>
-      <p className="text-xs text-gray-600 dark:text-gray-400">{market.caveat}</p>
+      <p className="text-xs text-gray-600">{market.caveat}</p>
     </div>
   );
 }

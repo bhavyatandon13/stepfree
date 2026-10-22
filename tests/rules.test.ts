@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import hotels from "../data/hotels.json";
 import taxis from "../data/taxis.json";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
+import { readProfileText } from "../lib/readProfileText";
 import { requirementsFor } from "../lib/requirements";
 import { validateAudit, validateProfile } from "../lib/validate";
 import type { Hotel, Profile, Taxi } from "../lib/types";
@@ -43,6 +44,20 @@ describe("hotelFit", () => {
   });
   it("no chair width gives help, never fits", () => {
     expect(hotelFit({ ...papa, chairWidthCm: null }, hotel("h1")).verdict).toBe("help");
+  });
+});
+
+describe("readProfileText (backup reader)", () => {
+  const read = (s: string) => readProfileText(s);
+  it("reads the example sentence", () => {
+    expect(read("Papa's chair is 66 cm wide and he can't manage any steps")).toEqual({ chairWidthCm: 66, maxSteps: 0, transferHelp: null });
+  });
+  it("reads a counted number of steps and help", () => {
+    expect(read("Mummy's wheelchair is 70 cm. She can manage two low steps with support")).toEqual({ chairWidthCm: 70, maxSteps: 2, transferHelp: "some" });
+  });
+  it("converts inches", () => expect(read("chair is 26 inches wide").chairWidthCm).toBe(66));
+  it("leaves unknowns as null", () => {
+    expect(read("my dad uses a wheelchair")).toEqual({ chairWidthCm: null, maxSteps: null, transferHelp: null });
   });
 });
 
