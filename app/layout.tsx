@@ -51,14 +51,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </nav>
             <div className="hidden items-center gap-2 text-sm font-semibold sm:flex">
               <Link href="/submit" className="rounded-full border border-brand px-4 py-2 text-brand hover:bg-tint">Submit a place</Link>
-              <Link href="/check" className="rounded-full bg-accent px-4 py-2 text-gray-900 hover:brightness-95">Check a place</Link>
+              <Link href="/check" className="rounded-full bg-brand px-4 py-2 text-white hover:bg-brand-dark">Check a place</Link>
             </div>
             <details className="relative lg:hidden">
               <summary className="cursor-pointer list-none rounded border border-gray-300 px-3 py-2 text-sm font-medium">Menu</summary>
               <div className="absolute right-0 z-30 mt-2 flex w-56 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 text-sm shadow-lg">
                 {NAV.map((n) => <Link key={n.href} href={n.href} className="rounded px-2 py-1.5 hover:bg-tint">{n.label}</Link>)}
                 <Link href="/submit" className="rounded px-2 py-1.5 hover:bg-tint">Submit a place</Link>
-                <Link href="/check" className="mt-1 rounded-full bg-accent px-3 py-2 text-center font-semibold text-gray-900">Check a place</Link>
+                <Link href="/check" className="mt-1 rounded-full bg-brand px-3 py-2 text-center font-semibold text-white">Check a place</Link>
               </div>
             </details>
           </div>

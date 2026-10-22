@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
-/* One light, calm palette: teal for brand, amber for the main call to action. */
+/* One bright, clean palette: blue and white. White text on --brand is 6.7:1 (above the 4.5:1 AA minimum). */
 :root {
   --background: #ffffff;
-  --foreground: #14201f;
-  --brand: #0f766e;
-  --brand-dark: #115e59;
-  --tint: #f0fdfa;
-  --accent: #f59e0b;
-  --muted: #4b5a58;
+  --foreground: #0f172a;
+  --brand: #1d4ed8;
+  --brand-dark: #1e3a8a;
+  --tint: #eff6ff;
+  --accent: #38bdf8;
+  --muted: #475569;
 }
 
 @theme inline {
@@ -33,14 +33,15 @@ body {
 [data-contrast="high"] {
   --foreground: #000000;
   --muted: #000000;
-  --brand: #004d47;
+  --brand: #0b1f8a;
+  --brand-dark: #000000;
   --tint: #ffffff;
 }
 [data-contrast="high"] [class*="text-gray-"] { color: #000000 !important; }
 [data-contrast="high"] [class*="border-gray-"] { border-color: #000000 !important; }
-[data-contrast="high"] .text-brand { color: #004d47 !important; }
+[data-contrast="high"] .text-brand { color: #0b1f8a !important; }
 [data-contrast="high"] a { text-decoration: underline; }
-[data-contrast="high"] .bg-accent { background-color: #ffd54a !important; color: #000000 !important; }
+[data-contrast="high"] .hero { background: #0b1f8a !important; }
 
 /* Clear focus ring for keyboard users. */
 :focus-visible {

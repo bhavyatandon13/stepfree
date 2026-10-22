@@ -39,19 +39,19 @@ const FILTER_CHIPS = ["Step-free entrance", "Ramp at entrance", "Lift", "Wide ba
 export default function Home() {
   return (
     <main>
-      <section className="bg-tint">
+      <section className="hero bg-gradient-to-br from-brand-dark via-brand to-blue-600 text-white">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24">
-          <p className="text-sm font-semibold uppercase tracking-wide text-brand">Accessible trip planning for families</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200">Accessible trip planning for families</p>
           <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">
-            Access, <span className="text-brand">measured.</span>
+            Access, <span className="text-sky-200">measured.</span>
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-muted">
+          <p className="mt-4 max-w-xl text-lg text-blue-50">
             Real measurements. Dated photos. Plain answers. Know before you book whether your parent&apos;s wheelchair can get in.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/places" className="rounded-full bg-accent px-6 py-3 font-semibold text-gray-900 hover:brightness-95">Explore places</Link>
-            <Link href="/submit" className="rounded-full border border-brand px-6 py-3 font-semibold text-brand hover:bg-white">Submit a place</Link>
-            <Link href="/check" className="rounded-full border border-brand px-6 py-3 font-semibold text-brand hover:bg-white">Check my parent&apos;s chair</Link>
+            <Link href="/places" className="rounded-full bg-white px-6 py-3 font-semibold text-brand hover:bg-blue-50">Explore places</Link>
+            <Link href="/check" className="rounded-full border-2 border-white px-6 py-3 font-semibold text-white hover:bg-white/15">Check my parent&apos;s chair</Link>
+            <Link href="/submit" className="rounded-full border-2 border-white px-6 py-3 font-semibold text-white hover:bg-white/15">Submit a place</Link>
           </div>
         </div>
       </section>

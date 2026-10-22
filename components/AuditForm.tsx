@@ -126,7 +126,7 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
         {problems.length > 0 && (
           <ul role="alert" className="list-disc rounded bg-red-50 p-3 pl-6 text-sm text-red-900">{problems.map((p) => <li key={p}>{p}</li>)}</ul>
         )}
-        <button onClick={save} className="rounded bg-green-700 px-4 py-2 font-medium text-white">Confirm and save</button>
+        <button onClick={save} className="rounded bg-brand hover:bg-brand-dark px-4 py-2 font-medium text-white">Confirm and save</button>
       </fieldset>
       {message && <p className="text-sm text-gray-700">{message}</p>}
     </div>

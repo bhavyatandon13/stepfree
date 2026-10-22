@@ -76,7 +76,7 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
   const field = "mt-1 w-full rounded border border-gray-300 bg-white p-2 text-gray-900";
   return (
     <div className="space-y-4">
-      <aside className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-950">
+      <aside className="rounded-lg border border-blue-200 bg-tint p-3 text-sm text-slate-900">
         <p className="font-semibold">Your parent&apos;s details are not saved.</p>
         <p>
           Stepfree keeps no copy of your description or your parent&apos;s measurements. They live on this page only and disappear when you
@@ -121,7 +121,7 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
             {problems.map((p) => <li key={p}>{p}</li>)}
           </ul>
         )}
-        <button onClick={confirm} className="rounded bg-green-700 px-4 py-2 font-medium text-white">Confirm profile</button>
+        <button onClick={confirm} className="rounded bg-brand hover:bg-brand-dark px-4 py-2 font-medium text-white">Confirm profile</button>
         <p className="text-xs text-gray-600">Anything left blank is treated as unknown, so results will say &ldquo;Fits with help&rdquo;, never &ldquo;Fits&rdquo;.</p>
       </section>
 
