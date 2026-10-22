@@ -75,6 +75,14 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
   const field = "mt-1 w-full rounded border border-gray-300 bg-white p-2 text-gray-900";
   return (
     <div className="space-y-4">
+      <aside className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-950">
+        <p className="font-semibold">Your parent&apos;s details are not saved.</p>
+        <p>
+          Stepfree keeps no copy of your description or your parent&apos;s measurements. They live on this page only and disappear when you
+          refresh or close it. To read your text and write each reason, they are sent to Claude (through OpenRouter), which has its
+          own data policy. Please don&apos;t type a name, address or phone number.
+        </p>
+      </aside>
       <section className="space-y-2">
         <label htmlFor="desc" className="block font-semibold">Tell us about your parent</label>
         <textarea

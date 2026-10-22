@@ -101,6 +101,15 @@ Every reason on screen is labelled "Wording by Claude" or "Written by the rule (
 | Claude's sentence disagrees with the verdict | The badge and table come from code and sit beside the sentence. The prompt forbids changing the verdict. |
 | Stale data (a hotel renovates) | Not handled yet. Each profile shows its audit date. Re-audits are future work. |
 
+## Privacy
+
+Stepfree does not store any person's measurements.
+
+- The parent profile (chair width, steps, transfer help) lives only in the browser page. It is not written to a database, a file, cookies or browser storage, and it is gone on refresh.
+- The server routes keep no copy of what they receive and do not log it. The only log line prints the AI service's error text.
+- To read the description and write each reason, the text and the numbers behind each verdict are sent to Claude through OpenRouter. Their data policy applies there. The screen says so and asks users not to type names, addresses or phone numbers.
+- Hotel and taxi measurements are about places, not people. Audits saved in the Auditor tab are kept in server memory only.
+
 ## Known limits
 
 - All hotels, taxis and photos are placeholders. The Market figures come from search snippets in the scope doc and are unverified.
