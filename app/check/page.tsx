@@ -65,7 +65,7 @@ function Check() {
         )}
 
         {profile && (
-          <div className="rounded-lg border border-blue-200 bg-tint p-4 text-sm text-slate-900">
+          <div className="rounded-lg border border-violet-200 bg-tint p-4 text-sm text-slate-900">
             <p><span className="font-semibold">Showing results for:</span> {profileSummary(profile)}</p>
             {unknownNotes(profile).length > 0 && (
               <p className="mt-1 text-muted">
@@ -85,7 +85,7 @@ function Check() {
             </div>
             <div className="space-y-3">
               <h3 className="text-lg font-semibold">Wheelchair taxis</h3>
-              <TaxiPanel profile={profile} lang={lang} />
+              <TaxiPanel />
             </div>
           </>
         )}

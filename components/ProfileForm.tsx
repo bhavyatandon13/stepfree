@@ -20,7 +20,7 @@ export function RequirementsChecklist({ chairWidthCm }: { chairWidthCm: number }
     ["Entrance steps", "no more than your parent can manage, or a ramp"],
   ];
   return (
-    <section className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-gray-900">
+    <section className="rounded-lg border border-violet-200 bg-tint p-4 text-gray-900">
       <h3 className="font-semibold">What a {chairWidthCm} cm chair needs</h3>
       <p className="text-sm text-gray-700">Use this to check any hotel or taxi, even ones we haven&apos;t audited. Each width is chair width + 10 cm.</p>
       <ul className="mt-2 space-y-1 text-sm">
@@ -77,7 +77,7 @@ export default function ProfileForm({ confirmed, onConfirm }: { confirmed: Profi
   const field = "mt-1 w-full rounded border border-gray-300 bg-white p-2 text-gray-900";
   return (
     <div className="space-y-4">
-      <aside className="rounded-lg border border-blue-200 bg-tint p-3 text-sm text-slate-900">
+      <aside className="rounded-lg border border-violet-200 bg-tint p-3 text-sm text-slate-900">
         <p className="font-semibold">Your parent&apos;s details are not saved.</p>
         <p>
           StepFree keeps no copy on its server. Your parent&apos;s details stay in this browser tab, so every hotel can show whether it fits,

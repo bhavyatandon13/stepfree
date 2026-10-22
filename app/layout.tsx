@@ -3,8 +3,7 @@ import Link from "next/link";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import Logo, { Mark, Wordmark } from "@/components/Logo";
 import { AccessibilityToolbar, BackToTop, ConsentBanner } from "@/components/SiteTools";
-import { listings } from "@/lib/siteData";
-import { countBy } from "@/lib/listings";
+import { CITIES } from "@/lib/cities";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,15 +30,13 @@ export const metadata: Metadata = {
 
 // Only what a family planning a trip needs. Everything else lives in the footer.
 const NAV = [
-  { href: "/places?category=Hotel", label: "Hotels" },
-  { href: "/places?category=Taxi", label: "Taxis" },
+  { href: "/cities", label: "Choose city" },
   { href: "/#how", label: "How it works" },
   { href: "/trips", label: "My trips" },
   { href: "/about", label: "About" },
 ];
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const cities = countBy(listings, "city").map(([c]) => c);
   return (
     <html
       lang="en"
@@ -67,8 +64,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </header>
         <div id="main" className="flex-1">{children}</div>
-        <footer className="bg-brand-dark text-blue-100">
-          <div className="mx-auto grid max-w-5xl gap-6 p-6 text-sm text-blue-100 sm:grid-cols-4">
+        <footer className="bg-brand-dark text-violet-100">
+          <div className="mx-auto grid max-w-5xl gap-6 p-6 text-sm text-violet-100 sm:grid-cols-4">
             <div>
               <p className="flex items-center gap-2"><Mark size={30} tone="light" /><Wordmark tone="light" className="text-2xl" /></p>
               <p className="mt-1">Know before you book whether your parent&apos;s wheelchair can get in.</p>
@@ -99,11 +96,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <div>
               <p className="font-semibold text-white">Cities</p>
               <ul className="mt-1 space-y-1">
-                {cities.map((c) => <li key={c}><Link href={`/places?city=${encodeURIComponent(c)}`} className="hover:underline">{c}</Link></li>)}
+                {CITIES.map((c) => <li key={c.slug}><Link href={`/city/${c.slug}`} className="hover:underline">{c.name}</Link></li>)}
               </ul>
             </div>
           </div>
-          <p className="border-t border-white/20 px-6 py-3 text-center text-xs text-blue-200">
+          <p className="border-t border-white/20 px-6 py-3 text-center text-xs text-violet-200">
             Hackathon MVP. All hotels, taxis and photos shown are placeholders, not real audits.
           </p>
         </footer>

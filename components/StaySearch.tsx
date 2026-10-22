@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { citySlug } from "@/lib/cities";
 import { addDays, defaultStay, todayISO, validateStay, type Stay } from "@/lib/trip";
 import { stayStore } from "@/lib/tripState";
 import { useStore } from "@/lib/store";
@@ -58,7 +59,7 @@ export default function StaySearch({ cities }: { cities: string[] }) {
         setProblems(p);
         if (p.length) return;
         stayStore.set(stay);
-        router.push(`/places?category=Hotel&city=${encodeURIComponent(city)}`);
+        router.push(`/city/${citySlug(city)}`);
       }}
     >
       <label htmlFor="hs-city" className="block text-sm font-semibold">City
@@ -67,7 +68,7 @@ export default function StaySearch({ cities }: { cities: string[] }) {
         </select>
       </label>
       <StayFields value={stay} onChange={setStay} idPrefix="hs" />
-      <button className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 hover:bg-accent-dark sm:col-span-5">Search accessible hotels</button>
+      <button className="rounded-full bg-accent px-6 py-3 font-bold text-slate-900 hover:bg-accent-dark sm:col-span-5">Show hotels and taxis in {city}</button>
       {problems.length > 0 && (
         <ul role="alert" className="list-disc rounded bg-red-50 p-3 pl-6 text-sm text-red-900 sm:col-span-5">{problems.map((p) => <li key={p}>{p}</li>)}</ul>
       )}

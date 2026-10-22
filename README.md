@@ -51,7 +51,9 @@ StepFree is a hackathon MVP. A family describes their parent's wheelchair in pla
 ```
 app/page.tsx              home page: city + dates + guests search, how it works, hotels that pass the checklist
 app/check                 describe your parent once; every page then shows Fits / Fits with help / Doesn't fit
+app/cities, app/city/[slug]  choose a city; each city page has its hotels and taxis with the answers
 app/places                results: filters, sort by best fit or price, price per night, View & book
+lib/taxiAnswer.ts         "will the chair fit in this taxi?" as yes / no / not sure / only with a transfer (tested)
 app/hotels/[id]           hotel page: fit for your parent, measurements, accessibility summary, Reserve box
 app/book                  3-step booking: your stay, guest details, confirm (pay at hotel)
 app/trips                 confirmation with a reference (SF-XXXXXX), My trips, cancel

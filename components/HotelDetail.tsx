@@ -6,6 +6,7 @@ import AccessSummary from "@/components/AccessSummary";
 import { BookOnMakeMyTrip, NearbyOnMakeMyTrip } from "@/components/BookingLinks";
 import { StayFields, useStay } from "@/components/StaySearch";
 import { Badge, CheckTable, Reason, useExplanation, type Lang } from "@/components/ui";
+import { citySlug } from "@/lib/cities";
 import { hotelFit } from "@/lib/fitRule";
 import { profileSummary } from "@/lib/profileSummary";
 import { useStore } from "@/lib/store";
@@ -61,7 +62,7 @@ export default function HotelDetail({ id }: { id: string }) {
   return (
     <main className="mx-auto max-w-5xl space-y-6 p-4 py-8">
       <nav aria-label="Breadcrumb" className="text-sm text-muted">
-        <Link href="/" className="underline">Home</Link> › <Link href={`/places?category=Hotel&city=${encodeURIComponent(city ?? "Delhi")}`} className="underline">Hotels in {city ?? "Delhi"}</Link> › <span aria-current="page">{hotel.name}</span>
+        <Link href="/" className="underline">Home</Link> › <Link href={`/city/${citySlug(city ?? "Delhi")}`} className="underline">{city ?? "Delhi"}</Link> › <span aria-current="page">{hotel.name}</span>
       </nav>
 
       <header className="flex flex-wrap items-end justify-between gap-3">

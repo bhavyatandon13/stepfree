@@ -24,6 +24,7 @@ export type Listing = {
   placeholder: boolean;
   ramp?: boolean | null; // hotels only
   hotel?: Hotel; // the full record, for hotels, so cards can show every detail
+  taxi?: Taxi; // the full record, for taxis, so cards can answer "will the chair fit?"
 };
 
 export function hotelListing(h: Hotel): Listing {
@@ -39,7 +40,7 @@ export function hotelListing(h: Hotel): Listing {
 
 export function taxiListing(t: Taxi): Listing {
   const features: Feature[] = t.vehicleType === "fold-chair-only" ? [] : ["Ramp or lift vehicle"];
-  return { id: t.id, name: t.provider, city: t.city, area: t.city, category: "Taxi", features, auditDate: null, placeholder: true };
+  return { id: t.id, name: t.provider, city: t.city, area: t.city, category: "Taxi", features, auditDate: null, placeholder: true, taxi: t };
 }
 
 export function countBy(list: Listing[], key: "city" | "category") {

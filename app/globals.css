@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
-/* Blue and white, with sunny orange for the main actions. White text on --brand is 6.7:1; dark text on
-   --accent is 7:1 (both above the 4.5:1 AA minimum). Orange is never used for text on white. */
+/* Vibrant: electric violet, hot pink and sunny yellow on white. White text on --brand is 7:1 and on the
+   pink end of the gradients 4.7:1; dark text on the yellow --accent is 13:1 (all above the 4.5:1 AA minimum).
+   Yellow is never used for text on white. */
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --brand: #1d4ed8;
-  --brand-dark: #1e3a8a;
-  --tint: #eff6ff;
-  --accent: #fb923c;
-  --accent-dark: #f97316;
-  --warm: #fff7ed;
+  --brand: #6d28d9;
+  --brand-dark: #4c1d95;
+  --tint: #f5f3ff;
+  --accent: #facc15;
+  --accent-dark: #eab308;
+  --warm: #fdf2f8;
   --muted: #475569;
 }
 
@@ -39,15 +40,15 @@ body {
 [data-contrast="high"] {
   --foreground: #000000;
   --muted: #000000;
-  --brand: #0b1f8a;
+  --brand: #3b0764;
   --brand-dark: #000000;
   --tint: #ffffff;
 }
 [data-contrast="high"] [class*="text-gray-"] { color: #000000 !important; }
 [data-contrast="high"] [class*="border-gray-"] { border-color: #000000 !important; }
-[data-contrast="high"] .text-brand { color: #0b1f8a !important; }
+[data-contrast="high"] .text-brand { color: #3b0764 !important; }
 [data-contrast="high"] a { text-decoration: underline; }
-[data-contrast="high"] .hero { background: #0b1f8a !important; }
+[data-contrast="high"] .hero { background: #3b0764 !important; }
 [data-contrast="high"] .bg-accent { background: #ffd54a !important; color: #000000 !important; }
 [data-contrast="high"] .bg-warm { background: #ffffff !important; }
 

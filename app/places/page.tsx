@@ -5,6 +5,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import taxis from "@/data/taxis.json";
 import { MakeMyTripCity } from "@/components/BookingLinks";
 import { StayFields, useStay } from "@/components/StaySearch";
+import TaxiCard from "@/components/TaxiCard";
 import { Badge } from "@/components/ui";
 import { hotelFit } from "@/lib/fitRule";
 import { FEATURES, countBy, hotelListing, taxiListing, type Feature, type Listing } from "@/lib/listings";
@@ -196,6 +197,7 @@ function Explore() {
           ) : (
             <ul className="space-y-4">
               {shown.map((l) => {
+                if (l.taxi) return <li key={l.id}><TaxiCard taxi={l.taxi} /></li>;
                 const verdict = verdictOf(l);
                 const price = priceOf(l);
                 const total = stayTotal(price, nights);
@@ -220,7 +222,7 @@ function Explore() {
                       <p className="mt-2 text-xs text-gray-600">{l.auditDate ? `Audited ${l.auditDate}` : "Not audited yet"}{l.placeholder && " · sample data"}</p>
                     </div>
                     <div className="flex w-full flex-col items-end justify-between gap-2 sm:w-auto">
-                      {l.category === "Hotel" ? (
+                      {l.category === "Hotel" && (
                         <>
                           <p className="text-right">
                             {price !== null ? <><span className="text-xl font-extrabold">{formatINR(price)}</span><span className="text-sm text-muted"> / night</span></> : <span className="text-sm text-muted">Price on request</span>}
@@ -228,8 +230,6 @@ function Explore() {
                           </p>
                           <Link href={`/hotels/${l.id}`} className="rounded-full bg-accent px-5 py-2.5 font-bold text-slate-900 hover:bg-accent-dark">View &amp; book</Link>
                         </>
-                      ) : (
-                        <Link href="/check" className="rounded-full border border-brand px-5 py-2.5 font-semibold text-brand">Check if the chair fits</Link>
                       )}
                     </div>
                   </li>
