@@ -19,6 +19,7 @@ export type Booking = {
   requests: string;
   verdict: Verdict | null; // the fit result for the parent at the time of booking
   parent: string | null; // the parent's needs in words, e.g. "chair 66 cm wide · can't manage any steps"
+  taxi?: { provider: string; fare: number | null; answer: string } | null; // optional wheelchair taxi added to the trip
   createdAt: string;
   status: "requested" | "cancelled";
 };

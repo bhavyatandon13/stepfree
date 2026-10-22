@@ -9,7 +9,12 @@ import { profileSummary } from "@/lib/profileSummary";
 import { useStore } from "@/lib/store";
 import { formatDate, formatINR, makeRef, nightsBetween, stayTotal, todayISO, validateGuest, validateStay } from "@/lib/trip";
 import { profileStore, saveTrip, stayStore } from "@/lib/tripState";
-import type { Hotel } from "@/lib/types";
+import taxiData from "@/data/taxis.json";
+import { cityOfArea } from "@/lib/cities";
+import { taxiAnswer } from "@/lib/taxiAnswer";
+import type { Hotel, Taxi } from "@/lib/types";
+
+const TAXIS = taxiData as Taxi[];
 
 const STEPS = ["Your stay", "Guest details", "Confirm"];
 const input = "mt-1 w-full rounded-lg border border-gray-300 bg-white p-2.5 text-gray-900";
@@ -38,6 +43,7 @@ export default function BookingFlow({ hotelId }: { hotelId: string }) {
   const [requests, setRequests] = useState<string | null>(null);
   const [understood, setUnderstood] = useState(false);
   const [problems, setProblems] = useState<string[]>([]);
+  const [taxiId, setTaxiId] = useState<string>("");
 
   useEffect(() => {
     fetch("/api/hotels")
@@ -63,6 +69,10 @@ export default function BookingFlow({ hotelId }: { hotelId: string }) {
     ? `Wheelchair user (${profileSummary(profile)}). Please give us a step-free room close to the lift, with a wheelchair-friendly washroom.`
     : "Wheelchair user. Please give us a step-free room close to the lift, with a wheelchair-friendly washroom.";
   const requestText = requests ?? defaultRequests;
+  // Wheelchair taxis in the hotel's city, each with the answer for this parent's chair.
+  const width = profile?.chairWidthCm ?? null;
+  const cityTaxis = TAXIS.filter((t) => t.city === cityOfArea(hotel.area)).map((t) => ({ t, a: width !== null ? taxiAnswer(width, t) : null }));
+  const chosen = cityTaxis.find((x) => x.t.id === taxiId) ?? null;
 
   function next() {
     let p: string[] = [];
@@ -94,6 +104,7 @@ export default function BookingFlow({ hotelId }: { hotelId: string }) {
       requests: requestText.trim(),
       verdict: fit?.verdict ?? null,
       parent: profile?.chairWidthCm != null ? profileSummary(profile) : null,
+      taxi: chosen ? { provider: chosen.t.provider, fare: chosen.t.sampleFare ?? null, answer: chosen.a?.headline ?? "Chair size not checked" } : null,
       createdAt: new Date().toISOString(),
       status: "requested",
     });
@@ -131,6 +142,36 @@ export default function BookingFlow({ hotelId }: { hotelId: string }) {
             </div>
           )}
           {fit?.verdict === "help" && <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-950">This hotel fits with help: some details are unknown or your parent needs help to transfer. Phone the hotel to check before you travel.</p>}
+
+          <fieldset className="rounded-xl border border-gray-200 p-4">
+            <legend className="px-1 text-lg font-bold"><span aria-hidden>🚕 </span>Add a wheelchair taxi <span className="text-sm font-normal text-muted">(optional)</span></legend>
+            {cityTaxis.length === 0 ? (
+              <p className="text-sm text-muted">No wheelchair taxi in our data for {cityOfArea(hotel.area)} yet.</p>
+            ) : (
+              <div className="space-y-2">
+                <label className="flex items-center gap-3 rounded-lg border border-gray-200 p-3">
+                  <input type="radio" name="taxi" checked={taxiId === ""} onChange={() => setTaxiId("")} />
+                  <span>No taxi, thanks</span>
+                </label>
+                {cityTaxis.map(({ t, a }) => {
+                  const blocked = a?.answer === "no";
+                  return (
+                    <label key={t.id} className={`flex items-start gap-3 rounded-lg border p-3 ${taxiId === t.id ? "border-brand bg-tint" : "border-gray-200"} ${blocked ? "opacity-60" : "cursor-pointer"}`}>
+                      <input type="radio" name="taxi" className="mt-1" disabled={blocked} checked={taxiId === t.id} onChange={() => setTaxiId(t.id)} />
+                      <span className="flex-1">
+                        <span className="font-semibold">{t.provider}</span>
+                        <span className="block text-sm">
+                          {a ? <><span aria-hidden>{a.answer === "yes" ? "✓" : a.answer === "no" ? "✕" : a.answer === "tight" ? "≈" : "?"} </span>{a.headline}</> : "Add your parent's chair to see if it fits"}
+                        </span>
+                      </span>
+                      <span className="text-sm font-semibold">{typeof t.sampleFare === "number" ? `${formatINR(t.sampleFare)}` : "Ask fare"}</span>
+                    </label>
+                  );
+                })}
+                <p className="text-xs text-muted">Sample fares for one trip in the city. You pay the driver. Taxis that won&apos;t fit the chair can&apos;t be chosen.</p>
+              </div>
+            )}
+          </fieldset>
         </section>
       )}
 
@@ -159,7 +200,8 @@ export default function BookingFlow({ hotelId }: { hotelId: string }) {
             <dt className="text-muted">Lead guest</dt><dd>{guestName} · {phone}</dd>
             <dt className="text-muted">Fit for your parent</dt><dd>{fit ? VERDICT_LABEL[fit.verdict] : "Not checked"}</dd>
             <dt className="text-muted">Requests</dt><dd>{requestText}</dd>
-            <dt className="text-muted">Total</dt><dd className="font-bold">{total !== null ? `${formatINR(total)} (sample price)` : "Price on request"}</dd>
+            <dt className="text-muted">Taxi</dt><dd>{chosen ? `${chosen.t.provider}${typeof chosen.t.sampleFare === "number" ? `, ${formatINR(chosen.t.sampleFare)} sample fare, pay the driver` : ", fare to be agreed"}` : "No taxi"}</dd>
+            <dt className="text-muted">Hotel total</dt><dd className="font-bold">{total !== null ? `${formatINR(total)} (sample price)` : "Price on request"}</dd>
             <dt className="text-muted">Payment</dt><dd>Pay at the hotel. Nothing is charged now.</dd>
           </dl>
           <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-950">

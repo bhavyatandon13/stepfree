@@ -8,6 +8,8 @@ const MARK: Record<FactStatus, { symbol: string; word: string; cls: string }> = 
   unknown: { symbol: "?", word: "Not recorded", cls: "text-gray-600" },
 };
 
+const ICON: Record<string, string> = { washroom: "🚻", stairs: "🪜", ramp: "♿", lift: "🛗", roomDoor: "🚪", turning: "🔄", lend: "🦽" };
+
 // The whole story in words, one line per thing a wheelchair user cares about.
 export default function AccessSummary({ hotel, compact = false, chairWidthCm }: { hotel: Hotel; compact?: boolean; chairWidthCm?: number | null }) {
   const width = chairWidthCm ?? TYPICAL_CHAIR_CM;
@@ -20,6 +22,7 @@ export default function AccessSummary({ hotel, compact = false, chairWidthCm }: 
         {facts.map((f) => (
           <li key={f.key} className="flex gap-2">
             <span aria-hidden className={`w-4 shrink-0 font-bold ${MARK[f.status].cls}`}>{MARK[f.status].symbol}</span>
+            <span aria-hidden className="w-6 shrink-0 text-center">{ICON[f.key] ?? ""}</span>
             <span><span className="sr-only">{f.label}, {MARK[f.status].word}: </span>{f.text}</span>
           </li>
         ))}

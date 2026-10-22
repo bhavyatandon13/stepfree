@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { taxiAnswer, type TaxiAnswer } from "@/lib/taxiAnswer";
+import { formatINR } from "@/lib/trip";
 import { profileStore } from "@/lib/tripState";
 import type { Taxi } from "@/lib/types";
 import { RANGES } from "@/lib/validate";
@@ -73,7 +74,10 @@ export default function TaxiCard({ taxi }: { taxi: Taxi }) {
         <AskWidth taxiName={taxi.id} />
       )}
       <p className="mt-3 text-xs text-gray-600">{taxi.verified ? "Sizes measured by StepFree." : "Sizes not yet verified by StepFree. "}{taxi.note}</p>
-      <p className="mt-1 text-xs text-gray-600">To book, contact {taxi.provider} directly and ask for a wheelchair-accessible vehicle.</p>
+      <p className="mt-2 text-sm">
+        {typeof taxi.sampleFare === "number" ? <><span className="font-bold">{formatINR(taxi.sampleFare)}</span> <span className="text-gray-600">per trip in the city · sample fare</span></> : <span className="text-gray-600">Fare: ask the provider</span>}
+      </p>
+      <p className="mt-1 text-xs text-gray-600">Add it when you book a hotel in {taxi.city}, or contact {taxi.provider} directly and ask for a wheelchair-accessible vehicle.</p>
     </article>
   );
 }

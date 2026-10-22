@@ -60,7 +60,7 @@ export default function CityHub({ city }: { city: string }) {
               {CITIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
             </select>
           </label>
-          <h1 className="text-4xl font-bold sm:text-5xl">Accessible travel in {city}</h1>
+          <h1 className="rise text-4xl font-bold sm:text-5xl"><span aria-hidden className="float inline-block">{CITIES.find((c) => c.name === city)?.emoji ?? "📍"}</span> Accessible travel in {city}</h1>
           <p className="text-lg text-pink-50">Hotels and wheelchair taxis, checked against your parent&apos;s chair.</p>
           <div className="flex flex-wrap gap-3 text-sm font-semibold">
             <a href="#hotels" className="rounded-full bg-white/15 px-4 py-2 hover:bg-white/25">{hotels === null ? "…" : hotels.length} hotel{hotels?.length === 1 ? "" : "s"}</a>
@@ -109,7 +109,7 @@ export default function CityHub({ city }: { city: string }) {
 
         <section id="hotels" aria-labelledby="hotels-h" className="scroll-mt-4 space-y-4">
           <div className="flex flex-wrap items-end justify-between gap-2">
-            <h2 id="hotels-h" className="text-2xl font-bold">Hotels in {city}</h2>
+            <h2 id="hotels-h" className="text-2xl font-bold"><span aria-hidden>🏨 </span>Hotels in {city}</h2>
             {hasChair && sorted.length > 0 && <p className="text-sm text-muted">Best fit for your parent first</p>}
           </div>
           {hotels === null && <p className="text-muted">Loading hotels…</p>}
@@ -124,7 +124,7 @@ export default function CityHub({ city }: { city: string }) {
               const verdict = hasChair ? hotelFit(profile!, h).verdict : null;
               const total = stayTotal(h.ratePerNight, nights);
               return (
-                <li key={h.id} className="flex flex-wrap gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+                <li key={h.id} className="lift reveal flex flex-wrap gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={h.photo} alt="" className="h-28 w-40 shrink-0 rounded-lg object-cover" />
                   <div className="min-w-48 flex-1">
@@ -156,7 +156,7 @@ export default function CityHub({ city }: { city: string }) {
         </section>
 
         <section id="taxis" aria-labelledby="taxis-h" className="scroll-mt-4 space-y-4">
-          <h2 id="taxis-h" className="text-2xl font-bold">Wheelchair taxis in {city}</h2>
+          <h2 id="taxis-h" className="text-2xl font-bold"><span aria-hidden>🚕 </span>Wheelchair taxis in {city}</h2>
           {taxis.length === 0 ? (
             <div className="rounded-xl border border-gray-200 p-5">
               <p className="font-semibold">No wheelchair taxi provider in our data for {city} yet.</p>
@@ -165,7 +165,7 @@ export default function CityHub({ city }: { city: string }) {
               </p>
             </div>
           ) : (
-            <ul className="grid gap-4 sm:grid-cols-2">{taxis.map((t) => <li key={t.id}><TaxiCard taxi={t} /></li>)}</ul>
+            <ul className="grid gap-4 sm:grid-cols-2">{taxis.map((t) => <li key={t.id} className="lift reveal rounded-xl"><TaxiCard taxi={t} /></li>)}</ul>
           )}
         </section>
 

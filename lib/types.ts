@@ -49,6 +49,7 @@ export type Taxi = {
   vehicleType: "ramp" | "lift" | "fold-chair-only";
   doorWidthCm: number | null;
   interiorHeightCm: number | null;
+  sampleFare?: number | null; // sample fare in rupees for one trip in the city; null = ask the provider
   verified: boolean;
   note: string;
 };

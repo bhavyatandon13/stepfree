@@ -5,7 +5,7 @@ import type { Taxi } from "@/lib/types";
 import TaxiCard from "./TaxiCard";
 
 const TAXIS = taxiData as Taxi[];
-const CITIES = ["Delhi", ...Array.from(new Set(TAXIS.map((t) => t.city)))];
+const CITIES = Array.from(new Set(["Delhi", ...TAXIS.map((t) => t.city)]));
 
 export default function TaxiPanel({ initialCity = "Delhi" }: { initialCity?: string }) {
   const [city, setCity] = useState(initialCity);

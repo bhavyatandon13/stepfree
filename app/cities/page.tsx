@@ -13,8 +13,9 @@ export default function Cities() {
       <ul className="grid gap-4 sm:grid-cols-3">
         {CITIES.map((c, i) => (
           <li key={c.slug}>
-            <Link href={`/city/${c.slug}`} className={`block rounded-xl border border-gray-200 border-t-4 ${TOPS[i % TOPS.length]} bg-white p-5 shadow-sm hover:shadow-md`}>
-              <span className="text-xl font-bold">{c.name}</span>
+            <Link href={`/city/${c.slug}`} className={`lift wiggle-parent block rounded-2xl border border-gray-200 border-t-4 ${TOPS[i % TOPS.length]} bg-white p-5 shadow-sm`}>
+              <span aria-hidden className="wiggle text-4xl">{c.emoji}</span>
+              <span className="mt-2 block text-xl font-bold">{c.name}</span>
               <span className="mt-1 block text-sm text-muted">
                 {c.hotels} hotel{c.hotels === 1 ? "" : "s"} · {c.taxis} taxi provider{c.taxis === 1 ? "" : "s"}
               </span>

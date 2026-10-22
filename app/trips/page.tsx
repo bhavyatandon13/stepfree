@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState, useSyncExternalStore } from "react";
+import Confetti from "@/components/Confetti";
 import { Badge } from "@/components/ui";
 import { getServerSnapshot, getSnapshot, setPrefs, subscribe } from "@/lib/prefs";
 import { useStore } from "@/lib/store";
@@ -28,6 +29,7 @@ function TripCard({ t, highlight }: { t: Booking; highlight: boolean }) {
         <dt className="text-muted">Guests</dt><dd>{t.guests} · lead guest {t.guestName}</dd>
         <dt className="text-muted">Total</dt><dd>{t.total !== null ? `${formatINR(t.total)}, pay at hotel (sample price)` : "Price on request"}</dd>
         {t.parent && <><dt className="text-muted">Parent</dt><dd>{t.parent}</dd></>}
+        {t.taxi && <><dt className="text-muted">Taxi</dt><dd>🚕 {t.taxi.provider}{t.taxi.fare !== null ? ` · ${formatINR(t.taxi.fare)} sample fare, pay the driver` : ""} · {t.taxi.answer}</dd></>}
       </dl>
       {t.verdict && <div className="mt-2"><Badge verdict={t.verdict} /></div>}
       <div className="mt-4 flex flex-wrap gap-3 text-sm">
@@ -54,9 +56,11 @@ function Trips() {
 
   return (
     <main className="mx-auto max-w-3xl space-y-6 p-4 py-10">
+      {fresh && <Confetti />}
       {fresh && (
-        <section role="status" className="rounded-2xl bg-green-50 p-6 text-green-950">
-          <p className="text-2xl font-bold">✓ Booking request confirmed</p>
+        <section role="status" className="rise rounded-2xl bg-green-50 p-6 text-green-950">
+          <p aria-hidden className="text-5xl">🎉</p>
+          <p className="mt-2 text-2xl font-bold">You&apos;re all set! Booking request confirmed</p>
           <p className="mt-1">Reference <strong>{fresh.ref}</strong> for {fresh.hotelName}, {formatDate(fresh.checkIn)}.</p>
           <h2 className="mt-4 font-semibold">What to do next</h2>
           <ol className="mt-1 list-decimal space-y-1 pl-5">
@@ -82,7 +86,8 @@ function Trips() {
 
       {trips.length === 0 ? (
         <div className="rounded-xl border border-gray-200 bg-tint p-6">
-          <p className="font-semibold">No trips yet.</p>
+          <p aria-hidden className="text-4xl">🧳</p>
+          <p className="mt-2 font-semibold">No trips yet.</p>
           <p className="text-muted">Find a hotel that fits your parent&apos;s wheelchair and request a booking.</p>
           <Link href="/places?category=Hotel" className="mt-3 inline-block rounded-full bg-accent px-5 py-2.5 font-bold text-slate-900">Find a hotel</Link>
         </div>

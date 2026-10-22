@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import hotels from "@/data/hotels.json";
+import market from "@/data/market.json";
+import HeroArt from "@/components/HeroArt";
 import { Mark, Wordmark } from "@/components/Logo";
 import StaySearch from "@/components/StaySearch";
 import { accessFacts, passesChecklist } from "@/lib/accessFacts";
@@ -16,100 +18,110 @@ const TOPS = ["border-t-brand", "border-t-accent", "border-t-pink-500"];
 const FEATURED = HOTELS.filter(passesChecklist);
 
 const STEPS = [
-  { n: "1", title: "Tell us about the chair", body: "Type the wheelchair width and how many steps your parent can manage. It takes a minute." },
-  { n: "2", title: "See what fits", body: "Every hotel shows Fits, Fits with help or Doesn't fit, with the measurements behind it." },
-  { n: "3", title: "Book and relax", body: "Request your room, pay at the hotel, and arrive knowing there are no surprise stairs." },
+  { icon: "🦽", title: "Tell us about the chair", body: "Type the wheelchair width and how many steps your parent can manage. It takes a minute." },
+  { icon: "✅", title: "See what fits", body: "Every hotel and taxi says Fits, Fits with help or Doesn't fit, with the measurements behind it." },
+  { icon: "🎉", title: "Book and relax", body: "Request your room and a wheelchair taxi, pay at the hotel, and arrive with no surprise stairs." },
 ];
 
 const WHY = [
-  { color: "border-t-brand", title: "Measured, not claimed", body: "A person with a tape measure checks steps, ramps, lifts and washroom doors on site." },
-  { color: "border-t-accent", title: "Matched to your parent", body: "We compare every place with your parent's actual chair width, not a vague \"accessible\" label." },
-  { color: "border-t-pink-500", title: "Clear answers", body: "The number measured, the number needed and a dated photo, in English or Hindi." },
+  { icon: "📏", color: "border-t-brand", title: "Measured, not claimed", body: "A person with a tape measure checks steps, ramps, lifts and washroom doors on site." },
+  { icon: "🎯", color: "border-t-accent", title: "Matched to your parent", body: "Every place is compared with your parent's actual chair width, not a vague \"accessible\" label." },
+  { icon: "💬", color: "border-t-pink-500", title: "Clear answers", body: "The number measured, the number needed and a dated photo, in English or Hindi." },
 ];
 
 export default function Home() {
   return (
     <main>
-      <section className="hero bg-gradient-to-br from-brand-dark via-brand to-pink-600 text-white">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:py-20">
-          <p className="flex items-center gap-3" aria-label="StepFree">
-            <Mark size={52} tone="light" />
-            <Wordmark tone="light" className="text-5xl sm:text-6xl" />
-          </p>
-          <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
-            Hotels your parent&apos;s wheelchair can <span className="text-yellow-300">really</span> get into.
-          </h1>
-          <p className="mt-3 max-w-2xl text-lg text-violet-50">Every hotel is measured on site and checked against your parent&apos;s chair before you book.</p>
-          <div className="mt-8">
-            {/* The search box reads today's date, so it renders in the browser. */}
-            <Suspense fallback={<div className="h-44 rounded-2xl bg-white/20" aria-hidden />}>
-              <StaySearch cities={CITY_NAMES} />
-            </Suspense>
+      <section className="hero relative overflow-hidden bg-gradient-to-br from-brand-dark via-brand to-pink-600 text-white">
+        {/* soft floating blobs behind the content */}
+        <div aria-hidden className="float-slow absolute -left-16 -top-16 h-64 w-64 rounded-full bg-pink-400/30 blur-3xl" />
+        <div aria-hidden className="float absolute -bottom-20 right-10 h-72 w-72 rounded-full bg-yellow-300/20 blur-3xl" />
+
+        <div className="relative mx-auto grid max-w-5xl gap-8 px-4 py-14 sm:py-16 lg:grid-cols-[1.3fr_1fr] lg:items-center">
+          <div>
+            <p className="rise inline-block rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">♿ Made for wheelchair users and their families</p>
+            <p className="rise rise-1 mt-5 flex items-center gap-3" aria-label="StepFree">
+              <Mark size={52} tone="light" />
+              <Wordmark tone="light" className="text-5xl sm:text-6xl" />
+            </p>
+            <h1 className="rise rise-2 mt-5 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
+              Hotels your parent&apos;s wheelchair can <span className="text-yellow-300">really</span> get into.
+            </h1>
+            <p className="rise rise-3 mt-3 max-w-2xl text-lg text-violet-50">Measured on site. Matched to your parent&apos;s chair. Taxis too.</p>
           </div>
+          <HeroArt className="rise rise-2 mx-auto w-full max-w-sm drop-shadow-xl" />
+        </div>
+
+        <div className="relative mx-auto max-w-5xl px-4 pb-14">
+          {/* The search box reads today's date, so it renders in the browser. */}
+          <Suspense fallback={<div className="h-44 rounded-2xl bg-white/20" aria-hidden />}>
+            <StaySearch cities={CITY_NAMES} />
+          </Suspense>
           <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-violet-50">
-            <li>✓ Measured on site</li>
-            <li>✓ Matched to your parent&apos;s chair</li>
-            <li>✓ Pay at the hotel</li>
+            <li>📏 Measured on site</li>
+            <li>🎯 Matched to your parent&apos;s chair</li>
+            <li>🚕 Wheelchair taxis</li>
+            <li>💳 Pay at the hotel</li>
           </ul>
         </div>
       </section>
 
-      <section aria-labelledby="pick-city" className="mx-auto max-w-5xl px-4 py-14">
-        <h2 id="pick-city" className="text-2xl font-bold sm:text-3xl">Choose your city</h2>
-        <p className="mt-1 text-muted">One page per city with its hotels and wheelchair taxis.</p>
+      <section aria-labelledby="pick-city" className="reveal mx-auto max-w-5xl px-4 py-14">
+        <h2 id="pick-city" className="text-2xl font-bold sm:text-3xl">Where are you going? <span aria-hidden>🧳</span></h2>
+        <p className="mt-1 text-muted">Pick a city to see its hotels and wheelchair taxis on one page.</p>
         <ul className="mt-6 grid gap-4 sm:grid-cols-3">
           {CITIES.map((c, i) => (
             <li key={c.slug}>
-              <Link href={`/city/${c.slug}`} className={`block rounded-xl border border-gray-200 border-t-4 ${TOPS[i % TOPS.length]} bg-white p-5 shadow-sm hover:shadow-md`}>
-                <span className="text-xl font-bold">{c.name}</span>
-                <span className="mt-1 block text-sm text-muted">{c.hotels} hotel{c.hotels === 1 ? "" : "s"} · {c.taxis} taxi provider{c.taxis === 1 ? "" : "s"}</span>
+              <Link href={`/city/${c.slug}`} className={`lift wiggle-parent flex items-center gap-4 rounded-2xl border border-gray-200 border-t-4 ${TOPS[i % TOPS.length]} bg-white p-5 shadow-sm`}>
+                <span aria-hidden className="wiggle text-4xl">{c.emoji}</span>
+                <span>
+                  <span className="block text-xl font-bold">{c.name}</span>
+                  <span className="block text-sm text-muted">{c.hotels} hotel{c.hotels === 1 ? "" : "s"} · {c.taxis} taxi{c.taxis === 1 ? "" : "s"}</span>
+                </span>
               </Link>
             </li>
           ))}
         </ul>
       </section>
 
-      <section id="how" className="scroll-mt-4 bg-tint">
+      <section id="how" className="reveal scroll-mt-4 bg-tint">
         <div className="mx-auto max-w-5xl px-4 py-14">
           <h2 className="text-2xl font-bold sm:text-3xl">How it works</h2>
           <ol className="mt-6 grid gap-6 sm:grid-cols-3">
-            {STEPS.map((s) => (
-              <li key={s.n} className="rounded-xl bg-white p-5 shadow-sm">
-                <span aria-hidden className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-lg font-bold text-slate-900">{s.n}</span>
-                <h3 className="mt-3 font-semibold">{s.title}</h3>
-                <p className="mt-1 text-muted">{s.body}</p>
+            {STEPS.map((s, i) => (
+              <li key={s.title} className="lift relative rounded-2xl bg-white p-6 shadow-sm">
+                <span className="absolute right-4 top-3 text-5xl font-extrabold text-violet-100" aria-hidden>{i + 1}</span>
+                <span aria-hidden className="relative block text-5xl">{s.icon}</span>
+                <h3 className="relative mt-3 text-lg font-semibold"><span className="sr-only">Step {i + 1}: </span>{s.title}</h3>
+                <p className="relative mt-1 text-muted">{s.body}</p>
               </li>
             ))}
           </ol>
-          <Link href="/check" className="mt-6 inline-block rounded-full bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark">Start with my parent&apos;s chair</Link>
+          <Link href="/check" className="lift mt-6 inline-block rounded-full bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark">Start with my parent&apos;s chair →</Link>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 py-14">
+      <section className="reveal mx-auto max-w-5xl px-4 py-14">
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <h2 className="text-2xl font-bold sm:text-3xl">Hotels that pass the checklist</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Hotels that pass the checklist <span aria-hidden>🏨</span></h2>
           <Link href="/city/delhi" className="font-semibold text-brand underline">See all of Delhi</Link>
         </div>
         <p className="mt-1 text-muted">A step-free way in and a wheelchair-friendly washroom. Sample hotels for this demo.</p>
-        <ul className="mt-6 grid gap-6 sm:grid-cols-2">
+        <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {FEATURED.map((h) => {
             const facts = accessFacts(h).filter((f) => f.status === "yes").slice(0, 3);
             return (
-              <li key={h.id} className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+              <li key={h.id} className="lift overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={h.photo} alt="" className="h-40 w-full object-cover" />
+                <img src={h.photo} alt="" className="h-36 w-full object-cover" />
                 <div className="space-y-2 p-5">
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div>
-                      <h3 className="text-lg font-semibold">{h.name}</h3>
-                      <p className="text-sm text-muted">{h.area}</p>
-                    </div>
-                    <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-900">✓ Passes checklist</span>
-                  </div>
+                  <span className="inline-block rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-900">✓ Passes checklist</span>
+                  <h3 className="text-lg font-semibold">{h.name}</h3>
+                  <p className="text-sm text-muted">{h.area}</p>
                   <ul className="space-y-0.5 text-sm">{facts.map((f) => <li key={f.key}>✓ {f.text}</li>)}</ul>
                   <div className="flex items-center justify-between pt-2">
-                    <p>{typeof h.ratePerNight === "number" ? <><span className="text-xl font-extrabold">{formatINR(h.ratePerNight)}</span><span className="text-sm text-muted"> / night · sample</span></> : "Price on request"}</p>
-                    <Link href={`/hotels/${h.id}`} className="rounded-full bg-accent px-5 py-2.5 font-bold text-slate-900 hover:bg-accent-dark">View &amp; book</Link>
+                    <p>{typeof h.ratePerNight === "number" ? <><span className="text-xl font-extrabold">{formatINR(h.ratePerNight)}</span><span className="text-sm text-muted"> / night</span></> : "Price on request"}</p>
+                    <Link href={`/hotels/${h.id}`} className="rounded-full bg-accent px-4 py-2 font-bold text-slate-900 hover:bg-accent-dark">View</Link>
                   </div>
                 </div>
               </li>
@@ -118,26 +130,39 @@ export default function Home() {
         </ul>
       </section>
 
-      <section className="bg-warm">
+      <section className="reveal bg-warm">
         <div className="mx-auto max-w-5xl px-4 py-14">
           <h2 className="text-2xl font-bold sm:text-3xl">Why families use StepFree</h2>
           <ul className="mt-6 grid gap-6 sm:grid-cols-3">
             {WHY.map((w) => (
-              <li key={w.title} className={`rounded-xl border border-gray-200 border-t-4 ${w.color} bg-white p-5 shadow-sm`}>
-                <h3 className="font-semibold text-brand">{w.title}</h3>
+              <li key={w.title} className={`lift rounded-2xl border border-gray-200 border-t-4 ${w.color} bg-white p-6 shadow-sm`}>
+                <span aria-hidden className="text-4xl">{w.icon}</span>
+                <h3 className="mt-2 font-semibold text-brand">{w.title}</h3>
                 <p className="mt-2 text-muted">{w.body}</p>
               </li>
             ))}
           </ul>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {market.facts.slice(0, 2).map((f) => (
+              <p key={f.what} className="rounded-2xl bg-white p-5 shadow-sm">
+                <span className="block text-sm font-semibold text-pink-700">Did you know? 💡</span>
+                <span className="mt-1 block text-3xl font-extrabold text-brand">{f.figure}</span>
+                <span className="block">{f.what}</span>
+                <span className="mt-1 block text-xs text-muted">Source: {f.source} (unverified search snippet)</span>
+              </p>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="hero bg-gradient-to-br from-brand-dark via-brand to-pink-600 text-white">
-        <div className="mx-auto max-w-5xl px-4 py-14 text-center">
-          <h2 className="text-3xl font-bold sm:text-4xl">Planning a trip with your parent?</h2>
-          <p className="mx-auto mt-2 max-w-xl text-violet-50">Add their wheelchair once and see in minutes which hotels they can enter.</p>
+      <section className="hero relative overflow-hidden bg-gradient-to-br from-brand-dark via-brand to-pink-600 text-white">
+        <div aria-hidden className="float absolute -right-10 -top-10 h-48 w-48 rounded-full bg-yellow-300/20 blur-3xl" />
+        <div className="relative mx-auto max-w-5xl px-4 py-14 text-center">
+          <p aria-hidden className="text-5xl">🧳 ♿ 🚕</p>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Planning a trip with your parent?</h2>
+          <p className="mx-auto mt-2 max-w-xl text-violet-50">Add their wheelchair once and see in minutes which hotels and taxis work.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/check" className="rounded-full bg-accent px-8 py-3 text-lg font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Check my parent&apos;s chair</Link>
+            <Link href="/check" className="lift rounded-full bg-accent px-8 py-3 text-lg font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Check my parent&apos;s chair</Link>
             <Link href="/submit" className="rounded-full border-2 border-white px-6 py-3 text-lg font-semibold text-white hover:bg-white/15">Suggest a hotel</Link>
           </div>
         </div>

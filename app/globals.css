@@ -52,6 +52,36 @@ body {
 [data-contrast="high"] .bg-accent { background: #ffd54a !important; color: #000000 !important; }
 [data-contrast="high"] .bg-warm { background: #ffffff !important; }
 
+/* Playful motion. Everything here is switched off for people who ask for reduced motion. */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes roll-up { 0% { transform: translate(-30px, 14px); } 100% { transform: translate(30px, -10px); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+
+.rise { animation: rise 0.7s ease-out both; }
+.rise-1 { animation-delay: 0.1s; }
+.rise-2 { animation-delay: 0.2s; }
+.rise-3 { animation-delay: 0.3s; }
+.float { animation: float 6s ease-in-out infinite; }
+.float-slow { animation: float 9s ease-in-out infinite; }
+.spin { animation: spin 2.4s linear infinite; transform-box: fill-box; transform-origin: center; }
+.roll-up { animation: roll-up 3.2s ease-in-out infinite alternate; }
+.wiggle { display: inline-block; }
+.wiggle-parent:hover .wiggle, .wiggle-parent:focus-visible .wiggle { animation: wiggle 0.5s ease-in-out; }
+.lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.lift:hover, .lift:focus-visible { transform: translateY(-4px); box-shadow: 0 14px 28px -10px rgb(109 40 217 / 0.4); }
+
+/* Sections fade up as they scroll into view (browsers without support simply show them). */
+@supports (animation-timeline: view()) {
+  .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% cover 22%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .float, .float-slow, .spin, .roll-up, .reveal, .wiggle-parent:hover .wiggle, .wiggle-parent:focus-visible .wiggle { animation: none !important; }
+  .lift:hover, .lift:focus-visible { transform: none; }
+}
+
 /* Clear focus ring for keyboard users. */
 :focus-visible {
   outline: 3px solid var(--brand);
