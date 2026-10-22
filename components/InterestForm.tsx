@@ -38,7 +38,7 @@ export default function InterestForm({ kind }: { kind: Kind }) {
     return (
       <div role="status" className="rounded-lg border border-green-300 bg-green-50 p-4 text-green-950">
         <p className="font-semibold">{c.thanks}</p>
-        <p className="text-sm">This is a demo, so nothing was sent or saved. Real submissions will be switched on when Stepfree has a team to answer them.</p>
+        <p className="text-sm">This is a demo, so nothing was sent or saved. Real submissions will be switched on when Step Free has a team to answer them.</p>
       </div>
     );
   }

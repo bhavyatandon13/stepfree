@@ -35,7 +35,7 @@ export function ConsentBanner() {
     <div role="dialog" aria-label="Storage choice" className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-300 bg-white p-4 shadow-lg">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-4">
         <p className="min-w-60 flex-1 text-sm">
-          Stepfree has no trackers or adverts. If you agree, we remember your text size and contrast choice in this browser. If you disagree, we remember only this choice. Read the{" "}
+          Step Free has no trackers or adverts. If you agree, we remember your text size and contrast choice in this browser. If you disagree, we remember only this choice. Read the{" "}
           <Link href="/terms" className="underline">terms</Link> and <Link href="/privacy" className="underline">privacy notice</Link>.
         </p>
         <div className="flex gap-2">

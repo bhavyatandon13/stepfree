@@ -1,8 +1,8 @@
-# Stepfree
+# Step Free
 
 Know before you book whether your parent's wheelchair can get in.
 
-Stepfree is a hackathon MVP. A family describes their parent's wheelchair in plain words, and the app shows which hotels (and wheelchair taxis) the chair can actually use, with the measurement behind each answer.
+Step Free is a hackathon MVP. A family describes their parent's wheelchair in plain words, and the app shows which hotels (and wheelchair taxis) the chair can actually use, with the measurement behind each answer.
 
 **Status:** all hotel, taxi and market data are **placeholders**, not real audits. The rule-based parts are tested. The Claude (AI) parts were **not** tested end to end because the author's OpenRouter account blocked the model during testing.
 
@@ -28,7 +28,7 @@ Stepfree is a hackathon MVP. A family describes their parent's wheelchair in pla
 
 **Today:** the family searches hotels, filters for "accessible" (a label with no definition), asks strangers on TripAdvisor or Facebook, phones the hotel about steps, lifts and bathroom doors, hunts for a wheelchair taxi city by city, and often finds out about the stairs on arrival.
 
-**With Stepfree:**
+**With Step Free:**
 1. A trained auditor measures each place on site (steps, ramp, lift door and depth, bathroom door, turning space) and takes photos.
 2. The child describes the parent once, in plain words, and confirms the numbers.
 3. The child sees Fits / Fits with help / Doesn't fit per place, with the measurement behind it.
@@ -108,7 +108,7 @@ Every reason on screen is labelled "Wording by Claude" or "Written by the rule (
 
 ## Privacy
 
-Stepfree does not store any person's measurements.
+Step Free does not store any person's measurements.
 
 - The parent profile (chair width, steps, transfer help) lives only in the browser page. It is not written to a database, a file, cookies or browser storage, and it is gone on refresh.
 - The server routes keep no copy of what they receive and do not log it. The only log line prints the AI service's error text.

@@ -3,7 +3,7 @@ import PageShell from "@/components/PageShell";
 
 export default function About() {
   return (
-    <PageShell title="Our story" intro="Why Stepfree exists, and what it promises.">
+    <PageShell title="Our story" intro="Why Step Free exists, and what it promises.">
       <section className="space-y-2">
         <h2 className="text-xl font-semibold">The problem</h2>
         <p className="text-muted">

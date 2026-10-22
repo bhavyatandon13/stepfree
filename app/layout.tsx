@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stepfree: know before you book",
+  title: "Step Free: know before you book",
   description: "Measured, on-site checks that show whether a wheelchair can get into a hotel or taxi.",
 };
 
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AccessibilityToolbar />
         <header className="border-b border-gray-200 bg-white">
           <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 p-4">
-            <Link href="/" className="text-xl font-bold text-brand">Stepfree</Link>
+            <Link href="/" className="text-xl font-bold text-brand">Step Free</Link>
             <nav aria-label="Main" className="hidden items-center gap-4 text-sm font-medium lg:flex">
               {NAV.map((n) => <Link key={n.href} href={n.href} className="hover:text-brand">{n.label}</Link>)}
             </nav>
@@ -67,7 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="border-t border-gray-200 bg-tint">
           <div className="mx-auto grid max-w-5xl gap-6 p-6 text-sm text-muted sm:grid-cols-4">
             <div>
-              <p className="font-semibold text-foreground">Stepfree</p>
+              <p className="font-semibold text-foreground">Step Free</p>
               <p className="mt-1">Know before you book whether your parent&apos;s wheelchair can get in.</p>
             </div>
             <div>

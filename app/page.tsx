@@ -73,7 +73,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-5xl px-4 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-brand">Our approach</p>
-        <h2 className="mt-1 text-2xl font-bold">What makes Stepfree different</h2>
+        <h2 className="mt-1 text-2xl font-bold">What makes Step Free different</h2>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {PILLARS.map((p) => (
             <li key={p.title} className="rounded-lg border border-gray-200 p-5">
@@ -184,7 +184,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-5xl px-4 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-brand">Get involved</p>
-        <h2 className="mt-1 text-2xl font-bold">Help us build a Stepfree India</h2>
+        <h2 className="mt-1 text-2xl font-bold">Help us build a Step Free India</h2>
         <ul className="mt-6 grid gap-6 sm:grid-cols-3">
           {INVOLVED.map((i) => (
             <li key={i.href} className="rounded-lg border border-gray-200 p-5">
