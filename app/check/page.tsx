@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { MakeMyTripCity } from "@/components/BookingLinks";
 import HotelCard from "@/components/HotelCard";
 import ProfileForm from "@/components/ProfileForm";
 import TaxiPanel from "@/components/TaxiPanel";
@@ -53,6 +54,7 @@ export default function Check() {
             <div className="space-y-3">
               <h3 className="text-lg font-semibold">Hotels in Delhi</h3>
               {hotels.map((h) => <HotelCard key={h.id} hotel={h} profile={profile} lang={lang} />)}
+              <MakeMyTripCity city="Delhi" />
             </div>
             <div className="space-y-3">
               <h3 className="text-lg font-semibold">Wheelchair taxis</h3>

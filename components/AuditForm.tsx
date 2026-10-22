@@ -38,6 +38,7 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
   const [name, setName] = useState("");
   const [area, setArea] = useState("");
   const [note, setNote] = useState("");
+  const [bookingUrl, setBookingUrl] = useState("");
   const [photo, setPhoto] = useState<string | null>(null);
   const [fields, setFields] = useState<AuditFields>(EMPTY);
   const [busy, setBusy] = useState(false);
@@ -74,12 +75,12 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
     const res = await fetch("/api/hotels", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, area: area || "Delhi", ...fields, photo: photo ?? undefined, photoCaption: "Auditor photo" }),
+      body: JSON.stringify({ name, area: area || "Delhi", bookingUrl: bookingUrl.trim() || null, ...fields, photo: photo ?? undefined, photoCaption: "Auditor photo" }),
     });
     const data = await res.json();
     if (!res.ok) return setProblems([data.error]);
     setMessage(`Saved ${data.hotel.name}. It now appears on the Hotels tab (until the server restarts).`);
-    setName(""); setArea(""); setNote(""); setPhoto(null); setFields(EMPTY); setProblems([]);
+    setName(""); setArea(""); setNote(""); setBookingUrl(""); setPhoto(null); setFields(EMPTY); setProblems([]);
     onSaved();
   }
 
@@ -89,6 +90,10 @@ export default function AuditForm({ onSaved }: { onSaved: () => void }) {
       <p className="text-sm text-gray-700">For auditors: write what you measured on site, then let Claude fill the boxes. You confirm every number.</p>
       <label className="block text-sm font-medium">Hotel name<input className={input} value={name} onChange={(e) => setName(e.target.value)} /></label>
       <label className="block text-sm font-medium">Area<input className={input} value={area} onChange={(e) => setArea(e.target.value)} placeholder="Delhi" /></label>
+      <label className="block text-sm font-medium">The hotel&apos;s own MakeMyTrip page (optional)
+        <input className={input} type="url" inputMode="url" value={bookingUrl} onChange={(e) => setBookingUrl(e.target.value)} placeholder="https://www.makemytrip.com/hotels/…" />
+        <span className="mt-1 block text-xs font-normal text-muted">Only paste the hotel&apos;s real page. A &ldquo;Book&rdquo; button appears on its card. Other websites are refused.</span>
+      </label>
       <label className="block text-sm font-medium">Notes (English or Hindi)
         <textarea className={input} rows={4} value={note} onChange={(e) => setNote(e.target.value)} placeholder="2 steps at the entrance, no ramp. Bathroom door 81 cm. Lift door 80 cm…" />
       </label>

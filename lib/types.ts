@@ -35,6 +35,7 @@ export type Hotel = {
   liftDepthCm: number | null;
   turningSpaceCm: number | null;
   wheelchairProvided: boolean | null; // can the hotel lend a wheelchair? null = not recorded
+  bookingUrl?: string | null; // the hotel's own MakeMyTrip page, added by an auditor
   photo: string;
   photoCaption: string;
 };

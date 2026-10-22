@@ -1,4 +1,5 @@
 import seed from "@/data/hotels.json";
+import { cleanMakeMyTripUrl } from "@/lib/links";
 import { validateAudit } from "@/lib/validate";
 import type { Hotel } from "@/lib/types";
 
@@ -14,6 +15,11 @@ export async function POST(req: Request) {
   if (!body.name?.trim()) {
     return Response.json({ error: "Please give the hotel a name." }, { status: 400 });
   }
+  // Only a real https makemytrip.com address is accepted. Anything else is refused, not quietly dropped.
+  const bookingUrl = cleanMakeMyTripUrl(body.bookingUrl);
+  if (body.bookingUrl && body.bookingUrl.trim() && !bookingUrl) {
+    return Response.json({ error: "The booking link must be a https://…makemytrip.com page. Please paste the hotel's own MakeMyTrip address or leave it empty." }, { status: 400 });
+  }
   const hotel: Hotel = {
     id: `u${Date.now()}`,
     name: body.name.trim().slice(0, 80),
@@ -28,6 +34,7 @@ export async function POST(req: Request) {
     liftDepthCm: body.liftDepthCm ?? null,
     turningSpaceCm: body.turningSpaceCm ?? null,
     wheelchairProvided: body.wheelchairProvided ?? null,
+    bookingUrl,
     photo: body.photo ?? "/photos/entrance.svg",
     photoCaption: body.photoCaption ?? "Auditor photo",
   };

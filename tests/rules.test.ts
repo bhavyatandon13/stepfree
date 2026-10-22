@@ -3,6 +3,7 @@ import hotels from "../data/hotels.json";
 import taxis from "../data/taxis.json";
 import { accessFacts } from "../lib/accessFacts";
 import { basicReason, hotelFit, taxiFit } from "../lib/fitRule";
+import { cleanMakeMyTripUrl, mmtCityUrl } from "../lib/links";
 import { hotelListing, rampText } from "../lib/listings";
 import { readProfileText } from "../lib/readProfileText";
 import { requirementsFor } from "../lib/requirements";
@@ -111,6 +112,26 @@ describe("accessFacts (hotel summary in words)", () => {
   });
   it("a small lift is called out", () => expect(facts("h2").lift.status).toBe("no"));
   it("every hotel gets all seven lines", () => H.forEach((h) => expect(accessFacts(h)).toHaveLength(7)));
+});
+
+describe("MakeMyTrip links", () => {
+  it("builds the city page address", () => {
+    expect(mmtCityUrl("Delhi")).toBe("https://www.makemytrip.com/hotels/delhi-hotels.html");
+    expect(mmtCityUrl(" New Delhi ")).toBe("https://www.makemytrip.com/hotels/new-delhi-hotels.html");
+  });
+  it("accepts real makemytrip.com https pages", () => {
+    expect(cleanMakeMyTripUrl("https://www.makemytrip.com/hotels/hotel-details/?hotelId=1")).toMatch(/^https:\/\/www\.makemytrip\.com\//);
+    expect(cleanMakeMyTripUrl("https://makemytrip.com/hotels/delhi-hotels.html")).not.toBeNull();
+  });
+  it("refuses look-alike, non-https and malformed addresses", () => {
+    expect(cleanMakeMyTripUrl("http://www.makemytrip.com/hotels/")).toBeNull();
+    expect(cleanMakeMyTripUrl("https://makemytrip.com.evil.com/hotels")).toBeNull();
+    expect(cleanMakeMyTripUrl("https://evilmakemytrip.com/hotels")).toBeNull();
+    expect(cleanMakeMyTripUrl("https://user:pw@www.makemytrip.com/")).toBeNull();
+    expect(cleanMakeMyTripUrl("javascript:alert(1)")).toBeNull();
+    expect(cleanMakeMyTripUrl("not a link")).toBeNull();
+    expect(cleanMakeMyTripUrl("")).toBeNull();
+  });
 });
 
 describe("basicReason", () => {

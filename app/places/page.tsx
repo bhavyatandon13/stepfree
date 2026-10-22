@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import taxis from "@/data/taxis.json";
 import AccessSummary from "@/components/AccessSummary";
+import { BookOnMakeMyTrip, MakeMyTripCity } from "@/components/BookingLinks";
 import { FEATURES, countBy, hotelListing, taxiListing, type Feature, type Listing } from "@/lib/listings";
 import type { Hotel, Taxi } from "@/lib/types";
 
@@ -46,6 +47,8 @@ function Explore() {
       (!category || l.category === category) &&
       features.every((f) => l.features.includes(f)),
   );
+  // One MakeMyTrip link per city that has hotels in the current results (or all hotel cities if none match).
+  const hotelCities = [...new Set((shown.some((l) => l.category === "Hotel") ? shown : all).filter((l) => l.category === "Hotel").map((l) => l.city))];
   const toggle = (f: Feature) => setFeatures((cur) => (cur.includes(f) ? cur.filter((x) => x !== f) : [...cur, f]));
 
   return (
@@ -102,6 +105,7 @@ function Explore() {
                 {l.features.map((f) => <li key={f} className="rounded-full border border-gray-300 px-2 py-0.5 text-xs">✓ {f}</li>)}
               </ul>
               {l.hotel && <AccessSummary hotel={l.hotel} compact />}
+              {l.hotel?.bookingUrl && <BookOnMakeMyTrip url={l.hotel.bookingUrl} name={l.name} />}
               <p className="mt-3 text-xs text-gray-600">
                 {l.auditDate ? `Audited ${l.auditDate}` : "Not audited yet"}
                 {l.placeholder && " · placeholder data"}
@@ -111,6 +115,8 @@ function Explore() {
           ))}
         </ul>
       )}
+
+      {hotelCities.map((c) => <MakeMyTripCity key={c} city={c} />)}
     </main>
   );
 }
