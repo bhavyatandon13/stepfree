@@ -18,8 +18,11 @@ export async function POST(req: Request) {
 
   const env = process.env;
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error(`Enquiry form not connected. Missing keys: ${missingKeys(["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"])}`);
     return Response.json({ error: "The form isn't connected yet. Please try again later." }, { status: 503 });
   }
+  const missingMail = missingKeys(["GMAIL_USER", "GMAIL_APP_PASSWORD"]);
+  if (missingMail) console.warn(`Enquiry saved without emails. Missing keys: ${missingMail}`);
 
   const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
   const { error } = await supabase.from("enquiries").insert(e);
@@ -44,4 +47,9 @@ export async function POST(req: Request) {
     }
   }
   return Response.json({ ok: true, emailed });
+}
+
+// Names only, never values, so the log is safe to read.
+function missingKeys(names: string[]) {
+  return names.filter((n) => !process.env[n]?.trim()).join(", ");
 }
