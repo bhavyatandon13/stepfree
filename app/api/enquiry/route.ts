@@ -1,10 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import nodemailer from "nodemailer";
-import { autoReply, checkEnquiry, isBot, notifyEmail, projectUrl } from "@/lib/enquiry";
+import { SUPABASE_DEFAULTS, autoReply, checkEnquiry, isBot, notifyEmail, projectUrl } from "@/lib/enquiry";
 
 // Saves a "Write to us" message in Supabase, emails the team, and sends the sender a thank-you.
-// Supabase is reached with the public (publishable) key; the table only lets it add rows, never read them
-// (see supabase/enquiries.sql). The Gmail keys stay on the server.
+// Supabase is reached with the public (publishable) key built into lib/enquiry.ts; the table only lets it
+// add rows, never read them (see supabase/enquiries.sql). The Gmail keys stay on the server.
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -18,12 +18,9 @@ export async function POST(req: Request) {
   const e = check.enquiry;
 
   const env = process.env;
-  if (!env.SUPABASE_URL || !env.SUPABASE_PUBLISHABLE_KEY) {
-    console.error(`Enquiry form not connected. Missing keys: ${missingKeys(["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"])}`);
-    return Response.json({ error: "The form isn't connected yet. Please try again later." }, { status: 503 });
-  }
-
-  const supabase = createClient(projectUrl(env.SUPABASE_URL), env.SUPABASE_PUBLISHABLE_KEY.trim(), { auth: { persistSession: false } });
+  const url = projectUrl(env.SUPABASE_URL?.trim() || SUPABASE_DEFAULTS.url);
+  const key = env.SUPABASE_PUBLISHABLE_KEY?.trim() || SUPABASE_DEFAULTS.publishableKey;
+  const supabase = createClient(url, key, { auth: { persistSession: false } });
   const { error } = await supabase.from("enquiries").insert(e);
   if (error) {
     console.error("Supabase insert failed:", error.message);

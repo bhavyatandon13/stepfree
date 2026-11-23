@@ -24,6 +24,14 @@ export function isBot(body: unknown): boolean {
   return typeof w === "string" && w.trim() !== "";
 }
 
+// StepFree's own Supabase project. The publishable key is public by design: the enquiries table
+// only lets it add messages that pass the form's checks, never read them (supabase/enquiries.sql).
+// SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY in the environment override these.
+export const SUPABASE_DEFAULTS = {
+  url: "https://hokxpnfzmlxhcrlzwfjm.supabase.co",
+  publishableKey: "sb_publishable_1jJDLdz0vxExXnkX_EvJRg_Vyj41Rfo",
+};
+
 // Supabase shows the URL in a few forms; the client needs just "https://<project>.supabase.co".
 export function projectUrl(url: string) {
   return url.trim().replace(/\/+$/, "").replace(/\/rest\/v1$/, "");
