@@ -24,6 +24,11 @@ export function isBot(body: unknown): boolean {
   return typeof w === "string" && w.trim() !== "";
 }
 
+// Supabase shows the URL in a few forms; the client needs just "https://<project>.supabase.co".
+export function projectUrl(url: string) {
+  return url.trim().replace(/\/+$/, "").replace(/\/rest\/v1$/, "");
+}
+
 export function notifyEmail(e: Enquiry) {
   return {
     subject: `New StepFree enquiry from ${e.name}`,

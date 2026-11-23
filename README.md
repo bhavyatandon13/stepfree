@@ -195,7 +195,7 @@ If the email step fails, the message is still saved. Without the Supabase keys t
 
 Setup:
 1. Create a project at supabase.com. In **SQL Editor**, run [`supabase/enquiries.sql`](supabase/enquiries.sql).
-2. From **Project Settings → API**, copy the Project URL and the `service_role` key.
+2. Copy the Project URL (the **Connect** button) and the **publishable** key (**Project Settings → API Keys**). No secret key is needed: the table's rule lets the publishable key add messages that pass the form's checks, and never read them.
 3. On a personal Gmail account, turn on 2-Step Verification, then create an **App password**.
-4. Fill in `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD` and `NOTIFY_EMAIL` in `.env.local` (and in Vercel → Settings → Environment Variables for the live site). Never prefix them with `NEXT_PUBLIC_`.
+4. Fill in `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD` and `NOTIFY_EMAIL` in `.env.local` (and in Vercel → Settings → Environment Variables for the live site). Never prefix them with `NEXT_PUBLIC_`; the Gmail password must stay on the server.
 5. Read messages in Supabase under **Table Editor → enquiries**.

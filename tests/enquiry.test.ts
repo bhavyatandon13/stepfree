@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { autoReply, checkEnquiry, isBot, notifyEmail } from "../lib/enquiry";
+import { autoReply, checkEnquiry, isBot, notifyEmail, projectUrl } from "../lib/enquiry";
 
 describe("Write to us form", () => {
   it("accepts a filled-in form and trims spaces", () => {
@@ -19,6 +19,10 @@ describe("Write to us form", () => {
     expect(isBot({ website: "spam.com" })).toBe(true);
     expect(isBot({ website: "" })).toBe(false);
     expect(isBot(null)).toBe(false);
+  });
+  it("accepts the Supabase URL with or without /rest/v1/", () => {
+    for (const u of ["https://abc.supabase.co", "https://abc.supabase.co/", "https://abc.supabase.co/rest/v1/", " https://abc.supabase.co/rest/v1 "])
+      expect(projectUrl(u)).toBe("https://abc.supabase.co");
   });
   it("writes both emails with the sender's details", () => {
     const e = { name: "Asha", email: "asha@example.com", message: "Is there a ramp?" };

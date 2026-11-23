@@ -1,9 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import nodemailer from "nodemailer";
-import { autoReply, checkEnquiry, isBot, notifyEmail } from "@/lib/enquiry";
+import { autoReply, checkEnquiry, isBot, notifyEmail, projectUrl } from "@/lib/enquiry";
 
 // Saves a "Write to us" message in Supabase, emails the team, and sends the sender a thank-you.
-// All keys stay on the server (see .env.example).
+// Supabase is reached with the public (publishable) key; the table only lets it add rows, never read them
+// (see supabase/enquiries.sql). The Gmail keys stay on the server.
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -17,19 +18,19 @@ export async function POST(req: Request) {
   const e = check.enquiry;
 
   const env = process.env;
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
-    console.error(`Enquiry form not connected. Missing keys: ${missingKeys(["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"])}`);
+  if (!env.SUPABASE_URL || !env.SUPABASE_PUBLISHABLE_KEY) {
+    console.error(`Enquiry form not connected. Missing keys: ${missingKeys(["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"])}`);
     return Response.json({ error: "The form isn't connected yet. Please try again later." }, { status: 503 });
   }
-  const missingMail = missingKeys(["GMAIL_USER", "GMAIL_APP_PASSWORD"]);
-  if (missingMail) console.warn(`Enquiry saved without emails. Missing keys: ${missingMail}`);
 
-  const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+  const supabase = createClient(projectUrl(env.SUPABASE_URL), env.SUPABASE_PUBLISHABLE_KEY.trim(), { auth: { persistSession: false } });
   const { error } = await supabase.from("enquiries").insert(e);
   if (error) {
     console.error("Supabase insert failed:", error.message);
     return Response.json({ error: "Sorry, we couldn't save your message. Please try again." }, { status: 500 });
   }
+  const missingMail = missingKeys(["GMAIL_USER", "GMAIL_APP_PASSWORD"]);
+  if (missingMail) console.warn(`Enquiry saved without emails. Missing keys: ${missingMail}`);
 
   // The message is already saved, so an email problem doesn't lose it.
   let emailed = false;
