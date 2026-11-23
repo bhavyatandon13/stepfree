@@ -121,6 +121,7 @@ StepFree does not store any person's measurements.
 - The server routes keep no copy of what they receive and do not log it. The only log line prints the AI service's error text.
 - To read the description and write each reason, the text and the numbers behind each verdict are sent to Claude through OpenRouter. Their data policy applies there. The screen says so and asks users not to type names, addresses or phone numbers.
 - Hotel and taxi measurements are about places, not people. Audits saved on the Auditor page are kept in server memory only. The volunteer, submit, partner and contact forms are demos and store nothing.
+- The "Write to us" form at the bottom of the home page is real: name, email and message are saved in Supabase and emailed (see below).
 
 ## Data sources
 
@@ -182,3 +183,19 @@ npm test
 Without a key, everything works except the three AI features (Understand, Hindi reasons, and the Auditor's fill-in). You can type the numbers by hand.
 
 **Never commit a real key.** `.env.local` is listed in `.gitignore`.
+
+## Write to us form (Supabase + email)
+
+The form at the bottom of the home page posts to `app/api/enquiry/route.ts`, which:
+1. checks the fields (`lib/enquiry.ts`) and ignores bots that fill the hidden "website" field,
+2. saves the message in the Supabase table `enquiries`,
+3. emails the team (`NOTIFY_EMAIL`) and sends the sender an automatic thank-you, both through Gmail.
+
+If the email step fails, the message is still saved. Without the Supabase keys the form says "The form isn't connected yet".
+
+Setup:
+1. Create a project at supabase.com. In **SQL Editor**, run [`supabase/enquiries.sql`](supabase/enquiries.sql).
+2. From **Project Settings → API**, copy the Project URL and the `service_role` key.
+3. On a personal Gmail account, turn on 2-Step Verification, then create an **App password**.
+4. Fill in `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD` and `NOTIFY_EMAIL` in `.env.local` (and in Vercel → Settings → Environment Variables for the live site). Never prefix them with `NEXT_PUBLIC_`.
+5. Read messages in Supabase under **Table Editor → enquiries**.

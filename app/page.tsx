@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import market from "@/data/market.json";
+import EnquiryForm from "@/components/EnquiryForm";
 import FeaturedHotels from "@/components/FeaturedHotels";
 import HeroArt from "@/components/HeroArt";
 import { Mark, Wordmark } from "@/components/Logo";
@@ -167,6 +168,16 @@ export default function Home() {
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/check" className="lift rounded-full bg-accent px-8 py-3 text-lg font-bold text-slate-900 shadow-lg hover:bg-accent-dark">Check my parent&apos;s chair</Link>
             <Link href="/submit" className="rounded-full border-2 border-white px-6 py-3 text-lg font-semibold text-white hover:bg-white/15">Suggest a hotel</Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="write-to-us" className="reveal bg-warm">
+        <div className="mx-auto max-w-3xl px-4 py-14">
+          <h2 className="text-2xl font-bold sm:text-3xl">Write to us ✉️</h2>
+          <p className="mt-2 text-muted">A question about a hotel or taxi, a correction, or an idea? Send it here and we&apos;ll email you back.</p>
+          <div className="mt-6">
+            <EnquiryForm />
           </div>
         </div>
       </section>
