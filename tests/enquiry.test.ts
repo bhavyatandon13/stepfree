@@ -30,5 +30,6 @@ describe("Write to us form", () => {
     expect(notifyEmail(e).text).toContain("asha@example.com");
     expect(autoReply(e).text).toMatch(/^Hi Asha,/);
     expect(autoReply(e).text).toContain("Is there a ramp?");
+    expect(autoReply(e).text).toContain("reply within 2 days");
   });
 });

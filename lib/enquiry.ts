@@ -48,7 +48,7 @@ export function autoReply(e: Enquiry) {
   return {
     subject: "We got your message – StepFree",
     text:
-      `Hi ${e.name},\n\nThank you for writing to StepFree. We've received your message and will reply within 2 working days.\n\n` +
+      `Hi ${e.name},\n\nThank you for writing to StepFree. We've received your message and will reply within 2 days.\n\n` +
       `Your message:\n${e.message}\n\nWarm wishes,\nThe StepFree team\nhttps://stepfree-psi.vercel.app`,
   };
 }

@@ -28,7 +28,7 @@ export default function EnquiryForm() {
         <p className="text-lg font-semibold">Thank you! 🎉 We got your message.</p>
         <p className="mt-1">
           {state.emailed ? "We've sent a confirmation to your email (check spam if you can't see it). " : ""}
-          We&apos;ll reply within 2 working days.
+          We&apos;ll reply within 2 days.
         </p>
       </div>
     );
