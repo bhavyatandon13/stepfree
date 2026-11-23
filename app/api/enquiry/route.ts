@@ -31,20 +31,25 @@ export async function POST(req: Request) {
 
   // The message is already saved, so an email problem doesn't lose it.
   let emailed = false;
-  if (env.GMAIL_USER && env.GMAIL_APP_PASSWORD) {
-    const mail = nodemailer.createTransport({ service: "gmail", auth: { user: env.GMAIL_USER, pass: env.GMAIL_APP_PASSWORD } });
-    const from = `StepFree <${env.GMAIL_USER}>`;
+  // Says why no email went out, without any details of the keys.
+  let emailProblem: "not_set_up" | "send_failed" | undefined = missingMail ? "not_set_up" : undefined;
+  if (!missingMail) {
+    // Google shows App passwords in groups of four; the spaces aren't part of it.
+    const user = env.GMAIL_USER!.trim();
+    const mail = nodemailer.createTransport({ service: "gmail", auth: { user, pass: env.GMAIL_APP_PASSWORD!.replace(/\s/g, "") } });
+    const from = `StepFree <${user}>`;
     try {
       await Promise.all([
-        mail.sendMail({ from, to: env.NOTIFY_EMAIL || env.GMAIL_USER, replyTo: e.email, ...notifyEmail(e) }),
+        mail.sendMail({ from, to: env.NOTIFY_EMAIL?.trim() || user, replyTo: e.email, ...notifyEmail(e) }),
         mail.sendMail({ from, to: e.email, ...autoReply(e) }),
       ]);
       emailed = true;
     } catch (err) {
       console.error("Email failed:", err instanceof Error ? err.message : err);
+      emailProblem = "send_failed";
     }
   }
-  return Response.json({ ok: true, emailed });
+  return Response.json({ ok: true, emailed, emailProblem });
 }
 
 // Names only, never values, so the log is safe to read.
